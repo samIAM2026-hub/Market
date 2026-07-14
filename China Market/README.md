@@ -11,6 +11,7 @@
 ├── README.md
 ├── index.html        # 主入口 · 当前主研报（10 章 · 交互式）
 └── pages/            # 所有其他内容页，按类型分组
+    ├── China Recap/  # 每日 A 股复盘（自动化任务生成，按日期存档）
     ├── guides/       # 交互式指南（A股指数体系、ETF 配置）
     ├── thematic/     # 主题研究（AI 就业冲击 …）
     ├── macro/        # 宏观 / 政策手册（沃什货币政策哲学 …）
@@ -26,6 +27,7 @@
 | 入口 | 内容 | 数据期 | 状态 |
 |------|------|--------|------|
 | **[index.html](index.html)** | A 股板块、行业回报与轮动分析（10 章 · 交互式） | **2025-05 → 2026-04** 滚动 12 个月 | **当前主版本** |
+| [pages/China Recap/A股每日市场复盘报告_2026-07-14.html](pages/China%20Recap/A股每日市场复盘报告_2026-07-14.html) | A股每日市场复盘（9 章 · 自动化任务每个交易日生成） | 2026-07-14 | 每日 |
 | [pages/guides/index_guide.html](pages/guides/index_guide.html) | A股指数体系交互式指南 | — | 参考 |
 | [pages/guides/etf_allocation_guide.html](pages/guides/etf_allocation_guide.html) | A股核心指数高流动性 ETF 配置指南 | — | 参考 |
 | [pages/thematic/AI就业冲击_三图解读.html](pages/thematic/AI就业冲击_三图解读.html) | AI 的就业冲击 · 全图通俗解读 | — | 主题 |

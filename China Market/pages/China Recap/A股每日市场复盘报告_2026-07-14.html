@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A股每日市场复盘报告 · 2026-07-14</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F4ED;
+    --paper:#FFFFFF;
+    --ink:#1A1A1A;
+    --ink-2:#3D3D3D;
+    --ink-3:#6B6B6B;
+    --line:#E4DED1;
+    --line-strong:#C8BFAE;
+    --navy:#0E2A47;
+    --navy-2:#143E66;
+    --gold:#B08842;
+    --gold-light:#D4B271;
+    --up:#D7263D;
+    --up-soft:#FBE9EC;
+    --up-deep:#9E1A2D;
+    --down:#1F8A47;
+    --down-soft:#E7F5EC;
+    --down-deep:#125F30;
+    --flat:#8A8A8A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Noto Serif SC',serif}
+
+  header.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0E2A47 0%,#143E66 100%);color:#fff;border-bottom:3px solid var(--gold)}
+  .topbar-inner{max-width:1380px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-seal{width:42px;height:42px;background:var(--up);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC';font-weight:900;font-size:22px;border:2px solid var(--gold-light);box-shadow:0 0 0 1px rgba(255,255,255,.15);flex-shrink:0}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .brand-title{font-family:'Noto Serif SC';font-weight:700;font-size:18px;letter-spacing:1px}
+  .brand-sub{font-size:11.5px;color:#C9D6E3;letter-spacing:2px}
+  .topbar-meta{display:flex;gap:22px;font-size:12px;color:#C9D6E3;flex-wrap:wrap}
+  .topbar-meta span b{color:#fff;font-weight:500;margin-left:4px}
+
+  .backlink{max-width:1380px;margin:0 auto;padding:10px 28px 0}
+  .backlink a{font-size:12px;color:var(--ink-3);text-decoration:none;border-bottom:1px dotted var(--line-strong)}
+  .backlink a:hover{color:var(--up);border-bottom-color:var(--up)}
+
+  nav.chapters{position:sticky;top:71px;z-index:40;background:#FAF8F2;border-bottom:1px solid var(--line)}
+  .chapters-inner{max-width:1380px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+  .chapter-tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--ink-3);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;text-decoration:none}
+  .chapter-tab:hover{color:var(--navy)}
+  .chapter-tab.active{color:var(--up);border-bottom-color:var(--up);font-weight:700}
+  .chapter-tab .num{font-family:'Noto Serif SC';margin-right:6px;color:var(--gold)}
+
+  main{max-width:1380px;margin:0 auto;padding:32px 28px 80px}
+
+  section.chapter{background:var(--paper);border:1px solid var(--line);padding:36px 40px;margin-bottom:28px;box-shadow:0 1px 3px rgba(14,42,71,0.04);scroll-margin-top:130px}
+  .ch-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:24px;gap:24px;flex-wrap:wrap}
+  .ch-title{font-family:'Noto Serif SC';font-weight:900;font-size:26px;color:var(--navy);display:flex;align-items:baseline;gap:14px}
+  .ch-num{color:var(--up);font-size:36px;line-height:1;border-right:2px solid var(--gold);padding-right:14px}
+  .ch-en{font-size:12px;color:var(--ink-3);letter-spacing:3px;text-transform:uppercase;font-family:'Noto Sans SC'}
+
+  .tldr{background:linear-gradient(90deg,#FFF7E0 0%, #FAF8F2 100%);border-left:4px solid var(--gold);padding:14px 18px;margin-bottom:24px;font-size:14px;color:var(--ink-2)}
+  .tldr b{color:var(--navy);font-weight:700}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:28px}
+  .kpi{background:var(--paper);padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px}
+  .kpi-label{font-size:11.5px;color:var(--ink-3);letter-spacing:1px}
+  .kpi-value{font-family:'Noto Serif SC';font-weight:700;font-size:26px;line-height:1.1}
+  .kpi-value.up{color:var(--up)}.kpi-value.down{color:var(--down)}.kpi-value.flat{color:var(--flat)}
+  .kpi-sub{font-size:11.5px;color:var(--ink-3)}
+
+  table.research{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper)}
+  table.research th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:500;font-size:12.5px;letter-spacing:1px;border-right:1px solid #1F4A72}
+  table.research td{padding:11px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  table.research tr:hover td{background:#FAF8F2}
+  table.research .perf-up{color:var(--up);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-down{color:var(--down);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-flat{color:var(--flat);font-weight:700;font-family:'Noto Serif SC'}
+
+  .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start}
+  @media(max-width:960px){.two-col{grid-template-columns:1fr}}
+  .prose p{margin:0 0 12px;color:var(--ink-2)}
+  .prose strong{color:var(--up-deep);font-weight:700}
+  .prose .quote{border-left:3px solid var(--up);padding:6px 14px;margin:14px 0;background:var(--up-soft);color:var(--up-deep);font-size:14px}
+
+  .bar-row{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;font-size:13px;margin-bottom:8px}
+  .bar-name{color:var(--ink-2);font-weight:500}
+  .bar-name small{display:block;font-size:11px;color:var(--ink-3);font-weight:400;margin-top:1px}
+  .bar-track{position:relative;height:22px;background:#F2EDDF;border:1px solid var(--line)}
+  .bar-fill{height:100%;transition:width .6s ease-out}
+  .bar-fill.up{background:linear-gradient(90deg,var(--up) 0%,#F25C70 100%)}
+  .bar-fill.down{background:linear-gradient(90deg,#F25C70 0%,var(--down) 100%)}
+  .bar-val{font-family:'Noto Serif SC';font-weight:700;font-size:13px;text-align:right}
+  .bar-val.up{color:var(--up)}.bar-val.down{color:var(--down)}
+
+  .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .theme-card{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);padding:16px 18px;transition:all .18s;position:relative}
+  .theme-card:hover{border-top-color:var(--up);transform:translateY(-2px);box-shadow:0 6px 14px rgba(14,42,71,.08)}
+  .theme-card.hot{border-top-color:var(--up)}
+  .theme-card.warm{border-top-color:#E27A3F}
+  .theme-card.cold{border-top-color:var(--down)}
+  .theme-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .theme-name{font-family:'Noto Serif SC';font-weight:700;font-size:15.5px;color:var(--navy)}
+  .theme-tag{font-size:10.5px;padding:2px 8px;letter-spacing:1px}
+  .theme-tag.hot{background:var(--up-soft);color:var(--up-deep)}
+  .theme-tag.warm{background:#FFE8C5;color:#9C5E14}
+  .theme-tag.cold{background:var(--down-soft);color:var(--down-deep)}
+  .theme-perf{font-family:'Noto Serif SC';font-weight:700;font-size:15px;margin-bottom:6px}
+  .theme-perf.up{color:var(--up)}.theme-perf.down{color:var(--down)}
+  .theme-desc{font-size:13px;color:var(--ink-2);line-height:1.6}
+
+  .catalyst-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);padding:20px 24px;margin-bottom:16px;position:relative}
+  .catalyst-head{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;border-bottom:1px dashed var(--line-strong);padding-bottom:10px}
+  .catalyst-num{font-family:'Noto Serif SC';font-weight:900;font-size:30px;color:var(--gold);line-height:1}
+  .catalyst-title{font-family:'Noto Serif SC';font-weight:700;font-size:17px;color:var(--navy)}
+  .catalyst-card p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .catalyst-card p:last-child{margin-bottom:0}
+  .catalyst-card p b{color:var(--navy);font-weight:700;margin-right:4px}
+  .catalyst-card p.verify{background:#FAF8F2;padding:8px 12px;border-left:2px solid var(--line-strong);font-size:12.5px;color:var(--ink-3)}
+
+  .stance-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .stance-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .stance-card.official{border-top:3px solid var(--navy)}
+  .stance-card.pricing{border-top:3px solid var(--gold)}
+  .stance-card.institution{border-top:3px solid var(--up)}
+  .stance-card.contra{border-top:3px solid var(--down)}
+  .stance-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .stance-card p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.65}
+
+  .signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .signal-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .signal-h{font-family:'Noto Serif SC';font-weight:700;font-size:15px;color:var(--navy);margin-bottom:4px}
+  .signal-watch{font-size:12px;color:var(--ink-3);margin-bottom:10px}
+  .signal-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .signal-box.good{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .signal-box.bad{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .signal-box:last-child{margin-bottom:0}
+
+  .risk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .risk-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px;position:relative}
+  .risk-card .risk-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:var(--up)}
+  .risk-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin:8px 0 10px}
+  .risk-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .risk-box.trigger{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .risk-box.falsify{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .risk-box:last-child{margin-bottom:0}
+
+  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:14px 0}
+  .fund-item{background:var(--paper);padding:14px 16px}
+  .fund-item .flabel{font-size:11px;color:var(--ink-3);letter-spacing:1px;margin-bottom:4px}
+  .fund-item .fvalue{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--up)}
+
+  .seal{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border:2.5px solid var(--up);color:var(--up);font-family:'Noto Serif SC';font-weight:900;font-size:14px;text-align:center;line-height:1.2;padding:6px;transform:rotate(-6deg);background:rgba(215,38,61,0.05)}
+
+  .sources{font-size:12px;color:var(--ink-3);line-height:2;padding-left:0;list-style:none;margin:0}
+  .sources li{border-bottom:1px dashed var(--line);padding:6px 0}
+  .sources b{color:var(--ink-2);font-weight:500}
+  .sources a{color:var(--gold);text-decoration:none}
+  .sources a:hover{color:var(--up);text-decoration:underline}
+
+  .disclaimer{background:#FAF8F2;border:1px dashed var(--line-strong);padding:14px 18px;font-size:12px;color:var(--ink-3);line-height:1.7;margin-top:20px}
+
+  footer{text-align:center;font-size:12px;color:var(--ink-3);padding:24px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-seal">复</div>
+      <div class="brand-text">
+        <span class="brand-title">A股每日市场复盘报告</span>
+        <span class="brand-sub">DAILY A-SHARE MARKET RECAP</span>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span>报告日期：<b>2026年7月14日（周二）</b></span>
+      <span>市场范围：<b>沪深+创业板+科创板+北交所</b></span>
+      <span>数据口径：<b>当日收盘数据</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="backlink"><a href="../../index.html">← 返回 China Market 主页</a></div>
+
+<nav class="chapters">
+  <div class="chapters-inner" id="chapter-nav">
+    <a class="chapter-tab active" data-target="ch1"><span class="num">壹</span>核心结论</a>
+    <a class="chapter-tab" data-target="ch2"><span class="num">贰</span>宽基指数</a>
+    <a class="chapter-tab" data-target="ch3"><span class="num">叁</span>行业板块</a>
+    <a class="chapter-tab" data-target="ch4"><span class="num">肆</span>关键催化</a>
+    <a class="chapter-tab" data-target="ch5"><span class="num">伍</span>传导机制</a>
+    <a class="chapter-tab" data-target="ch6"><span class="num">陆</span>资金面</a>
+    <a class="chapter-tab" data-target="ch7"><span class="num">柒</span>多空分歧</a>
+    <a class="chapter-tab" data-target="ch8"><span class="num">捌</span>信号与风险</a>
+    <a class="chapter-tab" data-target="ch9"><span class="num">玖</span>信息来源</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 壹 核心结论 -->
+<section class="chapter" id="ch1">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">壹</span><span>核心结论</span></div>
+    <div class="ch-en">CHAPTER · CORE TAKEAWAY</div>
+  </div>
+
+  <div class="tldr">
+    <b>核心判断：</b>韩国股市深V反转触发亚太情绪共振，叠加消费"十五五"规划政策托底，A股上演探底回升大反弹，成长风格领涨修复，但缩量反弹下持续性仍需观察。
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">上证指数（收盘）</span><span class="kpi-value up">+1.36%</span><span class="kpi-sub">3967.13 点 · 收复3900点</span></div>
+    <div class="kpi"><span class="kpi-label">深证成指（收盘）</span><span class="kpi-value up">+2.77%</span><span class="kpi-sub">14924.87 点</span></div>
+    <div class="kpi"><span class="kpi-label">创业板指（收盘）</span><span class="kpi-value up">+3.43%</span><span class="kpi-sub">3851.14 点 · 全市场领涨</span></div>
+    <div class="kpi"><span class="kpi-label">两市成交额</span><span class="kpi-value flat">2.72万亿</span><span class="kpi-sub">缩量 1138 亿元</span></div>
+    <div class="kpi"><span class="kpi-label">北向资金成交额</span><span class="kpi-value flat">4159.04亿</span><span class="kpi-sub">占两市成交 15.38%</span></div>
+    <div class="kpi"><span class="kpi-label">上涨/下跌家数</span><span class="kpi-value up">4209 / 1247</span><span class="kpi-sub">赚钱效应显著修复</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="prose">
+      <p><strong>市场概览：</strong>7月14日A股上演深V反转，早盘受海外半导体情绪冲击一度下探，沪指失守3900点，午后韩国股市强力反弹带动亚太风险偏好回升，叠加国内政策面利好，三大指数集体收涨。创业板指领涨3.43%，全市场超4200只个股上涨，赚钱效应显著修复。</p>
+      <p><strong>核心观点：</strong>本次反弹属于<strong>情绪修复叠加政策催化的超跌反弹</strong>，而非趋势性反转。若北向资金转为连续净流入、成交额回升至3万亿以上，则反弹具备持续性；若量能持续萎缩、海外再度出现风险事件，则可能重回震荡调整格局。</p>
+      <p><strong>为什么现在重要：</strong>当前市场处于外部风险冲击后的情绪修复期与国内政策托底验证期的交汇点。昨日韩国股市暴跌引发全球半导体板块恐慌，A股跟随调整；今日韩股企稳叠加国内政策利好带来反弹，但市场共识尚未形成，多空分歧依然显著。这一位置的反弹质量，将决定中期是构筑双底回升还是继续下探。</p>
+      <p>从预期差角度看，市场对海外风险的担忧存在过度反应迹象——韩国股市暴跌主要源于本土杠杆ETF强制平仓机制，并非全球半导体基本面恶化，A股半导体板块跟随调整存在情绪错杀。但美联储加息预期升温仍是中期压制因素，10年期美债收益率处于高位，北向资金持续流出的趋势尚未根本扭转。</p>
+    </div>
+    <div class="prose">
+      <div class="quote">国内政策面持续释放积极信号——扩大消费规划、算力网络建设、资本市场维稳表述，共同构成政策底的支撑，但政策底向市场底传导仍需经济数据与企业盈利的同步验证。</div>
+      <div class="quote">多头认为政策底已现、估值具备吸引力；空头则担忧海外风险传导、盈利下修压力尚未充分释放。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 贰 宽基指数全景 -->
+<section class="chapter" id="ch2">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">贰</span><span>宽基指数全景</span></div>
+    <div class="ch-en">CHAPTER · BROAD INDICES</div>
+  </div>
+
+  <div class="tldr">八大宽基指数全线收涨，创业板指领涨体现成长风格修复弹性，北证50反弹力度次之，科创50涨幅相对偏弱反映半导体情绪仍有分化。中小盘指数表现均衡，中证500、中证1000同步反弹，市场风格从极端防御逐步回归均衡。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:160px">指数名称</th><th style="width:140px">收盘点位</th><th style="width:110px">涨跌幅</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td><b>上证指数</b></td><td>3967.13</td><td class="perf-up">+1.36%</td><td>深V反弹，收复3900点</td></tr>
+      <tr><td><b>深证成指</b></td><td>14924.87</td><td class="perf-up">+2.77%</td><td>成长股带动反弹</td></tr>
+      <tr><td><b>创业板指</b></td><td>3851.14</td><td class="perf-up">+3.43%</td><td>全市场领涨</td></tr>
+      <tr><td><b>科创50</b></td><td>2009.73</td><td class="perf-up">+0.77%</td><td>半导体分化，涨幅靠后</td></tr>
+      <tr><td><b>沪深300</b></td><td>4796.50</td><td class="perf-up">+2.15%</td><td>大盘蓝筹修复</td></tr>
+      <tr><td><b>中证500</b></td><td>8275.94</td><td class="perf-up">+1.69%</td><td>中盘均衡反弹</td></tr>
+      <tr><td><b>中证1000</b></td><td>—</td><td class="perf-up">+约2%</td><td>小盘股同步修复</td></tr>
+      <tr><td><b>北证50</b></td><td>1152.56</td><td class="perf-up">+2.25%</td><td>前日大跌后反弹</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 叁 行业与板块表现 -->
+<section class="chapter" id="ch3">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">叁</span><span>行业与板块表现</span></div>
+    <div class="ch-en">CHAPTER · SECTORS &amp; THEMES</div>
+  </div>
+
+  <div class="tldr">板块呈现普涨格局，通信、有色、建材领涨，军工、传媒、计算机逆势下跌。算力硬件（PCB/元件）成为反弹核心引擎，油气开采受地缘因素独立走强。资金高低切换特征明显，前期超跌的成长赛道获资金回流，而军工等高位题材出现补跌。</div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--up);padding-left:10px">申万一级行业 · 领涨前5</h3>
+  <div style="margin-bottom:22px">
+    <div class="bar-row"><span class="bar-name">通信<small>算力硬件+光模块中报预增</small></span><div class="bar-track"><div class="bar-fill up" style="width:100%"></div></div><span class="bar-val up">+5.25%</span></div>
+    <div class="bar-row"><span class="bar-name">有色金属<small>工业金属价格上涨+铝业龙头爆发</small></span><div class="bar-track"><div class="bar-fill up" style="width:97%"></div></div><span class="bar-val up">+5.11%</span></div>
+    <div class="bar-row"><span class="bar-name">建筑材料<small>消费规划利好地产链预期</small></span><div class="bar-track"><div class="bar-fill up" style="width:92%"></div></div><span class="bar-val up">+4.85%</span></div>
+    <div class="bar-row"><span class="bar-name">石油石化<small>国际油价上涨+地缘冲突预期</small></span><div class="bar-track"><div class="bar-fill up" style="width:86%"></div></div><span class="bar-val up">+约4.5%</span></div>
+    <div class="bar-row"><span class="bar-name">煤炭<small>高股息防御+能源价格联动</small></span><div class="bar-track"><div class="bar-fill up" style="width:76%"></div></div><span class="bar-val up">+约4%</span></div>
+  </div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--down);padding-left:10px">申万一级行业 · 领跌前3</h3>
+  <div style="margin-bottom:26px">
+    <div class="bar-row"><span class="bar-name">国防军工<small>前期涨幅较大，高位补跌</small></span><div class="bar-track"><div class="bar-fill down" style="width:100%"></div></div><span class="bar-val down">−2.67%</span></div>
+    <div class="bar-row"><span class="bar-name">传媒<small>游戏影视板块调整，AI应用分化</small></span><div class="bar-track"><div class="bar-fill down" style="width:46%"></div></div><span class="bar-val down">−1.23%</span></div>
+    <div class="bar-row"><span class="bar-name">计算机<small>信创、商业航天概念回调</small></span><div class="bar-track"><div class="bar-fill down" style="width:39%"></div></div><span class="bar-val down">−1.04%</span></div>
+  </div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">核心热点概念板块</h3>
+  <div class="theme-grid">
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">油气开采及服务</span><span class="theme-tag hot">事件驱动</span></div>
+      <div class="theme-perf up">+9.23%</div>
+      <div class="theme-desc">地缘冲突推升国际油价，避险资金抱团周期能源。通源石油20CM涨停，中曼石油、蓝焰控股、大有能源等多股涨停。持续性取决于油价走势。</div>
+    </div>
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">PCB / 印制电路板</span><span class="theme-tag hot">业绩驱动</span></div>
+      <div class="theme-perf up">+8.29%</div>
+      <div class="theme-desc">午后反攻核心引擎。四部门发布互联网基础设施建设方案，算力硬件、高速载板作为数字基建核心环节，生益科技、沪电股份、东山精密批量涨停。</div>
+    </div>
+    <div class="theme-card warm">
+      <div class="theme-h"><span class="theme-name">医药商业</span><span class="theme-tag warm">防御配置</span></div>
+      <div class="theme-perf up">+约5%</div>
+      <div class="theme-desc">14部门出台康复辅具产业三年行动方案，叠加防御属性获资金青睐。药易购20CM涨停，人民同泰涨停，板块呈现防御性配置价值。</div>
+    </div>
+    <div class="theme-card cold">
+      <div class="theme-h"><span class="theme-name">商业航天 / 卫星导航</span><span class="theme-tag cold">高位回调</span></div>
+      <div class="theme-perf down">−约3%</div>
+      <div class="theme-desc">前期热门题材出现高位回调，军工电子、卫星导航板块领跌，属于资金高低切换的正常调整，不改变产业长期逻辑。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 肆 关键增量信息 -->
+<section class="chapter" id="ch4">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">肆</span><span>关键增量信息</span></div>
+    <div class="ch-en">CHAPTER · KEY CATALYSTS</div>
+  </div>
+
+  <div class="tldr">当日市场反弹由三大核心催化共振驱动：外部韩国股市深V反转修复全球半导体情绪，内部消费"十五五"规划批复提供政策托底，叠加PCB等算力硬件中报预增吸引资金低位布局。三大因素共同促成午后V型反转，其中外部情绪修复是导火索，政策面是信心基础。</div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">01</span><span class="catalyst-title">韩国股市深V反转，亚太情绪共振修复</span></div>
+    <p><b>事实：</b>7月14日韩国KOSPI指数早盘一度大跌超5%，午后韩国政府出手稳市，指数强势翻红，收盘上涨0.73%。SK海力士收复9%跌幅，三星电子涨超4%，带动日经指数、A50期指同步拉升，亚太市场集体反攻。</p>
+    <p><b>机制：</b>韩国杠杆ETF强制平仓引发的踩踏风险得到缓解，全球半导体板块恐慌情绪降温。作为全球存储芯片风向标，韩股企稳直接修复A股半导体及科技成长板块的风险偏好。</p>
+    <p><b>市场反应：</b>A股午休后开盘第一分钟即同步直线拉升，沪指从跌超1%快速翻红，属于典型的情绪传导式反弹，而非基本面驱动。半导体板块午后大幅上攻，但科创50最终涨幅仅0.77%，显示内部分化仍大。</p>
+    <p class="verify"><b>后续验证：</b>关注韩国股市能否持续企稳，若再度出现大幅波动，则A股科技板块仍将承压。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">02</span><span class="catalyst-title">《扩大消费"十五五"规划》正式批复</span></div>
+    <p><b>事实：</b>国务院批复《扩大消费"十五五"规划》，明确2030年社零总额60万亿元目标，同步推进全国一体化算力网络建设，支持因城施策优化房地产政策，并提出持续巩固资本市场稳中向好发展态势。</p>
+    <p><b>机制：</b>消费规划从需求端托底经济预期，算力网络建设直接利好通信、算力硬件板块，房地产政策优化改善地产链估值，资本市场定调稳定投资者信心。</p>
+    <p><b>市场反应：</b>建材、地产链、消费板块午后同步走强，通信板块领涨全市场。政策利好已部分兑现，但中期预期改善效应将持续释放，对市场底部形成支撑。</p>
+    <p class="verify"><b>后续验证：</b>关注后续配套细则落地进度，以及地产销售、消费数据是否出现边际改善。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">03</span><span class="catalyst-title">PCB、光模块龙头中报预增，算力硬件迎配置窗口</span></div>
+    <p><b>事实：</b>PCB、光模块龙头集中披露中报业绩预告，多家公司净利润同比翻倍增长。前期科技赛道连续回调后，估值回归合理区间，吸引配置资金低位布局。</p>
+    <p><b>机制：</b>AI算力需求持续高景气，上游硬件环节业绩确定性最强，中报验证产业逻辑。经过前期调整后，筹码结构得到优化，资金回流阻力降低。</p>
+    <p><b>市场反应：</b>元件板块单日涨幅超8%，生益科技、沪电股份等多股涨停，属于业绩驱动+超跌反弹的共振，持续性优于纯情绪反弹品种。</p>
+    <p class="verify"><b>后续验证：</b>跟踪中报季整体业绩兑现情况，以及AI算力需求的可持续性。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">04</span><span class="catalyst-title">明日上半年货币政策发布会在即</span></div>
+    <p><b>事实：</b>国务院新闻办公室将于7月15日举行新闻发布会，介绍2026年上半年货币政策执行和金融统计数据。市场密切关注流动性预期及政策定调。</p>
+    <p><b>机制：</b>货币政策发布会将释放下半年政策信号，若释放宽松预期则利好成长板块，若偏鹰则可能压制风险偏好。发布会前市场保持谨慎观望。</p>
+    <p><b>市场反应：</b>当日成交量萎缩至2.72万亿，部分资金选择观望等待政策明朗。缩量反弹说明增量资金入场意愿不强，更多是存量博弈下的修复。</p>
+    <p class="verify"><b>后续验证：</b>明日发布会的政策定调将直接影响短期市场方向。</p>
+  </div>
+</section>
+
+<!-- 伍 传导机制分析 -->
+<section class="chapter" id="ch5">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">伍</span><span>传导机制分析</span></div>
+    <div class="ch-en">CHAPTER · TRANSMISSION CHAIN</div>
+  </div>
+
+  <div class="tldr">本次反弹遵循"外部情绪修复 → 政策信心托底 → 资金风格切换 → 板块普涨"的传导链条。韩国稳市作为导火索打破恐慌循环，国内政策提供安全边际，最终推动资金从防御板块回流成长赛道，形成全市场普涨格局。但量能不足意味着传导链条尚未形成正反馈，持续性有待验证。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:110px">环节</th><th style="width:260px">变化</th><th style="width:260px">传导机制</th><th>市场含义</th></tr></thead>
+    <tbody>
+      <tr><td><b>政策事件层</b></td><td>消费"十五五"规划批复 + 韩国稳市</td><td>政策托底预期 + 外部恐慌缓解，双重利好共振</td><td>市场风险偏好触底回升</td></tr>
+      <tr><td><b>资金面</b></td><td>宽基ETF大幅吸金，电子板块主力净流入286亿</td><td>机构资金借道ETF加仓，主力资金回流科技</td><td>存量资金从防御切向成长</td></tr>
+      <tr><td><b>风格层面</b></td><td>创业板指跑赢沪指2个百分点以上</td><td>超跌成长弹性释放，高股息相对收益收窄</td><td>风格再平衡，非趋势性切换</td></tr>
+      <tr><td><b>板块层面</b></td><td>通信、有色、建材领涨，军工补跌</td><td>算力硬件业绩验证 + 周期品涨价 + 高低切换</td><td>普涨格局下仍存结构分化</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 陆 资金面深度分析 -->
+<section class="chapter" id="ch6">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">陆</span><span>资金面深度分析</span></div>
+    <div class="ch-en">CHAPTER · CAPITAL FLOWS</div>
+  </div>
+
+  <div class="tldr">当日资金面呈现"机构ETF加仓 + 主力回流科技 + 两融持续收缩"的分化格局。宽基ETF成为资金加仓主力，显示机构投资者对中长期底部的认可；主力资金从军工、计算机转向电子、通信，体现高低切换；但两融余额八连降说明杠杆资金仍在收缩，散户风险偏好尚未修复。</div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.1 北向资金</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">成交额 / 占比</div><div class="fvalue">4159.04亿 · 15.38%</div></div>
+    <div class="fund-item"><div class="flabel">沪股通成交前三</div><div class="fvalue" style="font-size:13px">兆易创新 49.60亿</div></div>
+    <div class="fund-item"><div class="flabel">深股通成交前三</div><div class="fvalue" style="font-size:13px">宁德时代 90.22亿</div></div>
+  </div>
+  <div class="prose"><p>沪股通成交前三：兆易创新（49.60亿）、中微公司（30.26亿）、寒武纪（27.85亿）；深股通成交前三：宁德时代（90.22亿）、中际旭创（79.36亿）、新易盛（49.96亿）。成交集中于科技龙头，显示外资在半导体、算力板块上博弈加剧。需关注后续北向资金能否从大额流出转为净流入，这是判断外资态度的关键指标。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.2 主力资金</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">电子板块主力净流入</div><div class="fvalue">286.46亿</div></div>
+    <div class="fund-item"><div class="flabel">通信板块主力净流入</div><div class="fvalue">153.06亿</div></div>
+    <div class="fund-item"><div class="flabel">元件细分净流入</div><div class="fvalue">152.61亿</div></div>
+  </div>
+  <div class="prose"><p>行业主力资金流向呈现明显的风格切换。资金从前期强势的军工、计算机板块大规模回流至电子、通信等超跌成长赛道。龙虎榜数据显示，机构净买入沪电股份5.97亿元、东山精密4.37亿元，积极布局算力硬件龙头；同时净卖出华天科技14.03亿元，半导体内部分化显著。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.3 两融数据</h3>
+  <div class="prose"><p>截至7月13日，两融余额已连续<strong>八个交易日下降</strong>，创15个月来最长连降纪录。科技板块成为融资净偿还主力，寒武纪、兆易创新、中芯国际等热门科技股遭融资资金净卖出。近9个交易日370只个股融资净流出超1亿元。两融持续收缩反映杠杆资金风险偏好低迷，散户投资者情绪尚未修复，这也是制约市场反弹高度的重要因素，需要时间逐步消化。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.4 成交量与市场情绪</h3>
+  <div class="prose"><p>沪深两市成交额2.72万亿元，较上一交易日缩量1138亿元。缩量反弹表明增量资金入场意愿不强，更多是存量博弈下的超跌修复。全市场4209只个股上涨、1247只下跌，赚钱效应显著改善，但热度仍未回到前期高位。宽基ETF成为资金吸金主力：中证500ETF南方净流入60.04亿，中证1000ETF南方净流入59.62亿，沪深300ETF华泰柏瑞净流入55.38亿，机构资金借道ETF布局，体现对中长期市场的信心。</p></div>
+</section>
+
+<!-- 柒 各方观点与分歧 -->
+<section class="chapter" id="ch7">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">柒</span><span>各方观点与分歧</span></div>
+    <div class="ch-en">CHAPTER · BULL VS BEAR</div>
+  </div>
+
+  <div class="tldr">当前市场多空分歧显著，多方看重政策底与估值支撑，空方担忧海外风险与盈利下修。机构观点普遍认为短期处于震荡磨底阶段，不宜过度乐观也不宜过度悲观，需等待更多信号确认方向。</div>
+
+  <div class="stance-grid">
+    <div class="stance-card official">
+      <div class="stance-h">📋 官方事实</div>
+      <p>国务院批复扩大消费"十五五"规划，提出持续巩固资本市场稳中向好发展态势；7月15日将发布上半年金融统计数据并召开发布会。</p>
+    </div>
+    <div class="stance-card pricing">
+      <div class="stance-h">📊 市场定价</div>
+      <p>创业板指单日反弹3.43%但成交量萎缩，显示市场以超跌修复为主，尚未形成趋势性上涨共识。两融八连降反映杠杆资金谨慎，ETF大额流入显示机构长期布局，不同资金群体预期分化。</p>
+    </div>
+    <div class="stance-card institution">
+      <div class="stance-h">🏦 机构观点</div>
+      <p>主流券商普遍认为，政策底信号明确，市场估值处于历史中低位，下行空间有限。但海外美联储加息预期、地缘风险等外部因素仍存，短期大概率维持震荡格局，建议逢低布局业绩确定性高的科技成长与高股息防御板块。</p>
+    </div>
+    <div class="stance-card contra">
+      <div class="stance-h">🔄 反向证据</div>
+      <p>一是成交量持续萎缩，增量资金不足；二是北向资金近期连续流出，外资态度未转；三是两融余额持续下降，散户情绪低迷；四是韩国股市波动尚未平息，海外风险传导链未断。这些因素都可能制约反弹的持续性。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 捌 信号与风险 -->
+<section class="chapter" id="ch8">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">捌</span><span>后续观察信号与风险提示</span></div>
+    <div class="ch-en">CHAPTER · SIGNALS &amp; RISKS</div>
+  </div>
+
+  <div class="tldr">接下来重点跟踪四大信号以验证反弹质量：北向资金流向、成交量能、海外市场稳定性、货币政策定调。每个信号都有明确的量化阈值，达标则确认反弹延续，恶化则需警惕重回调整。</div>
+
+  <div class="signal-grid" style="margin-bottom:30px">
+    <div class="signal-card">
+      <div class="signal-h">信号一 · 北向资金流向</div>
+      <div class="signal-watch">👀 盯：北向资金单日净流入/流出金额，连续3日累计净额</div>
+      <div class="signal-box good">✅ 改善：单日净流入超30亿元，连续3日累计净流入超100亿元</div>
+      <div class="signal-box bad">❌ 恶化：单日净卖出超100亿元，或连续3日累计净卖出超200亿元</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号二 · 成交量能</div>
+      <div class="signal-watch">👀 盯：沪深两市单日成交额</div>
+      <div class="signal-box good">✅ 改善：成交额回升至3万亿元以上，反弹有量能配合</div>
+      <div class="signal-box bad">❌ 恶化：成交额萎缩至2.5万亿元以下，可能陷入阴跌格局</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号三 · 海外市场稳定性</div>
+      <div class="signal-watch">👀 盯：韩国KOSPI指数走势、10年期美债收益率</div>
+      <div class="signal-box good">✅ 改善：KOSPI站稳6900点以上，10年期美债收益率回落至4.5%以下</div>
+      <div class="signal-box bad">❌ 恶化：KOSPI跌破6500点再度触发熔断，或美债收益率突破4.7%</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号四 · 货币政策定调</div>
+      <div class="signal-watch">👀 盯：7月15日上半年金融统计数据发布会的政策表述</div>
+      <div class="signal-box good">✅ 改善：释放加大逆周期调节、降准降息等宽松信号</div>
+      <div class="signal-box bad">❌ 恶化：表述偏鹰派，强调防风险、稳杠杆，低于市场宽松预期</div>
+    </div>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险一：海外市场波动超预期</div>
+      <div class="risk-box trigger">🔴 触发：韩国股市再度大幅下跌触发熔断，或美股因加息预期出现深度调整，引发全球风险资产抛售，A股受情绪传导跟随下跌。韩国杠杆ETF平仓风险尚未完全解除。</div>
+      <div class="risk-box falsify">🟢 证伪：韩股持续企稳回升，全球半导体板块情绪修复，美联储加息预期降温。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险二：国内经济复苏不及预期</div>
+      <div class="risk-box trigger">🔴 触发：上半年经济数据、社融数据低于市场预期，企业盈利下修压力加大，政策利好无法兑现为基本面改善。</div>
+      <div class="risk-box falsify">🟢 证伪：经济数据边际改善，消费、地产等核心指标出现回暖信号，企业盈利增速企稳回升。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险三：成交量持续萎缩阴跌</div>
+      <div class="risk-box trigger">🔴 触发：两市成交额连续3日低于2.5万亿元，市场缺乏增量资金，存量博弈下指数阴跌，两融余额继续下降。</div>
+      <div class="risk-box falsify">🟢 证伪：成交额稳定在3万亿以上，交投活跃，新增资金持续入场。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险四：地缘政治风险升级</div>
+      <div class="risk-box trigger">🔴 触发：国际地缘冲突加剧，推升能源价格与避险情绪，全球资本市场风险偏好下降。</div>
+      <div class="risk-box falsify">🟢 证伪：地缘局势缓和，国际油价回落，全球避险情绪降温。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 玖 信息来源 -->
+<section class="chapter" id="ch9">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">玖</span><span>信息来源</span></div>
+    <div class="ch-en">CHAPTER · SOURCES</div>
+  </div>
+
+  <ol class="sources">
+    <li>[1] 凤凰网财经 · 2026-07-14 · 收评:创业板指涨超3%，全市场超4200只个股上涨 · <a href="https://finance.ifeng.com/c/8ukmFNjN9f4" target="_blank" rel="noopener">链接</a></li>
+    <li>[2] China.org.cn（新华社） · 2026-07-14 · Chinese shares close higher Tuesday · <a href="http://www.china.org.cn/china/Off_the_Wire/2026-07/14/content_118598878.shtml" target="_blank" rel="noopener">链接</a></li>
+    <li>[3] 今日头条·浪淘沙 · 2026-07-14 · 2026年7月14日A股收盘深度分析报告 · <a href="http://m.toutiao.com/group/7662351063760060930/" target="_blank" rel="noopener">链接</a></li>
+    <li>[4] 川观新闻 · 2026-07-14 · 韩股V了A股跟了，谁是背后真"推手"?丨川观解盘 · <a href="http://m.toutiao.com/group/7662380992136577578/" target="_blank" rel="noopener">链接</a></li>
+    <li>[5] 东方财富网 · 2026-07-14 · 7月14日北向资金最新动向(附十大成交股) · <a href="https://finance.eastmoney.com/a/202607143805709977.html" target="_blank" rel="noopener">链接</a></li>
+    <li>[6] 东方财富网股吧 · 2026-07-14 · 大盘收盘分时复盘报告(2026年7月14日星期二) · <a href="https://guba.eastmoney.com/news,sh510300,1743392809.html" target="_blank" rel="noopener">链接</a></li>
+    <li>[7] 今日头条·小河008 · 2026-07-14 · 2026年07月14日 收盘汇总 · <a href="http://m.toutiao.com/group/7662279624772895274/" target="_blank" rel="noopener">链接</a></li>
+    <li>[8] 粤开证券 · 2026-07-14 · 粤开市场日报-20260714 · <a href="http://www.ykzq.com/products/download-new/rpt/2026/07/14/4d35aab33e454986a2e257205284d9c5.pdf" target="_blank" rel="noopener">链接</a></li>
+    <li>[9] 21世纪经济报道 · 2026-07-14 · 深调次日反弹2.25%，北证50指数"三重底"打开配置窗口 · <a href="http://m.toutiao.com/group/7662308379930558991/" target="_blank" rel="noopener">链接</a></li>
+    <li>[10] 新浪财经·博时基金 · 2026-07-14 · 博时市场点评7月14日:三大指数强势反弹，通信、有色领涨 · <a href="http://m.toutiao.com/group/7662295888890462771/" target="_blank" rel="noopener">链接</a></li>
+    <li>[11] 凤凰网 · 2026-07-14 · A股午后大反攻，超4200只个股上涨!算力硬件走强，医药延续涨势 · <a href="https://news.ifeng.com/c/8ukppKFXGYc" target="_blank" rel="noopener">链接</a></li>
+    <li>[12] 今日头条·福温虚吉 · 2026-07-14 · 2026年7月14日A股收评:市场上演深V反转，板块高低切换特征凸显 · <a href="http://m.toutiao.com/group/7662291699149947418/" target="_blank" rel="noopener">链接</a></li>
+    <li>[13] 微博·鹰眼逻辑2026 · 2026-07-14 · 外部触发：韩国股市深V反转引爆亚太情绪共振 · <a href="https://m.weibo.cn/detail/5320689548788006" target="_blank" rel="noopener">链接</a></li>
+    <li>[14] 凤凰网·中国基金报 · 2026-07-14 · 紧急救市，韩国股市"深V"反弹 · <a href="https://finance.ifeng.com/c/8ukn2panthz" target="_blank" rel="noopener">链接</a></li>
+    <li>[15] 东方财富财富号 · 2026-07-14 · 2026年7月14日，影响A股市场的主要消息面如下 · <a href="https://caifuhao.eastmoney.com/news/20260714091317692635760" target="_blank" rel="noopener">链接</a></li>
+    <li>[16] 新浪财经 · 2026-07-14 · ETF风向标 | A股探底回升，算力硬件产业链爆发，成长ETF涨超8% · <a href="http://m.toutiao.com/group/7662321804656050728/" target="_blank" rel="noopener">链接</a></li>
+    <li>[17] 今日头条·A股拾光 · 2026-07-15 · A股惊天大逆转!沪指3900点失而复得，算力硬件王者归来 · <a href="http://m.toutiao.com/group/7662422157179404815/" target="_blank" rel="noopener">链接</a></li>
+    <li>[18] 上海证券报 · 2026-07-14 · 两融余额，创15个月来最长连降纪录 · <a href="http://m.toutiao.com/group/7662300209371693631/" target="_blank" rel="noopener">链接</a></li>
+    <li>[19] 36氪 · 2026-07-14 · 机构今日买入沪电股份等24股，卖出华天科技14.03亿元 · <a href="https://36kr.com/newsflashes/3895375520333063" target="_blank" rel="noopener">链接</a></li>
+    <li>[20] 证券时报 · 2026-07-14 · A股两融余额八连降!多只热门科技股遭融资资金净卖出 · <a href="http://m.toutiao.com/group/7662360706238513690/" target="_blank" rel="noopener">链接</a></li>
+  </ol>
+
+  <div class="disclaimer">⚠️ <b>风险提示与免责声明：</b>本报告基于AI生成，仅用于信息参考与研究辅助，不构成任何投资建议。股市有风险，投资需谨慎，请结合自身风险承受能力独立决策。报告中引用的数据和信息均来自公开渠道，其准确性和完整性请以官方发布为准。</div>
+
+  <div style="text-align:center;margin-top:26px"><span class="seal">每日<br/>复盘</span></div>
+</section>
+
+</main>
+
+<footer>
+  · A股每日市场复盘报告 · 数据区间：2026-07-14 收盘 · 更新于：2026-07-14 · 仅供参考，不构成投资建议 ·
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.chapter-tab');
+  const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = document.getElementById(tab.dataset.target);
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  function setActive() {
+    let currentIndex = 0;
+    const scrollPos = window.scrollY + 150;
+    sections.forEach((sec, i) => {
+      if (sec && sec.offsetTop <= scrollPos) currentIndex = i;
+    });
+    tabs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+  }
+  window.addEventListener('scroll', setActive);
+  setActive();
+</script>
+
+</body>
+</html>
