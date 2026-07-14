@@ -1,0 +1,69 @@
+{
+  "source": "https://stockcharts.com/panels/?cmd=show&listNum=10&viewType=e",
+  "listName": "[Market Sum] 200 - BREADTH - Advancing & Declining",
+  "charts": [
+    {
+      "index": 1,
+      "title": "000 - NYSE Advance-Decline",
+      "imagePath": "../Image/stockcharts-breadth-01-000-nyse-advance-decline.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24NYA&p=D&yr=1&mn=6&dy=0&id=p11597747921&a=2304797494&r=508",
+      "symbol": "$NYA"
+    },
+    {
+      "index": 2,
+      "title": "001 - NASDAQ Advance-Decline",
+      "imagePath": "../Image/stockcharts-breadth-02-001-nasdaq-advance-decline.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24COMPQ&p=D&yr=1&mn=6&dy=0&id=p37883067163&a=2304797492&r=209",
+      "symbol": "$COMPQ"
+    },
+    {
+      "index": 3,
+      "title": "002 - New Highs (Major Indexes)",
+      "imagePath": "../Image/stockcharts-breadth-03-002-new-highs-major-indexes.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=!NEWHINYA&p=D&yr=1&mn=6&dy=0&id=p14790330484&a=2304797488&r=110",
+      "symbol": "!NEWHINYA"
+    },
+    {
+      "index": 4,
+      "title": "003 - New Lows (Major Indexes)",
+      "imagePath": "../Image/stockcharts-breadth-04-003-new-lows-major-indexes.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=!NEWLONYA&p=D&yr=1&mn=6&dy=0&id=p91808271096&a=2304797486&r=108",
+      "symbol": "!NEWLONYA"
+    },
+    {
+      "index": 5,
+      "title": "004 - New Highs - New Lows (Major Indexes)",
+      "imagePath": "../Image/stockcharts-breadth-05-004-new-highs-new-lows-major-indexes.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=!NEWHINYA-!NEWLONYA&p=D&yr=2&mn=0&dy=0&id=p23619425164&a=2304797493&r=103",
+      "symbol": "!NEWHINYA-!NEWLONYA"
+    },
+    {
+      "index": 6,
+      "title": "005 - NYSE McClellan Indicators",
+      "imagePath": "../Image/stockcharts-breadth-06-005-nyse-mcclellan-indicators.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24NYMO&p=D&yr=1&mn=6&dy=0&id=p85344813523&a=2304797487&r=115",
+      "symbol": "$NYMO"
+    },
+    {
+      "index": 7,
+      "title": "006 - NASDAQ McClellan Indicators",
+      "imagePath": "../Image/stockcharts-breadth-07-006-nasdaq-mcclellan-indicators.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24NAMO&p=D&yr=1&mn=6&dy=0&id=p82975893108&a=2304797491&r=829",
+      "symbol": "$NAMO"
+    },
+    {
+      "index": 8,
+      "title": "007 - Zweig Breadth Thrust - NYSE",
+      "imagePath": "../Image/stockcharts-breadth-08-007-zweig-breadth-thrust-nyse.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24NYA&p=D&yr=1&mn=0&dy=0&id=p88237311480&a=2304797490&r=406",
+      "symbol": "$NYA"
+    },
+    {
+      "index": 9,
+      "title": "008 - Zweig Breadth Thrust - NASDAQ",
+      "imagePath": "../Image/stockcharts-breadth-09-008-zweig-breadth-thrust-nasdaq.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24COMPQ&p=D&yr=1&mn=0&dy=0&id=p00698077884&a=2304797489&r=659",
+      "symbol": "$COMPQ"
+    }
+  ]
+}

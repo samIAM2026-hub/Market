@@ -1,0 +1,102 @@
+{
+  "source": "https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+  "listName": "[Market Sum] 400 - US SECTORS - Cap Weight",
+  "charts": [
+    {
+      "index": 1,
+      "title": "SPY - SPDR S&P 500 ETF",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-01-spy-spdr-s-p-500-etf.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=SPY&p=D&yr=1&mn=0&dy=0&id=p05822072783&a=2304797547&r=956",
+      "symbol": "SPY",
+      "chartId": "2304797547"
+    },
+    {
+      "index": 2,
+      "title": "XLB - Materials Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-02-xlb-materials-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLB&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797545&r=272",
+      "symbol": "XLB",
+      "chartId": "2304797545"
+    },
+    {
+      "index": 3,
+      "title": "XLC - Communication Services Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-03-xlc-communication-services-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLC&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797546&r=455",
+      "symbol": "XLC",
+      "chartId": "2304797546"
+    },
+    {
+      "index": 4,
+      "title": "XLE - Energy Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-04-xle-energy-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLE&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797538&r=608",
+      "symbol": "XLE",
+      "chartId": "2304797538"
+    },
+    {
+      "index": 5,
+      "title": "XLF - Financial Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-05-xlf-financial-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLF&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797539&r=677",
+      "symbol": "XLF",
+      "chartId": "2304797539"
+    },
+    {
+      "index": 6,
+      "title": "XLI - Industrial Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-06-xli-industrial-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLI&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797544&r=404",
+      "symbol": "XLI",
+      "chartId": "2304797544"
+    },
+    {
+      "index": 7,
+      "title": "XLK - Technology Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-07-xlk-technology-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLK&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797543&r=651",
+      "symbol": "XLK",
+      "chartId": "2304797543"
+    },
+    {
+      "index": 8,
+      "title": "XLP - Consumer Staples Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-08-xlp-consumer-staples-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLP&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797541&r=609",
+      "symbol": "XLP",
+      "chartId": "2304797541"
+    },
+    {
+      "index": 9,
+      "title": "XLRE - Real Estate Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-09-xlre-real-estate-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLRE&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797540&r=542",
+      "symbol": "XLRE",
+      "chartId": "2304797540"
+    },
+    {
+      "index": 10,
+      "title": "XLU - Utilities Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-10-xlu-utilities-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLU&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797548&r=121",
+      "symbol": "XLU",
+      "chartId": "2304797548"
+    },
+    {
+      "index": 11,
+      "title": "XLV - Health Care Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-11-xlv-health-care-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLV&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797542&r=621",
+      "symbol": "XLV",
+      "chartId": "2304797542"
+    },
+    {
+      "index": 12,
+      "title": "XLY - Consumer Discretionary Select Sector SPDR Fund",
+      "imagePath": "../Image/stockcharts-us-sectors-capweight-listnum16-12-xly-consumer-discretionary-select-sector-spdr-fund.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=XLY&p=D&yr=1&mn=0&dy=0&id=p69507337934&a=2304797549&r=218",
+      "symbol": "XLY",
+      "chartId": "2304797549"
+    }
+  ]
+}

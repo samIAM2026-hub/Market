@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 对劳动力市场的影响 — 交互式学习指南</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- Claude 设计系统 · 中文版:思源宋体(标题 700 / 大标题 900) + 思源黑体(正文) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --font-display:"Noto Serif SC","Songti SC",STSong,SimSun,serif;
+    --font-sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+    --font-mono:"JetBrains Mono","Noto Sans SC",ui-monospace,Menlo,monospace;
+
+    --canvas:#faf9f5; --surface-soft:#f5f0e8; --card:#efe9de; --card-strong:#e8e0d2;
+    --dark:#181715; --dark-soft:#1f1e1b;
+    --hairline:#e6dfd8; --hairline-soft:#ebe6df;
+    --ink:#141413; --body:#3d3d3a; --body-strong:#252523; --muted:#6c6a64; --muted-soft:#8e8b82;
+    --on-dark:#faf9f5; --on-dark-soft:#a09d96;
+
+    --coral:#cc785c; --coral-active:#a9583e; --coral-soft:rgba(204,120,92,.12);
+    --teal:#5db8a6; --amber:#e8a55a;
+    --success:#5db872; --warning:#d4a017; --error:#c64545;
+    --ring-focus:0 0 0 3px rgba(204,120,92,.22);
+    --accent:var(--coral);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--font-sans);background:var(--canvas);color:var(--body);line-height:1.75;}
+  a{color:var(--coral-active);text-decoration:none}
+  a:hover{color:var(--coral)}
+
+  header.hero{padding:64px 24px 48px;text-align:center;background:var(--canvas);border-bottom:1px solid var(--hairline);}
+  .tag{display:inline-block;font-family:var(--font-sans);font-size:12px;font-weight:500;letter-spacing:2px;color:var(--coral);margin-bottom:18px;}
+  .hero h1{font-family:var(--font-display);font-weight:900;font-size:50px;letter-spacing:0;color:var(--ink);margin:0 0 16px;line-height:1.25;}
+  .hero p.sub{color:var(--body-strong);max-width:660px;margin:0 auto;font-size:18px;}
+  .hero .meta{margin-top:18px;color:var(--muted);font-size:13px;}
+
+  nav.tabs{position:sticky;top:0;z-index:20;display:flex;gap:4px;flex-wrap:wrap;justify-content:center;
+    padding:10px;background:rgba(250,249,245,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--hairline);}
+  nav.tabs button{background:transparent;border:1px solid transparent;color:var(--muted);
+    padding:9px 16px;border-radius:8px;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:500;transition:.12s ease;}
+  nav.tabs button:hover{color:var(--ink);background:var(--card)}
+  nav.tabs button.active{color:#fff;background:var(--coral);}
+  nav.tabs button:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+
+  main{max-width:960px;margin:0 auto;padding:40px 20px 96px;}
+  section{display:none;animation:fade .35s ease;}
+  section.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2.sec{font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:0;color:var(--ink);margin:6px 0 8px;line-height:1.3;}
+  .lead{color:var(--muted);margin:0 0 28px;font-size:16px;}
+
+  .card{background:var(--card);border:1px solid var(--hairline);border-radius:12px;padding:24px;margin:16px 0;}
+  .card h3{font-family:var(--font-display);font-weight:700;letter-spacing:0;color:var(--ink);margin:0 0 10px;font-size:22px;line-height:1.4;}
+  .card p{margin:8px 0;color:var(--body);}
+  .card b{color:var(--body-strong);font-weight:700}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:24px 0;}
+  .kpi{background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:20px 16px;text-align:center;}
+  .kpi .num{font-family:var(--font-display);font-weight:900;font-size:38px;letter-spacing:0;color:var(--coral);}
+  .kpi .num.red{color:var(--error)} .kpi .num.gold{color:var(--amber)} .kpi .num.green{color:var(--teal)}
+  .kpi .lbl{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+  ul.clean{list-style:none;padding:0;margin:10px 0;}
+  ul.clean li{padding:12px 14px 12px 38px;position:relative;background:var(--canvas);border:1px solid var(--hairline);border-radius:10px;margin:8px 0;color:var(--body);}
+  ul.clean li::before{content:"";position:absolute;left:14px;top:20px;width:9px;height:9px;border-radius:50%;background:var(--coral);}
+  ul.clean li.red::before{background:var(--error)} ul.clean li.gold::before{background:var(--amber)} ul.clean li.green::before{background:var(--teal)}
+
+  .chart-wrap{position:relative;height:340px;margin:8px 0 4px;}
+  .chart-tall{height:420px;}
+  .fig-note{font-size:13px;color:var(--muted);border-left:3px solid var(--hairline);padding:4px 0 4px 12px;margin-top:10px;line-height:1.7;}
+  .takeaway{background:var(--coral-soft);border:1px solid rgba(204,120,92,.30);border-radius:10px;padding:13px 15px;margin-top:14px;font-size:14.5px;color:var(--body-strong);}
+  .takeaway b{color:var(--coral-active)}
+
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px;}
+  .controls button{background:var(--canvas);border:1px solid var(--hairline);color:var(--muted);padding:8px 14px;border-radius:8px;cursor:pointer;font-family:var(--font-sans);font-size:13px;font-weight:500;transition:.12s ease;}
+  .controls button.on{background:var(--coral);color:#fff;border-color:var(--coral)}
+
+  .flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0;}
+  .flow .node{background:var(--canvas);border:1px solid var(--hairline);border-radius:12px;padding:16px;text-align:center;}
+  .flow .node .ic{font-size:22px} .flow .node h4{font-family:var(--font-sans);font-weight:700;margin:8px 0 4px;font-size:14px;color:var(--ink)}
+  .flow .node p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.6}
+  .arrow-row{text-align:center;color:var(--muted-soft);font-size:18px;margin:2px 0}
+  .merge{background:var(--coral-soft);border:1px solid rgba(204,120,92,.30);border-radius:12px;padding:18px;text-align:center;margin-top:6px;}
+  .merge h4{font-family:var(--font-display);font-weight:700;font-size:20px;margin:0 0 6px;color:var(--coral-active)}
+  .merge p{color:var(--body-strong);margin:0}
+
+  details.gloss{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:6px 16px;margin:8px 0;}
+  details.gloss summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--ink);padding:10px 0;}
+  details.gloss p{margin:6px 0 12px;color:var(--muted);font-size:14px;}
+
+  .q{background:var(--card);border:1px solid var(--hairline);border-radius:12px;padding:20px;margin:14px 0;}
+  .q .qhead{font-family:var(--font-sans);font-weight:700;color:var(--ink);margin-bottom:12px;}
+  .q .opt{display:block;width:100%;text-align:left;background:var(--canvas);border:1px solid var(--hairline);color:var(--body);padding:12px 14px;border-radius:8px;margin:7px 0;cursor:pointer;font-family:var(--font-sans);font-size:14.5px;transition:.12s ease;}
+  .q .opt:hover{border-color:var(--coral)}
+  .q .opt:focus-visible{outline:none;box-shadow:var(--ring-focus)}
+  .q .opt.correct{background:rgba(93,184,114,.16);border-color:var(--success);color:var(--body-strong)}
+  .q .opt.wrong{background:rgba(198,69,69,.12);border-color:var(--error);color:var(--body-strong)}
+  .q .exp{margin-top:12px;font-size:14px;color:var(--muted);display:none;border-left:3px solid var(--success);padding-left:12px;}
+  .q .exp.show{display:block;}
+  #score{position:sticky;bottom:14px;margin:20px auto 0;max-width:320px;text-align:center;background:var(--coral);color:#fff;border-radius:9999px;padding:12px 20px;font-weight:700;box-shadow:0 8px 24px rgba(20,20,19,.15);}
+
+  footer{background:var(--dark);margin-top:96px;}
+  footer .inner{max-width:960px;margin:0 auto;padding:48px 20px;color:var(--on-dark-soft);font-size:13px;line-height:1.8;}
+  footer .inner p{margin:8px 0;}
+  footer .inner b{color:var(--on-dark)}
+  footer .inner a{color:var(--coral)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:680px){.two,.flow{grid-template-columns:1fr}.hero h1{font-size:36px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="tag">ANTHROPIC 经济指数 · 交互式学习指南</div>
+  <h1>AI 对劳动力市场的影响</h1>
+  <p class="sub">一种衡量 AI 替代风险的新指标——<i>观测暴露度</i>——以及关于 AI 是否已经改变就业的早期证据。</p>
+  <div class="meta">Massenkoff &amp; McCrory · 2026年3月5日 · 报告配套学习材料</div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="active" data-t="overview">概览</button>
+  <button data-t="method">方法</button>
+  <button data-t="findings">核心发现</button>
+  <button data-t="figures">交互图表</button>
+  <button data-t="glossary">术语表</button>
+  <button data-t="quiz">自我测试</button>
+</nav>
+
+<main>
+
+<!-- 概览 -->
+<section id="overview" class="active">
+  <h2 class="sec">60 秒读懂全局</h2>
+  <p class="lead">这篇论文构建了一种更好的方法,来衡量哪些工作正在被 AI <i>真正</i>触及,再检验这些工作是否已经流失就业。简短的结论:一把有用的新标尺,但目前尚无明确的就业损害——只有一个针对年轻劳动者的早期预警信号。</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="num">~800</div><div class="lbl">分析的美国职业数(O*NET)</div></div>
+    <div class="kpi"><div class="num red">75%</div><div class="lbl">暴露度最高职业的覆盖率(计算机程序员)</div></div>
+    <div class="kpi"><div class="num gold">33%</div><div class="lbl">计算机与数学类任务的实际覆盖率(理论可行 94%)</div></div>
+    <div class="kpi"><div class="num green">~0</div><div class="lbl">暴露劳动者的净失业影响</div></div>
+  </div>
+
+  <div class="card">
+    <h3>核心思路</h3>
+    <p>以往的「AI 暴露度」衡量只问:模型理论上<b>能不能</b>完成这项任务?本文补上了缺失的另一半:<b>它是否真的在发生?</b>作者把理论能力与真实的 Claude 使用数据结合,构建出<b>观测暴露度</b>——并发现 AI <i>能做</i>的与<i>正在做</i>的之间存在巨大落差。</p>
+  </div>
+
+  <div class="card">
+    <h3>为何重要 —— 对预测保持谦逊</h3>
+    <p>作者开篇就警示:以往预测劳动力冲击的尝试,记录都很糟糕。一项著名的「可离岸性」研究曾标记约 25% 的美国岗位有风险,但十年后这些岗位大多增长良好。政府的职业预测也仅略好于简单的趋势外推。本文的目标是<b>趁大效应尚未出现,先立好一把可靠的标尺</b>,以便未来的冲击能被识别为信号而非噪声。</p>
+  </div>
+
+  <div class="card">
+    <h3>五条核心发现</h3>
+    <ul class="clean">
+      <li>新指标<b>观测暴露度</b>把 LLM 的理论能力与真实使用结合——并对<b>自动化</b>与<b>工作相关</b>的使用赋予更高权重。</li>
+      <li class="gold">AI 远低于其理论上限:实际覆盖率只是可行范围的一小部分。</li>
+      <li>暴露度更高的职业,被 BLS 预测到 2034 年增长<b>更慢</b>(关联微弱但真实)。</li>
+      <li>暴露度最高的劳动者往往<b>更年长、更多为女性、受教育程度更高、薪酬更高</b>。</li>
+      <li class="red">自 2022 年底以来,暴露劳动者的失业率没有系统性上升——但<b>有迹象表明年轻劳动者的招聘已放缓</b>。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 方法 -->
+<section id="method">
+  <h2 class="sec">「观测暴露度」如何构建</h2>
+  <p class="lead">该指标由三种要素组合而成,再经加权,从任务层面汇总到整个职业。</p>
+
+  <div class="card">
+    <h3>三大数据来源</h3>
+    <div class="flow">
+      <div class="node"><div class="ic">🗂️</div><h4>O*NET 数据库</h4><p>列出构成约 800 个美国职业的任务。</p></div>
+      <div class="node"><div class="ic">📊</div><h4>Anthropic 经济指数</h4><p>真实的 Claude 使用——人们实际带给 AI 的任务。</p></div>
+      <div class="node"><div class="ic">🧪</div><h4>Eloundou 等 (2023) β</h4><p>LLM 理论上能否让任务提速 ≥2 倍。</p></div>
+    </div>
+    <div class="arrow-row">↓ &nbsp; 组合 &nbsp; ↓</div>
+    <div class="merge">
+      <h4>观测暴露度</h4>
+      <p>在 LLM <i>能够</i>提速的任务中,哪些<i>真正</i>出现了自动化的、工作相关的使用?</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>β 量表(理论能力)</h3>
+    <ul class="clean">
+      <li><b>β = 1</b> —— LLM <b>单独</b>即可让任务至少提速一倍(完全可行)。</li>
+      <li class="gold"><b>β = 0.5</b> —— 可行,但需要在 LLM 之上额外的工具/软件。</li>
+      <li class="red"><b>β = 0</b> —— 不暴露;无法被 LLM 提速 ≥50%。</li>
+    </ul>
+    <p>例如:「批准药品续配并向药房提供处方信息」被评为 β=1(理论上完全可行)——但作者<i>并未</i>观察到 Claude 在做这件事。可行与观测之间的这道落差,正是新指标所捕捉的。</p>
+  </div>
+
+  <div class="card">
+    <h3>加权规则 —— 什么会推高一份工作的暴露度</h3>
+    <p>当一份工作的任务满足以下条件时,暴露度更高:</p>
+    <ul class="clean">
+      <li>理论上可由 AI 完成(高 β),<b>且</b></li>
+      <li>在经济指数中出现显著的真实使用,<b>且</b></li>
+      <li>在<b>工作相关</b>情境中执行(而非随意/个人用途)</li>
+      <li class="gold">通过<b>自动化 / API</b> 完成——自动化使用计<b>全权重</b>,增强式(人在回路)使用计<b>半权重</b></li>
+      <li>在整体岗位中占比更大(任务按时间加权,再汇总到职业)</li>
+    </ul>
+    <div class="takeaway"><b>通俗地说:</b>「AI 能做吗?」×「AI 在做吗?」×「是真实工作吗?」×「是否完全自动化?」——对一个人一天中各项任务取平均。</div>
+  </div>
+
+  <div class="card">
+    <h3>为何实际使用低于理论</h3>
+    <p>即便任务可行,采用也可能滞后,原因包括<b>模型局限、法律约束、特定软件要求或人工核验环节</b>。不过理论与使用紧密相关:<b>97%</b> 的观测任务落在理论可行的区间(β = 0.5 或 1.0)。</p>
+  </div>
+</section>
+
+<!-- 核心发现 -->
+<section id="findings">
+  <h2 class="sec">他们发现了什么</h2>
+  <p class="lead">暴露度经得起独立预测的检验,也沿清晰的人口结构线把劳动者区分开来,但并未显示明确的失业损害——只有年轻人招聘放缓的一丝迹象。</p>
+
+  <div class="two">
+    <div class="card">
+      <h3>✅ 对照 BLS 的验证</h3>
+      <p>观测暴露度更高的职业,预测增长<b>更弱</b>。每增加 <b>+10 个百分点</b>的覆盖率,对应 BLS 2024–2034 年增长预测下降 <b>−0.6 个百分点</b>。幅度虽小,但确实存在——值得注意的是,单看理论 β 指标则<b>没有</b>这种相关性。</p>
+    </div>
+    <div class="card">
+      <h3>👥 谁的暴露度最高</h3>
+      <p>相比未暴露群体,暴露度最高四分位的劳动者中女性多 <b>16 个百分点</b>、白人多 <b>11 个百分点</b>、亚裔约为 2 倍、收入高 <b>47%</b>,受教育程度也高得多——研究生学历占暴露群体的 <b>17.4%</b>,而未暴露群体仅 <b>4.5%</b>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📉 失业:没有明确影响(核心结论)</h3>
+    <p>采用双重差分设计,把暴露度最高四分位的劳动者与零暴露劳动者对比,自 ChatGPT 发布以来失业差距的变化<b>很小且统计上不显著</b>。在新冠期间,反而是暴露度<i>更低</i>的(线下)劳动者受冲击更大;此后两组走势趋同。</p>
+    <div class="takeaway"><b>它能侦测到什么:</b>约 <b>1 个百分点</b>的差异性失业上升就会显现。即便是「白领的大衰退」(暴露群体失业率从 3% 翻倍到 6%)也会被看见。但这类情况都没有出现。</div>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ 唯一的早期信号 —— 年轻劳动者</h3>
+    <p>年轻暴露劳动者的失业率持平,但<b>招聘</b>讲述了一个更微妙的故事。利用 CPS 面板追踪 <b>22–25 岁</b>劳动者的新入职:进入低暴露岗位的比例稳定在约 2%/月,而进入高暴露岗位的比例下降约半个百分点——相对 2022 年约下降 <b>14%</b>的入职率(勉强显著,且在 25 岁以上人群中不存在)。这与 Brynjolfsson 等人「煤矿里的金丝雀」相呼应,不过仍存在其他解释(这些劳动者可能留在原岗、转行或重返校园)。</p>
+  </div>
+
+  <div class="card">
+    <h3>为什么聚焦失业</h3>
+    <p>其他研究者追踪招聘启事、就业结构或按年龄的招聘。本文以<b>失业</b>为核心,因为它最直接地刻画了伤害——一个失业的人<i>想要</i>工作却没找到。某个暴露岗位的招聘启事减少,可能只是被相关岗位的新增职位抵消;真正的伤害最终应表现为有人失业。</p>
+  </div>
+</section>
+
+<!-- 交互图表 -->
+<section id="figures">
+  <h2 class="sec">探索图表</h2>
+  <p class="lead">对报告关键图表的再现。所示数值与论文中陈述的数字一致;若论文给出的是趋势而非完整表格,则图形仅为其所述模式的示意。</p>
+
+  <div class="card">
+    <h3>图 1 —— Claude 使用在 β 量表上的分布</h3>
+    <div class="chart-wrap"><canvas id="fig1"></canvas></div>
+    <p class="fig-note">评为 β=1(LLM 单独完全可行)的任务占观测到的 Claude 使用的 68%;β=0 任务仅占 3%。总体上,97% 的使用落在可行区间(β=0.5 或 1)。</p>
+    <div class="takeaway"><b>这样理解:</b>人们压倒性地把 AI 真正擅长的任务交给它——能力与使用高度相关。</div>
+  </div>
+
+  <div class="card">
+    <h3>图 2 —— 理论能力 vs. 观测暴露度</h3>
+    <p style="color:var(--muted);font-size:14px;margin-top:0">浅珊瑚色 = LLM <i>理论上</i>能做的任务占比。深色 = 真实使用中实际覆盖的占比。两者之差即仍待开拓的空间。</p>
+    <div class="chart-wrap chart-tall"><canvas id="fig2"></canvas></div>
+    <p class="fig-note">论文示例:β 显示 94% 的计算机与数学类任务、90% 的办公与行政类任务有空间,但 Claude 目前仅覆盖 33% 的计算机与数学类任务。(其他类别为所述模式的示意。)</p>
+  </div>
+
+  <div class="card">
+    <h3>图 3 —— 暴露度最高的职业</h3>
+    <div class="chart-wrap chart-tall"><canvas id="fig3"></canvas></div>
+    <p class="fig-note">计算机程序员以 75% 覆盖率居首;客服代表越来越多出现在第一方 API 流量中;数据录入员为 67%。(锚定数值来自论文;中间职业仅为排名示意。)与此同时,30% 的劳动者覆盖率为<i>零</i>——例如厨师、调酒师、救生员、洗碗工。</p>
+  </div>
+
+  <div class="card">
+    <h3>图 4 —— 暴露度 vs. BLS 预测增长(2024–2034)</h3>
+    <div class="controls"><button id="trendBtn" class="on">切换趋势线</button></div>
+    <div class="chart-wrap chart-tall"><canvas id="fig4"></canvas></div>
+    <p class="fig-note">分箱散点:暴露度越高 ↔ 预测增长略低。拟合斜率反映论文的「每 +10 个百分点覆盖率,增长 −0.6 个百分点」。点围绕直线散布,体现该关系「微弱」的强度。</p>
+  </div>
+
+  <div class="card">
+    <h3>图 5 —— 高暴露 vs. 低暴露劳动者</h3>
+    <div class="chart-wrap"><canvas id="fig5"></canvas></div>
+    <p class="fig-note">差异(高暴露减去低暴露),数据来自 2022 年 8–10 月的当前人口调查(CPS)。暴露群体更多为女性、受教育程度更高、收入更高。</p>
+  </div>
+
+  <div class="card">
+    <h3>图 6 —— 失业率:暴露 vs. 未暴露</h3>
+    <div class="chart-wrap chart-tall"><canvas id="fig6"></canvas></div>
+    <p class="fig-note">示意趋势。新冠的大幅高峰对<i>未暴露</i>(线下)群体冲击最大;此后两条序列同向变动。ChatGPT 之后的差距很小且不显著。</p>
+    <div class="takeaway"><b>关键:</b>如果 AI 已经在摧毁暴露岗位,2022 年底之后暴露组的曲线应会拉升到未暴露组之上。但并没有。</div>
+  </div>
+
+  <div class="card">
+    <h3>图 7 —— 22–25 岁劳动者的新入职</h3>
+    <div class="chart-wrap chart-tall"><canvas id="fig7"></canvas></div>
+    <p class="fig-note">示意的月度入职率。低暴露入职保持在约 2%/月;高暴露入职在 2024 年向下背离——相对 2022 年约下降 14%。这是报告最清晰的早期信号。</p>
+  </div>
+</section>
+
+<!-- 术语表 -->
+<section id="glossary">
+  <h2 class="sec">术语表与关键概念</h2>
+  <p class="lead">自信读懂论文所需的词汇。</p>
+
+  <details class="gloss" open><summary>观测暴露度(Observed Exposure)</summary><p>论文的新指标:在 LLM 理论上能提速的任务中,真正出现自动化、工作相关使用的占比——对一个职业的各项任务按时间加权求平均。</p></details>
+  <details class="gloss"><summary>β(beta)—— Eloundou 等的暴露度评分</summary><p>理论能力:LLM 单独能让任务提速 ≥2 倍记为 1,需要额外工具记为 0.5,不可行记为 0。</p></details>
+  <details class="gloss"><summary>覆盖率(Coverage)</summary><p>一个职业中,被计为真实使用中实际由 AI 处理的任务占比。计算机程序员 ≈ 75%;30% 的劳动者为 0%。</p></details>
+  <details class="gloss"><summary>自动化 vs. 增强</summary><p>自动化 = AI 端到端完成任务(全权重)。增强 = AI 辅助人在回路(半权重)。该指标刻意更看重自动化,因其与替代更相关。</p></details>
+  <details class="gloss"><summary>O*NET</summary><p>美国劳工部的数据库,枚举构成约 800 个职业的任务——分析的任务级骨架。</p></details>
+  <details class="gloss"><summary>当前人口调查(CPS)</summary><p>用于衡量失业与招聘的美国月度家庭调查。其面板特性让作者能逐月追踪同一批劳动者的入职情况。</p></details>
+  <details class="gloss"><summary>双重差分(DiD)</summary><p>比较「处理组」(高暴露劳动者)与「对照组」(零暴露劳动者)在某事件(ChatGPT 发布)前后结果的<i>变化</i>,以从全经济趋势中分离出 AI 的影响。</p></details>
+  <details class="gloss"><summary>O 形环模型(O-ring)</summary><p>一种理论(Gans &amp; Goldfarb):一份工作的各项任务像 O 形环一样相互依赖——因此就业影响可能只有在<i>每一项</i>任务都有一定 AI 渗透后才显现,而非少数几项。</p></details>
+  <details class="gloss"><summary>反事实(Counterfactual)</summary><p>「无论如何本会发生什么」的基准。AI 的影响难以解读,因为与新冠不同,它可能是渐进的,且与贸易政策和商业周期纠缠在一起。</p></details>
+  <details class="gloss"><summary>Anthropic 经济指数</summary><p>Anthropic 持续发布的报告,衡量 Claude 在各类经济任务中的使用情况——本指标的真实使用数据来源。数据见 huggingface.co/datasets/Anthropic/EconomicIndex。</p></details>
+</section>
+
+<!-- 自我测试 -->
+<section id="quiz">
+  <h2 class="sec">自我测试</h2>
+  <p class="lead">七道题检验你的理解。点击答案查看是否正确。</p>
+  <div id="quizbox"></div>
+  <div id="score">得分:0 / 7</div>
+</section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <p><b>来源:</b> Massenkoff, M. &amp; McCrory, P. (2026). <i>Labor market impacts of AI: A new measure and early evidence.</i> Anthropic. 发布于 2026年3月5日。 <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank">anthropic.com/research/labor-market-impacts</a></p>
+    <p>独立学习配套材料。KPI 与图表数值引用报告中陈述的数字;部分图形为报告定性描述趋势的示意,而非其绘图数据的精确再现。</p>
+  </div>
+</footer>
+
+<script>
+// ---------- 标签页导航 ----------
+const tabs=document.querySelectorAll('#tabs button');
+const secs=document.querySelectorAll('main section');
+tabs.forEach(b=>b.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active'));
+  secs.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.t).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{Object.values(charts).forEach(c=>c&&c.resize&&c.resize());},60);
+}));
+
+// ---------- 图表主题(Claude 设计系统)----------
+Chart.defaults.color='#6c6a64';
+Chart.defaults.borderColor='#e6dfd8';
+Chart.defaults.font.family='"Noto Sans SC",-apple-system,"PingFang SC",sans-serif';
+const BLUE='#cc785c',RED='#181715',GOLD='#e8a55a',GREEN='#5db8a6';
+const charts={};
+
+charts.fig1=new Chart(document.getElementById('fig1'),{
+  type:'bar',
+  data:{labels:['β = 0(不可行)','β = 0.5(需要工具)','β = 1(完全可行)'],
+    datasets:[{label:'观测到的 Claude 使用占比(%)',data:[3,29,68],backgroundColor:[RED,GOLD,BLUE],borderRadius:6}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'% 的使用'}}},
+    scales:{y:{beginAtZero:true,max:80,title:{display:true,text:'使用占比 %'}}}}
+});
+
+const f2cat=['计算机与数学','办公与行政','商业与金融','法律','销售','教育','医疗','建筑'];
+charts.fig2=new Chart(document.getElementById('fig2'),{
+  type:'bar',
+  data:{labels:f2cat,datasets:[
+    {label:'理论能力(β)',data:[94,90,80,72,65,58,40,18],backgroundColor:'rgba(204,120,92,.35)',borderColor:BLUE,borderWidth:1,borderRadius:4},
+    {label:'观测暴露度(实际)',data:[33,30,26,20,17,13,8,3],backgroundColor:RED,borderRadius:4}]},
+  options:{indexAxis:'y',plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.x+'%'}}},
+    scales:{x:{beginAtZero:true,max:100,title:{display:true,text:'任务占比 %'}}}}
+});
+
+const f3=[['计算机程序员',75],['客服代表',71],['数据录入员',67],['财务分析师',62],['技术写作',58],['Web 开发者',55],['校对员',52],['电话营销员',49],['记账员',46],['律师助理',43]];
+charts.fig3=new Chart(document.getElementById('fig3'),{
+  type:'bar',
+  data:{labels:f3.map(d=>d[0]),datasets:[{label:'覆盖率(%)',data:f3.map(d=>d[1]),
+    backgroundColor:f3.map((d,i)=>i===0?BLUE:'rgba(204,120,92,.55)'),borderRadius:5}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+'% 已覆盖'}}},
+    scales:{x:{beginAtZero:true,max:90,title:{display:true,text:'任务覆盖率 %'}}}}
+});
+
+const f4pts=[];
+for(let i=0;i<25;i++){const x=2+i*2.6;const base=12-0.06*x;const y=base+(Math.sin(i*1.3)*2.4)+(i%3-1)*1.1;f4pts.push({x:+x.toFixed(1),y:+y.toFixed(2)});}
+const f4line=[{x:2,y:12-0.06*2},{x:64,y:12-0.06*64}];
+charts.fig4=new Chart(document.getElementById('fig4'),{
+  type:'scatter',
+  data:{datasets:[
+    {label:'职业分箱',data:f4pts,backgroundColor:BLUE,pointRadius:5},
+    {label:'趋势(每 +10pp 覆盖率 −0.6pp)',data:f4line,type:'line',borderColor:RED,borderDash:[6,5],borderWidth:2,pointRadius:0,fill:false}]},
+  options:{plugins:{tooltip:{callbacks:{label:c=>`暴露度 ${c.parsed.x}% · 增长 ${c.parsed.y}%`}}},
+    scales:{x:{title:{display:true,text:'观测暴露度 %'}},y:{title:{display:true,text:'BLS 预测就业增长 2024–34(%)'}}}}
+});
+document.getElementById('trendBtn').addEventListener('click',function(){const ds=charts.fig4.data.datasets[1];ds.hidden=!ds.hidden;this.classList.toggle('on',!ds.hidden);charts.fig4.update();});
+
+charts.fig5=new Chart(document.getElementById('fig5'),{
+  type:'bar',
+  data:{labels:['女性占比(%)','白人占比(%)','研究生学历(%)','相对收入(指数)'],
+    datasets:[
+      {label:'低/无暴露',data:[42,71,4.5,100],backgroundColor:'rgba(108,106,100,.45)',borderRadius:5},
+      {label:'高暴露',data:[58,82,17.4,147],backgroundColor:BLUE,borderRadius:5}]},
+  options:{plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y}}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'数值(收入以低=100 为指数)'}}}}
+});
+
+const yrs=['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+charts.fig6=new Chart(document.getElementById('fig6'),{
+  type:'line',
+  data:{labels:yrs,datasets:[
+    {label:'暴露度最高四分位',data:[3.4,3.2,3.0,2.9,8.5,4.2,3.0,3.0,3.1,3.2],borderColor:RED,backgroundColor:'transparent',tension:.3,borderWidth:2.5,pointRadius:3},
+    {label:'零暴露(线下)',data:[5.0,4.6,4.2,3.9,14.0,5.8,3.6,3.5,3.5,3.6],borderColor:BLUE,backgroundColor:'transparent',tension:.3,borderWidth:2.5,pointRadius:3}]},
+  options:{plugins:{tooltip:{mode:'index',intersect:false}},
+    scales:{y:{beginAtZero:true,title:{display:true,text:'失业率(%)'}}}}
+});
+
+const yrs7=['2018','2019','2020','2021','2022','2023','2024','2025'];
+charts.fig7=new Chart(document.getElementById('fig7'),{
+  type:'line',
+  data:{labels:yrs7,datasets:[
+    {label:'进入低暴露岗位',data:[2.0,2.0,1.4,2.3,2.0,2.0,2.0,2.0],borderColor:BLUE,backgroundColor:'transparent',tension:.3,borderWidth:2.5,pointRadius:3},
+    {label:'进入高暴露岗位',data:[2.0,2.0,1.5,2.4,2.0,1.9,1.6,1.5],borderColor:RED,backgroundColor:'transparent',tension:.3,borderWidth:2.5,pointRadius:3}]},
+  options:{plugins:{tooltip:{mode:'index',intersect:false}},
+    scales:{y:{beginAtZero:false,suggestedMin:1,suggestedMax:2.6,title:{display:true,text:'月度入职率(%)'}}}}
+});
+
+// ---------- 测验 ----------
+const QUIZ=[
+ {q:"论文的新指标「观测暴露度」相比以往的 AI 暴露度指标,增加了什么?",
+  opts:["仅使用理论上的模型能力","把理论能力与真实世界的使用数据结合","调查劳动者对自身的担忧","统计每个行业的 AI 创业公司数量"],
+  a:1,e:"它把 Eloundou 等的理论 β 与真实的 Claude 使用结合,并对自动化与工作相关的使用赋予更高权重。"},
+ {q:"在 β 量表上,β = 1 是什么意思?",
+  opts:["任务无法被 LLM 提速","任务需要额外工具才能完成","LLM 单独即可让任务至少提速一倍","任务被法律禁止自动化"],
+  a:2,e:"β=1 = LLM 单独完全可行;β=0.5 需要额外工具;β=0 不可行。"},
+ {q:"在计算机与数学类工作中,理论与实际覆盖率的落差有多大?",
+  opts:["理论可行 94%,但实际仅覆盖 33%","两者都约为 90%","理论 33%,覆盖 94%","没有落差"],
+  a:0,e:"β 显示约 94% 的任务理论可行,但 Claude 目前仅覆盖约 33%——仍有大量空间。"},
+ {q:"自 2022 年底以来,作者对高暴露劳动者失业的发现是什么?",
+  opts:["急剧而明显的上升","没有系统性上升——效应与零无法区分","失业大幅下降","只有制造业劳动者受影响"],
+  a:1,e:"ChatGPT 之后失业差距的变化很小且统计上不显著。"},
+ {q:"哪个群体显示出报告最清晰的早期预警信号?",
+  opts:["50 岁以上劳动者","被招入暴露岗位的 22–25 岁年轻劳动者","兼职零售劳动者","政府雇员"],
+  a:1,e:"22–25 岁进入高暴露职业的招聘相对 2022 年下降约 14%——勉强显著,且在 25 岁以上人群中不存在。"},
+ {q:"在该指标中,自动化与增强式使用如何加权?",
+  opts:["两者都计全权重","增强计全权重,自动化计半","自动化计全权重,增强计半","两者都不计"],
+  a:2,e:"完全自动化的实现计全权重;人在回路的增强计半权重——自动化被视为与替代更相关。"},
+ {q:"作者为什么聚焦失业而非招聘启事?",
+  opts:["招聘启事数据不存在","失业最直接地刻画对劳动者的经济伤害","招聘启事总是错的","BLS 要求他们这么做"],
+  a:1,e:"失业的人想要工作却没找到——最直接的伤害信号;某个岗位招聘启事减少可能被别处抵消。"}
+];
+let score=0;
+const box=document.getElementById('quizbox');
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="qhead">${qi+1}. ${item.q}</div>`;
+  item.opts.forEach((o,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=o;
+    b.addEventListener('click',()=>{
+      if(d.dataset.done)return;d.dataset.done=1;
+      const btns=d.querySelectorAll('.opt');
+      btns[item.a].classList.add('correct');
+      if(oi!==item.a)b.classList.add('wrong');else score++;
+      d.querySelector('.exp').classList.add('show');
+      document.getElementById('score').textContent=`得分:${score} / ${QUIZ.length}`;
+    });
+    d.appendChild(b);
+  });
+  const ex=document.createElement('div');ex.className='exp';ex.innerHTML='<b>解析:</b> '+item.e;
+  d.appendChild(ex);box.appendChild(d);
+});
+</script>
+</body>
+</html>

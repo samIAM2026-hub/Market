@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockCharts — Combined Technical Analysis</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --ink:#1a2230; --muted:#5d6b80;
+    --line:#e3e8ef; --navy:#1f3a5f; --accent:#2563eb;
+    --bull:#1f9d6b; --bull-bg:#e7f6ef;
+    --ext:#0d8f9e; --ext-bg:#d8f1f4;
+    --bear:#d64545; --bear-bg:#fcecec;
+    --caut:#d98a17; --caut-bg:#fdf3e2;
+    --neut:#6b7280; --neut-bg:#eef1f5;
+    --shadow:0 1px 3px rgba(20,30,50,.07),0 6px 20px rgba(20,30,50,.05);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Layout */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  header.top{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;padding:38px 0 30px}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.4px}
+  header.top .sub{color:#cdddf0;font-size:15px;margin-bottom:18px}
+  header.top .meta{display:flex;flex-wrap:wrap;gap:10px;font-size:13px}
+  header.top .meta span{background:rgba(255,255,255,.12);padding:5px 12px;border-radius:20px}
+  .disclaimer{font-size:12px;color:#b9cbe2;margin-top:16px;font-style:italic}
+
+  /* Stat strip */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:-26px auto 0;position:relative;z-index:2}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+  .stat .num{font-size:26px;font-weight:700}
+  .stat .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .stat.bull .num{color:var(--bull)} .stat.caut .num{color:var(--caut)}
+  .stat.bear .num{color:var(--bear)} .stat.neut .num{color:var(--neut)}
+  .stat.ext .num{color:var(--ext)}
+
+  /* Exec summary */
+  .summary{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin:26px 0;box-shadow:var(--shadow)}
+  .summary h2{margin:0 0 12px;font-size:20px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .summary.collapsed h2{margin:0}
+  .summary h2 .sum-toggle{font-size:12.5px;font-weight:600;color:var(--accent);border:1px solid var(--line);border-radius:7px;padding:4px 12px}
+  .summary h2 .sum-toggle:after{content:"";display:inline-block;width:6px;height:6px;margin-left:7px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:translateY(-2px) rotate(45deg);transition:.2s}
+  .summary:not(.collapsed) h2 .sum-toggle:after{transform:translateY(1px) rotate(-135deg)}
+  .summary.collapsed .sum-body{display:none}
+  .summary p{margin:0 0 12px;color:#33415a}
+  .summary p:last-child{margin-bottom:0}
+  .sum-sub{font-size:13px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+  .summary .sum-sub:first-of-type{margin-top:6px}
+  .concl{list-style:none;counter-reset:cc;margin:6px 0 0;padding:0}
+  .concl li{position:relative;counter-increment:cc;padding:9px 14px 9px 44px;margin-bottom:8px;background:#f6f9fc;border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:9px;color:#33415a;font-size:14px;line-height:1.55}
+  .concl li:last-child{margin-bottom:0}
+  .concl li:before{content:counter(cc);position:absolute;left:12px;top:9px;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .concl li b{color:var(--navy)}
+
+  /* Controls */
+  .controls{position:sticky;top:0;z-index:30;background:rgba(244,246,249,.92);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .controls .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#fff;font-family:var(--font)}
+  .search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .search svg{position:absolute;left:12px;top:11px;width:16px;height:16px;fill:var(--muted)}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .selwrap{position:relative;display:inline-flex}
+  .selwrap select{appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    font-family:var(--font);font-size:13px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:9px;padding:9px 32px 9px 13px;cursor:pointer;
+    transition:.15s;max-width:260px}
+  .selwrap select:hover{border-color:var(--accent)}
+  .selwrap select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .selwrap select.set{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
+  .selwrap:after{content:"";position:absolute;right:13px;top:50%;width:7px;height:7px;
+    border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:translateY(-70%) rotate(45deg);pointer-events:none}
+  .selwrap.set:after{border-color:#fff}
+  .selwrap select option.opt-bull{color:var(--bull)}
+  .selwrap select option.opt-ext{color:var(--ext)}
+  .selwrap select option.opt-caut{color:var(--caut)}
+  .selwrap select option.opt-neut{color:var(--neut)}
+  .selwrap select option.opt-bear{color:var(--bear)}
+  .selwrap select.sig-bull{background:var(--bull-bg);border-color:var(--bull);color:var(--bull);font-weight:700}
+  .selwrap select.sig-ext{background:var(--ext-bg);border-color:var(--ext);color:var(--ext);font-weight:700}
+  .selwrap select.sig-caut{background:var(--caut-bg);border-color:var(--caut);color:var(--caut);font-weight:700}
+  .selwrap select.sig-neut{background:var(--neut-bg);border-color:var(--neut);color:var(--neut);font-weight:700}
+  .selwrap select.sig-bear{background:var(--bear-bg);border-color:var(--bear);color:var(--bear);font-weight:700}
+  .selwrap.sig-bull:after{border-color:var(--bull)}
+  .selwrap.sig-ext:after{border-color:var(--ext)}
+  .selwrap.sig-caut:after{border-color:var(--caut)}
+  .selwrap.sig-neut:after{border-color:var(--neut)}
+  .selwrap.sig-bear:after{border-color:var(--bear)}
+
+  /* Main grid */
+  .main{display:grid;grid-template-columns:230px 1fr;gap:28px;margin:22px 0 60px;align-items:start}
+  nav.toc{position:sticky;top:128px;font-size:13px;max-height:calc(100vh - 150px);overflow-y:auto}
+  nav.toc h3{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#9aa6b6;margin:14px 0 8px}
+  nav.toc h3:first-child{margin-top:0}
+  nav.toc a{display:block;padding:5px 8px;color:var(--muted);border-radius:6px;border-left:2px solid transparent;line-height:1.35}
+  nav.toc a:hover{background:#fff;color:var(--ink);text-decoration:none}
+  nav.toc a.on{color:var(--navy);border-left-color:var(--navy);background:#fff;font-weight:600}
+  nav.toc a .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:middle}
+
+  /* Group headers */
+  .grouphdr{margin:26px 0 4px;padding:14px 18px;background:linear-gradient(135deg,#243b5c,#31527d);color:#fff;border-radius:12px;box-shadow:var(--shadow);scroll-margin-top:130px}
+  .grouphdr:first-child{margin-top:0}
+  .grouphdr h2{margin:0;font-size:18px;letter-spacing:-.2px}
+  .grouphdr .gmeta{font-size:12.5px;color:#c6d7ec;margin-top:3px}
+
+  /* Cards */
+  .cards{display:flex;flex-direction:column;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:130px;border-left:4px solid var(--neut)}
+  .card.bull{border-left-color:var(--bull)} .card.bear{border-left-color:var(--bear)}
+  .card.caut{border-left-color:var(--caut)} .card.neut{border-left-color:var(--neut)}
+  .card.ext{border-left-color:var(--ext)}
+  .card .head{display:flex;align-items:flex-start;gap:14px;padding:18px 22px;cursor:pointer}
+  .card .nbox{flex-shrink:0;min-width:52px;height:40px;padding:0 8px;border-radius:9px;background:var(--neut-bg);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;text-align:center}
+  .card.bull .nbox{background:var(--bull-bg)} .card.bear .nbox{background:var(--bear-bg)} .card.caut .nbox{background:var(--caut-bg)} .card.ext .nbox{background:var(--ext-bg)}
+  .card .htext{flex:1;min-width:0}
+  .card .htext h3{margin:0;font-size:16.5px;color:var(--ink);line-height:1.3}
+  .card .htext .cat{font-size:12px;color:var(--muted);margin-top:3px}
+  .card .right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .tag.bull{background:var(--bull-bg);color:var(--bull)} .tag.bear{background:var(--bear-bg);color:var(--bear)}
+  .tag.caut{background:var(--caut-bg);color:var(--caut)} .tag.neut{background:var(--neut-bg);color:var(--neut)}
+  .tag.ext{background:var(--ext-bg);color:var(--ext)}
+  .card .caret{width:11px;height:11px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:.2s;margin-top:-4px}
+  .card.open .caret{transform:rotate(-135deg);margin-top:2px}
+  .card .body{display:none;padding:0 22px 20px 22px}
+  .card.open .body{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .card .body p{margin:0 0 11px;color:#33415a;font-size:14.5px}
+  .card .body p:last-child{margin-bottom:0}
+  .card .body .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .card .body .openchart{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:#fafbfd}
+  .card .body .openchart:hover{border-color:var(--accent);text-decoration:none;background:#fff}
+
+  .noresults{display:none;text-align:center;padding:50px;color:var(--muted)}
+
+  /* Bottom line */
+  .bottom{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;border-radius:14px;padding:28px 32px;margin:8px 0 50px}
+  .bottom h2{margin:0 0 14px;font-size:21px}
+  .bottom p{color:#dce8f5;margin:0 0 12px}
+  .bottom .watch{background:rgba(255,255,255,.1);border-radius:10px;padding:16px 20px;margin-top:16px}
+  .bottom .watch h4{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:#bcd2ec}
+  .bottom .watch ul{margin:0;padding-left:18px}
+  .bottom .watch li{margin-bottom:6px;color:#eaf2fb}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 0 40px;line-height:1.8}
+
+  /* TA highlight tokens */
+  .ta-ind{color:#5a3ec8;background:#eee9fc;border-radius:4px;padding:0 4px;font-weight:600}
+  .ta-num{color:#b4530a;background:#fcefdd;border-radius:4px;padding:0 4px;font-weight:700;white-space:nowrap}
+  .ta-sym{color:#0d7268;background:#e1f4f0;border-radius:4px;padding:0 4px;font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;white-space:nowrap}
+  .ta-date{color:#64748b;font-style:italic;font-weight:600}
+  .bottom .ta-ind{color:#cfc4ff;background:rgba(124,103,233,.22)}
+  .bottom .ta-num{color:#ffce91;background:rgba(212,138,23,.22)}
+  .bottom .ta-sym{color:#9fe8dd;background:rgba(13,114,104,.28)}
+  .bottom .ta-date{color:#bcd2ec}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;font-size:12px;color:var(--muted);align-items:center}
+  .legend b{font-weight:600;color:var(--ink);margin-right:2px}
+  .legend .k{display:inline-flex;align-items:center;gap:6px}
+  .legend .sw{width:13px;height:13px;border-radius:4px;display:inline-block}
+  .legend .sw.ind{background:#eee9fc;border:1px solid #5a3ec8}
+  .legend .sw.num{background:#fcefdd;border:1px solid #b4530a}
+  .legend .sw.sym{background:#e1f4f0;border:1px solid #0d7268}
+  .legend .hint{color:#9aa6b6;font-style:italic}
+
+  .ta-ind.tip{cursor:help;border-bottom:1px dashed #8b78e0}
+  .bottom .ta-ind.tip{border-bottom-color:#cfc4ff}
+  #tip{position:fixed;z-index:200;max-width:300px;background:#1a2230;color:#eef2f8;
+       padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.55;
+       box-shadow:0 10px 30px rgba(10,18,35,.32);opacity:0;pointer-events:none;
+       transition:opacity .12s ease,transform .12s ease;transform:translateY(4px)}
+  #tip.show{opacity:1;transform:none}
+  #tip .tt{display:block;font-weight:700;font-size:11.5px;text-transform:uppercase;
+           letter-spacing:.5px;color:#8fbcff;margin-bottom:5px}
+  #tip:after{content:"";position:absolute;left:var(--ax,50%);width:11px;height:11px;
+             background:#1a2230;transform:translateX(-50%) rotate(45deg)}
+  #tip:not(.below):after{bottom:-5px}
+  #tip.below:after{top:-5px}
+
+  @media(max-width:860px){
+    .main{grid-template-columns:1fr} nav.toc{display:none}
+    .stats{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>StockCharts — Combined Technical Analysis</h1>
+    <div class="sub">Five ChartLists merged · US Indexes · Breadth · Sentiment · Tactical Timing · Sectors (Cap-Weight) · observed July 3, 2026 · 51 charts · technical interpretation</div>
+    <div class="meta">
+      <span>🗓 Page observed: July 3, 2026</span>
+      <span>📅 Chart data: July 2024 – July 2, 2026</span>
+      <span>📊 51 charts across 5 lists</span>
+      <span>🧭 Net read: constructive uptrend, broadening breadth, Nasdaq &amp; a few sectors lagging</span>
+    </div>
+    <div class="disclaimer">This is technical chart interpretation only, not investment advice.</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat bull"><div class="num" id="s-bull">0</div><div class="lbl">Bullish</div></div>
+    <div class="stat ext"><div class="num" id="s-ext">0</div><div class="lbl">Bullish · Extended</div></div>
+    <div class="stat neut"><div class="num" id="s-neut">0</div><div class="lbl">Neutral / Mixed</div></div>
+    <div class="stat caut"><div class="num" id="s-caut">0</div><div class="lbl">Caution / Watch</div></div>
+    <div class="stat bear"><div class="num" id="s-bear">0</div><div class="lbl">Bearish</div></div>
+  </div>
+
+  <div class="summary collapsed" id="summary">
+    <h2 id="sumHead">Executive Summary <span class="sum-toggle" id="sumToggle">Show</span></h2>
+    <div class="sum-body">
+    <div class="sum-sub">The Big Picture — Constructive Uptrend, Rotating Leadership</div>
+    <p>Across all five ChartLists the message is the same: the primary uptrend is intact, but leadership has rotated away from mega-cap growth. The strongest evidence sits in the Dow Industrials, NYSE Composite, Value Line Arithmetic Index, small caps, and micro caps, all of which hold above rising 20-day, 50-day, and 200-day moving averages. The most consistent caution is the Nasdaq complex, where the Composite and Nasdaq 100 have slipped below their short averages with RSI under 50.</p>
+    <p>Breadth confirms the broadening: new highs are expanding while new lows stay contained, and net new-high minus new-low readings are positive across NYSE, Nasdaq, S&amp;P 500, mid caps, small caps, and Nasdaq 100. The main breadth caveat is that neither Zweig Breadth Thrust chart shows a confirmed thrust, and Nasdaq internals lag NYSE internals.</p>
+    <div class="sum-sub">List-by-List Read</div>
+    <p><b>US Indexes:</b> broadly constructive with a size rotation — Dow, NYSE, Value Line, and small/micro caps lead while Nasdaq lags. <b>Breadth:</b> constructive but not a full thrust; NYSE participation stronger than Nasdaq. <b>Sentiment:</b> cautiously constructive — VIX calm and AAII still net bearish (wall of worry), but NAAIM/Rydex positioning is crowded. <b>Tactical Timing:</b> split tape — Dow leads, small/mid caps and QQQ broke their 5-day averages on the July 2 pullback. <b>Sectors:</b> selective leadership from Technology, Industrials, Financials, and Health Care, with Communication Services, Energy, and Consumer Discretionary as the clear laggards.</p>
+    <div class="sum-sub">Highest-Conviction Conclusions</div>
+    <ol class="concl">
+      <li><b>The trend is up and broadening.</b> Most indexes hold above their 200-day averages, and breadth internals (new highs, net highs-lows) are positive across the major groups.</li>
+      <li><b>Nasdaq is the recurring caution.</b> The Composite and Nasdaq 100 lag on price, breadth, and tactical timing; a reclaim of their 50-day averages with RSI back above 50 is the key repair.</li>
+      <li><b>Size rotation favors the broad market.</b> Small caps, micro caps, Value Line, and the Dow are outperforming cap-weighted growth — constructive if it persists.</li>
+      <li><b>Sector leadership is selective, not broad.</b> XLK, XLI, XLF, and XLV support the tape; XLC, XLE, and XLY must repair to broaden participation.</li>
+      <li><b>Sentiment leaves little cushion.</b> Calm VIX and crowded NAAIM/Rydex positioning mean a VIX break above 20 or renewed put/call spikes would be the earliest warning.</li>
+    </ol>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="row">
+      <div class="search">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 019.5 14z"/></svg>
+        <input id="search" type="text" placeholder="Search charts, indicators, tickers…">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="legend">
+      <b>Color key:</b>
+      <span class="k"><span class="sw ind"></span>TA indicators &amp; concepts</span>
+      <span class="k"><span class="sw num"></span>Levels &amp; numbers</span>
+      <span class="k"><span class="sw sym"></span>Symbols &amp; tickers</span>
+      <span class="hint">— hover or tap an underlined indicator for its definition</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="main">
+    <nav class="toc"><div id="toc"></div></nav>
+    <div>
+      <div class="cards" id="cards"></div>
+      <div class="noresults" id="noresults">No charts match your search or filter.</div>
+
+      <div class="bottom">
+        <h2>Bottom Line</h2>
+        <p>Taken together, the five lists describe a market that is still in an uptrend and broadening below the surface, but with clear rotation and a few soft spots. The healthiest evidence is broad participation: expanding new highs, contained new lows, and leadership from the Dow, NYSE Composite, Value Line, small caps, and cyclical sectors like Industrials, Financials, and Health Care.</p>
+        <p>The recurring caution is Nasdaq and large-cap growth. Nasdaq lags on price, daily breadth, and tactical timing, while Communication Services, Energy, and Consumer Discretionary drag on sector breadth. Sentiment is supportive but not washed out — positioning is crowded and volatility is calm, so there is little cushion if the tape turns.</p>
+        <div class="watch">
+          <h4>✅ Bullish confirmation signals</h4>
+          <ul>
+            <li>Nasdaq Composite and Nasdaq 100 reclaim their 20-day/50-day averages with RSI back above 50</li>
+            <li>Small caps, micro caps, and Value Line hold their gains while the Dow keeps leading</li>
+            <li>Nasdaq breadth joins NYSE — advancing issues above 0.50 and a rising McClellan Summation Index</li>
+            <li>Laggard sectors XLC, XLE, and XLY repair back above their key moving averages</li>
+            <li>VIX stays below 20 while AAII skepticism slowly improves</li>
+          </ul>
+        </div>
+        <div class="watch">
+          <h4>🛑 Warning signals</h4>
+          <ul>
+            <li>Nasdaq loses its 50-day area while small caps also roll over below their 5-day/50-day averages</li>
+            <li>Expanding Nasdaq new lows and McClellan deterioration near index highs</li>
+            <li>Net new-high minus new-low panels flipping into sustained red bars</li>
+            <li>VIX break above 20 with total and equity put/call ratios spiking together</li>
+            <li>Leadership sectors XLK, XLI, XLF, or XLV losing their key moving averages</li>
+          </ul>
+        </div>
+      </div>
+
+      <footer>
+        Sources:
+        <a href="https://stockcharts.com/panels/?cmd=show&listNum=4&viewType=e" target="_blank" rel="noopener">US Indexes (listNum=4)</a> ·
+        <a href="https://stockcharts.com/panels/?cmd=show&listNum=10&viewType=e" target="_blank" rel="noopener">Breadth (listNum=10)</a> ·
+        <a href="https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e" target="_blank" rel="noopener">Sentiment (listNum=14)</a> ·
+        <a href="https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e" target="_blank" rel="noopener">Tactical Timing (listNum=6)</a> ·
+        <a href="https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e" target="_blank" rel="noopener">US Sectors Cap-Weight (listNum=16)</a>
+        <br>Generated interactive view · Technical interpretation only, not investment advice.
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+const G = {
+  idx:{label:"US Indexes",meta:"[Market Sum] 010 — EQUITIES — US Indexes · listNum=4 · 15 charts"},
+  brd:{label:"Breadth",meta:"[Market Sum] 200 — BREADTH — Advancing & Declining · listNum=10 · 9 charts"},
+  sen:{label:"Sentiment",meta:"[Market Sum] 240 — SENTIMENT · listNum=14 · 6 charts"},
+  tac:{label:"Tactical Timing",meta:"[Market Sum] 030 — Tactical Market Timing (5-Day MA) · listNum=6 · 9 charts"},
+  sec:{label:"Sectors (Cap-Weight)",meta:"[Market Sum] 400 — US SECTORS — Cap Weight · listNum=16 · 12 charts"}
+};
+const GROUP_ORDER = ["idx","brd","sen","tac","sec"];
+const IMG = "../Charts/Image/";
+
+const CHARTS = [
+  /* ==================== US INDEXES (listNum=4) ==================== */
+  {id:"idx01",g:"idx",nbox:"$COMPQ",cat:"Nasdaq Composite",sig:"caut",title:"$COMPQ — Nasdaq Composite",
+   link:"https://stockcharts.com/c-sc/sc?s=%24COMPQ&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797398&r=337",
+   img:IMG+"stockcharts-us-indexes-01-compq-nasdaq-composite.png",
+   body:["Caution flag: Nasdaq is the weakest major-index chart in this list on a short-term basis. The Composite is still in a positive long-term trend near 25,832.67 and well above the rising 200-day average near 23,702.59, but price is below the 20-day EMA near 25,937.85 and the 50-day MA near 25,912.18.",
+   "RSI(14) is near 49.00, showing momentum has slipped just below neutral after the June pullback. A close back above the 20-day/50-day cluster and then the recent 26.8K lower high would improve the setup; a break below the 25.0K pivot would point to a deeper retest."]},
+
+  {id:"idx02",g:"idx",nbox:"$INDU",cat:"Dow Jones Industrial Average",sig:"ext",title:"$INDU — Dow Jones Industrial Average",
+   link:"https://stockcharts.com/c-sc/sc?s=%24INDU&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797402&r=307",
+   img:IMG+"stockcharts-us-indexes-02-indu-dow-jones-industrial-average.png",
+   body:["The Dow is one of the strongest charts in the group. Price closed near 52,900.07, above the 20-day EMA near 51,660.53, the 50-day MA near 50,555.62, and the 200-day MA near 48,442.74.",
+   "RSI(14) is near 70.18, which confirms strong upside momentum but also means the chart is approaching an overbought zone. The uptrend is intact as long as pullbacks hold above the 20-day EMA, with the 49.9K-50.6K area as deeper support. A sustained push above the current high would confirm continued Dow leadership."]},
+
+  {id:"idx03",g:"idx",nbox:"$MID",cat:"S&P 400 Mid Cap Index",sig:"bull",title:"$MID — S&P 400 Mid Cap Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24MID&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797400&r=178",
+   img:IMG+"stockcharts-us-indexes-03-mid-s-p-400-mid-cap-index.png",
+   body:["Mid caps are constructive. The index closed near 3,802.81, above the 20-day EMA near 3,782.03, the 50-day MA near 3,710.32, and the 200-day MA near 3,461.05. The recent pullback is mild relative to the April-June recovery.",
+   "RSI(14) is near 55.52, positive but not extended. Support sits near 3,740 and then the 50-day area. A close above the recent 3,861 high would confirm renewed upside; a break below the 50-day would weaken the rotation into mid caps."]},
+
+  {id:"idx04",g:"idx",nbox:"$NDX",cat:"Nasdaq 100 Index",sig:"caut",title:"$NDX — Nasdaq 100 Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NDX&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797399&r=167",
+   img:IMG+"stockcharts-us-indexes-04-ndx-nasdaq-100-index.png",
+   body:["Caution flag: Nasdaq 100 remains in a long-term uptrend, but near-term momentum has faded. It closed near 29,329.21, below the 20-day EMA near 29,631.31 and close to the 50-day MA near 29,143.28. The 200-day MA near 26,092.52 is still rising well below price, so the primary trend has not broken.",
+   "RSI(14) is near 48.39, another sign that large-cap growth momentum has cooled. Bulls want to see a reclaim of the 20-day EMA and a move back above 30.3K-30.6K. A loss of the 29.0K area would increase risk of a larger consolidation."]},
+
+  {id:"idx05",g:"idx",nbox:"$NYA",cat:"NYSE Composite Index",sig:"bull",title:"$NYA — NYSE Composite Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NYA&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797390&r=273",
+   img:IMG+"stockcharts-us-indexes-05-nya-nyse-composite-index.png",
+   body:["The NYSE Composite is a healthy broad-market chart. Price closed near 23,957.08, above the 20-day EMA near 23,576.85, the 50-day MA near 23,258.95, and the 200-day MA near 22,440.78.",
+   "RSI(14) is near 64.03, supporting the idea that broad NYSE participation is stronger than Nasdaq leadership. The 23.3K-23.6K zone is first support. Continued new highs would confirm broad-market leadership; a close back below the 50-day would be the first notable warning."]},
+
+  {id:"idx06",g:"idx",nbox:"$OEX",cat:"S&P 100 Index",sig:"caut",title:"$OEX — S&P 100 Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24OEX&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797395&r=387",
+   img:IMG+"stockcharts-us-indexes-06-oex-s-p-100-index.png",
+   body:["Caution flag: The S&P 100 is repairing, but it has not fully reasserted leadership after the June pullback. It closed near 3,671.55, slightly above the 20-day EMA near 3,652.74 and 50-day MA near 3,653.20. The 200-day MA near 3,440.87 is still rising below price.",
+   "RSI(14) is near 53.00, neutral-positive rather than strong. A move above 3,727.83 and then the prior 3,791.88 high would confirm large caps have repaired. A close back below the 50-day would keep this chart in the cautious bucket."]},
+
+  {id:"idx07",g:"idx",nbox:"$SML",cat:"S&P 600 Small Cap Index",sig:"bull",title:"$SML — S&P 600 Small Cap Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SML&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797389&r=438",
+   img:IMG+"stockcharts-us-indexes-07-sml-s-p-600-small-cap-index.png",
+   body:["Small caps look notably constructive. The index closed near 1,781.90, above the 20-day EMA near 1,749.56, the 50-day MA near 1,696.18, and the 200-day MA near 1,554.08.",
+   "RSI(14) is near 62.73, showing bullish momentum without being as stretched as the Dow. The recent high near 1,816.88 is the breakout level to watch. Holding above the 20-day EMA keeps the small-cap trend healthy; losing the 50-day would be a larger warning."]},
+
+  {id:"idx08",g:"idx",nbox:"$SPX",cat:"S&P 500 Large Cap Index",sig:"bull",title:"$SPX — S&P 500 Large Cap Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797394&r=126",
+   img:IMG+"stockcharts-us-indexes-08-spx-s-p-500-large-cap-index.png",
+   body:["The S&P 500 is constructive but not as strong as the Dow or small-cap charts. It closed near 7,483.24, above the 20-day EMA near 7,438.57, the 50-day MA near 7,394.75, and the 200-day MA near 6,942.91.",
+   "RSI(14) is near 54.74, pointing to a neutral-positive rebound. The index needs follow-through above 7,577.92 and the prior 7,620.90 high to fully resume leadership. A break below 7,294.18 would mark a failed rebound and increase caution."]},
+
+  {id:"idx09",g:"idx",nbox:"$TRAN",cat:"Dow Jones Transportation Average",sig:"bull",title:"$TRAN — Dow Jones Transportation Average",
+   link:"https://stockcharts.com/c-sc/sc?s=%24TRAN&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797393&r=383",
+   img:IMG+"stockcharts-us-indexes-09-tran-dow-jones-transportation-average.png",
+   body:["Transports are in a constructive consolidation. The index closed near 22,015.11, above the 20-day EMA near 21,780.60, the 50-day MA near 21,186.45, and the 200-day MA near 18,546.45.",
+   "RSI(14) is near 56.35, which supports the current trend but does not show aggressive thrust. Resistance is the recent 22.7K area, while support sits near 21.5K and the 50-day average. A breakout through 22.7K would confirm economic-sensitive leadership."]},
+
+  {id:"idx10",g:"idx",nbox:"$UTIL",cat:"Dow Jones Utility Average",sig:"bull",title:"$UTIL — Dow Jones Utility Average",
+   link:"https://stockcharts.com/c-sc/sc?s=%24UTIL&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797388&r=879",
+   img:IMG+"stockcharts-us-indexes-10-util-dow-jones-utility-average.png",
+   body:["Utilities have rebounded sharply and now sit above all three key moving averages. The index closed near 1,161.71, above the 20-day EMA near 1,135.46, the 50-day MA near 1,126.94, and the 200-day MA near 1,122.81.",
+   "RSI(14) is near 60.50, confirming renewed defensive-sector strength. Resistance sits near 1,167.29 and then the prior highs around 1,174-1,203. A fall back below the clustered 50-day/200-day area would weaken the repair."]},
+
+  {id:"idx11",g:"idx",nbox:"$VLE",cat:"Value Line Arithmetic Index",sig:"bull",title:"$VLE — Value Line Arithmetic Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24VLE&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797391&r=883",
+   img:IMG+"stockcharts-us-indexes-11-vle-value-line-arithmetic-index.png",
+   body:["The Value Line Arithmetic Index is one of the best breadth-confirmation charts in the list because it gives each stock a more equal influence than capitalization-weighted indexes. It closed near 13,935.78, above the 20-day EMA near 13,669.72, the 50-day MA near 13,391.33, and the 200-day MA near 12,632.80.",
+   "RSI(14) is near 65.97, which shows healthy broad participation. A sustained move over 13,892.23 keeps the breakout intact. First support is around 13,462-13,669; below that, the 50-day becomes the main trend checkpoint."]},
+
+  {id:"idx12",g:"idx",nbox:"IWB",cat:"iShares Russell 1000 ETF",sig:"caut",title:"IWB — iShares Russell 1000 ETF",
+   link:"https://stockcharts.com/c-sc/sc?s=IWB&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797396&r=165",
+   img:IMG+"stockcharts-us-indexes-12-iwb-ishares-russell-1000-etf.png",
+   body:["Caution flag: IWB is constructive, but still rebuilding after the June pullback. It closed near 408.75, above the 20-day EMA near 405.46, the 50-day MA near 402.27, and the 200-day MA near 377.50. SCTR is visible near 67.5, a respectable but not dominant relative-strength reading.",
+   "RSI(14) is near 56.04. The next confirmation is a close above 412.82 and then 414.25. A drop below 398.43 would suggest the rebound is failing."]},
+
+  {id:"idx13",g:"idx",nbox:"IWC",cat:"iShares Micro-Cap ETF",sig:"bull",title:"IWC — iShares Micro-Cap ETF",
+   link:"https://stockcharts.com/c-sc/sc?s=IWC&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797392&r=939",
+   img:IMG+"stockcharts-us-indexes-13-iwc-ishares-micro-cap-etf.png",
+   body:["IWC is one of the strongest charts in the list. It closed near 197.59, above the 20-day EMA near 192.42, the 50-day MA near 186.25, and the 200-day MA near 166.10. Its SCTR is visible near 96.8, showing very strong relative performance within the ETF universe.",
+   "RSI(14) is near 62.01, still bullish. The recent high near 200.29 is the level to clear for continued upside. A pullback that holds above the 20-day EMA would be normal; a break below the 50-day would mark a more important loss of momentum."]},
+
+  {id:"idx14",g:"idx",nbox:"IWM",cat:"iShares Russell 2000 ETF",sig:"bull",title:"IWM — iShares Russell 2000 ETF",
+   link:"https://stockcharts.com/c-sc/sc?s=IWM&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797397&r=553",
+   img:IMG+"stockcharts-us-indexes-14-iwm-ishares-russell-2000-etf.png",
+   body:["IWM is also constructive and confirms small-cap participation. It closed near 297.58, above the 20-day EMA near 294.16, the 50-day MA near 286.08, and the 200-day MA near 259.63. SCTR is visible near 93.2, showing strong relative strength.",
+   "RSI(14) is near 58.39, bullish but not overheated. The immediate upside level is the prior high near 302.72. Holding above the 20-day EMA keeps the trend intact; a move below 286 would be a more meaningful caution signal."]},
+
+  {id:"idx15",g:"idx",nbox:"IWV",cat:"iShares Russell 3000 ETF",sig:"caut",title:"IWV — iShares Russell 3000 ETF",
+   link:"https://stockcharts.com/c-sc/sc?s=IWV&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797401&r=408",
+   img:IMG+"stockcharts-us-indexes-15-iwv-ishares-russell-3000-etf.png",
+   body:["Caution flag: IWV is positive overall, but it needs follow-through above the recent high zone to show broad large-cap leadership has fully repaired. It closed near 425.26, above the 20-day EMA near 421.90, the 50-day MA near 418.16, and the 200-day MA near 391.85. SCTR is visible near 69.5, similar to IWB.",
+   "RSI(14) is near 56.18. A move above 429.30-430.34 would confirm the rebound. Support sits near 415.31 and then the 50-day average; losing that area would keep this chart cautious."]},
+
+  /* ==================== BREADTH (listNum=10) ==================== */
+  {id:"brd00",g:"brd",nbox:"000",cat:"Advance-Decline",sig:"bull",title:"NYSE Advance-Decline",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NYA&p=D&yr=1&mn=6&dy=0&id=p11597747921&a=2304797494&r=508",
+   img:IMG+"stockcharts-breadth-01-000-nyse-advance-decline.png",
+   body:["Signal: bullish. Advancing issues are at 0.59 of total active symbols while declining issues are at 0.37 — a clearly positive participation balance. The NYSE Composite closed near 23,957, above both its 50-day moving average near 23,259 and 200-day moving average near 22,441.",
+   "NYSE participation is broad enough to support the index uptrend. Confirmation would be continued advancing-issue readings above 0.50 while the Composite pushes to new highs; weakening would show up as repeated declining readings above advancing, especially if the index loses its 50-day average."]},
+
+  {id:"brd01",g:"brd",nbox:"001",cat:"Advance-Decline",sig:"caut",title:"Nasdaq Advance-Decline",
+   link:"https://stockcharts.com/c-sc/sc?s=%24COMPQ&p=D&yr=1&mn=6&dy=0&id=p37883067163&a=2304797492&r=209",
+   img:IMG+"stockcharts-breadth-02-001-nasdaq-advance-decline.png",
+   body:["Signal: caution. Nasdaq advancing issues are at 0.46 while declining issues are at 0.51, so the daily participation balance is negative. The Nasdaq Composite closed near 25,833, just below its 50-day average near 25,912 but still well above its 200-day average near 23,703.",
+   "The primary trend remains positive because the index is above the 200-day average, but short-term breadth is less convincing than the NYSE. A close back above the 50-day with advancing issues reclaiming a 0.50+ reading would improve the setup; continued negative daily breadth below the 50-day would warn that Nasdaq leadership is narrowing."]},
+
+  {id:"brd02",g:"brd",nbox:"002",cat:"New Highs & Lows",sig:"bull",title:"New Highs (Major Indexes)",
+   link:"https://stockcharts.com/c-sc/sc?s=!NEWHINYA&p=D&yr=1&mn=6&dy=0&id=p14790330484&a=2304797488&r=110",
+   img:IMG+"stockcharts-breadth-03-002-new-highs-major-indexes.png",
+   body:["Signal: bullish. New highs are expanding across index groups: NYSE new highs 175, Nasdaq new highs 321, S&P 500 new highs 54, mid-cap new highs 36, small-cap new highs 85, and Nasdaq 100 new highs 5. The strongest visible improvement is in Nasdaq and small caps into late June and early July.",
+   "This is a supportive breadth signal — the rally is not only producing index gains but also a growing list of individual new highs. Confirmation would be sustained high readings across several panels; weakening would be a drop back toward the muted April levels while indexes remain near highs, signalling divergence."]},
+
+  {id:"brd03",g:"brd",nbox:"003",cat:"New Highs & Lows",sig:"bull",title:"New Lows (Major Indexes)",
+   link:"https://stockcharts.com/c-sc/sc?s=!NEWLONYA&p=D&yr=1&mn=6&dy=0&id=p91808271096&a=2304797486&r=108",
+   img:IMG+"stockcharts-breadth-04-003-new-lows-major-indexes.png",
+   body:["Signal: bullish / healthy. The latest new-low readings are contained: NYSE 22, Nasdaq 103, S&P 500 1, mid-cap 4, small-cap 3, and Nasdaq 100 0. Nasdaq is the only panel with a still-noticeable count, but it is far below the April 2025 selloff spikes and below the larger bursts seen earlier in 2026.",
+   "Low new-low counts support the rally and suggest there is no widespread internal breakdown. The warning would be a rising trend in new lows, especially if Nasdaq new lows expand while the Nasdaq Composite remains below its 50-day average."]},
+
+  {id:"brd04",g:"brd",nbox:"004",cat:"New Highs & Lows",sig:"bull",title:"New Highs − New Lows (Major Indexes)",
+   link:"https://stockcharts.com/c-sc/sc?s=!NEWHINYA-!NEWLONYA&p=D&yr=2&mn=0&dy=0&id=p23619425164&a=2304797493&r=103",
+   img:IMG+"stockcharts-breadth-05-004-new-highs-new-lows-major-indexes.png",
+   body:["Signal: bullish. All six visible panels are positive: NYSE +153, Nasdaq +218, S&P 500 +53, mid-cap +32, small-cap +82, and Nasdaq 100 +5. The small-cap and Nasdaq panels stand out with clear positive readings after earlier periods of weakness.",
+   "This confirms the new-high/new-low picture is favorable. The best confirmation would be persistent positive bars across all panels, especially Nasdaq and small caps; a reversal into sustained red bars while indexes are near highs would be a meaningful breadth warning."]},
+
+  {id:"brd05",g:"brd",nbox:"005",cat:"McClellan",sig:"bull",title:"NYSE McClellan Indicators",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NYMO&p=D&yr=1&mn=6&dy=0&id=p85344813523&a=2304797487&r=115",
+   img:IMG+"stockcharts-breadth-06-005-nyse-mcclellan-indicators.png",
+   body:["Signal: bullish, not overheated. The NYSE McClellan Oscillator closed near +21.95, above zero and recovering from its June weakness. The McClellan Summation Index is near 316.17, just above its 50-day average near 315.52, with the Composite trending above a rising 50-day average.",
+   "Breadth momentum is positive and the summation index has repaired enough to sit slightly above its smoothing average. Confirmation would be continued positive oscillator readings and a rising summation index; weakening would be a rollover below zero in the oscillator and a summation index break back below its 50-day average."]},
+
+  {id:"brd06",g:"brd",nbox:"006",cat:"McClellan",sig:"neut",title:"Nasdaq McClellan Indicators",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NAMO&p=D&yr=1&mn=6&dy=0&id=p82975893108&a=2304797491&r=829",
+   img:IMG+"stockcharts-breadth-07-006-nasdaq-mcclellan-indicators.png",
+   body:["Signal: neutral to positive, but less healthy than the NYSE. The Nasdaq McClellan Oscillator closed near +10.10, above zero but down on the day. The Nasdaq McClellan Summation Index is near 158.22, slightly below its 50-day average near 165.19, with the Composite near its own 50-day average.",
+   "Short-term breadth momentum is positive, yet the cumulative breadth trend has not fully reclaimed its smoothing average. Confirmation would be the summation index crossing back above its 50-day while the Composite retakes its own 50-day; failure would be the oscillator dropping below zero with the summation index rolling lower."]},
+
+  {id:"brd07",g:"brd",nbox:"007",cat:"Breadth Thrust",sig:"neut",title:"Zweig Breadth Thrust — NYSE",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NYA&p=D&yr=1&mn=0&dy=0&id=p88237311480&a=2304797490&r=406",
+   img:IMG+"stockcharts-breadth-08-007-zweig-breadth-thrust-nyse.png",
+   body:["Signal: supportive, no confirmed thrust. The NYSE breadth thrust ratio is near 0.55, comfortably above the weak zone but below the upper thrust threshold. The digital signal remains 0.00, meaning no confirmed breadth-thrust signal is currently shown, while the NYSE Composite holds above its 50-day and 200-day averages.",
+   "Breadth is positive enough to sustain the uptrend but has not reached the stronger thrust condition. Confirmation would be a surge toward the upper threshold and a digital signal reading; weakening would be a drop toward the 0.40 area alongside price losing the 50-day average."]},
+
+  {id:"brd08",g:"brd",nbox:"008",cat:"Breadth Thrust",sig:"neut",title:"Zweig Breadth Thrust — Nasdaq",
+   link:"https://stockcharts.com/c-sc/sc?s=%24COMPQ&p=D&yr=1&mn=0&dy=0&id=p00698077884&a=2304797489&r=659",
+   img:IMG+"stockcharts-breadth-09-008-zweig-breadth-thrust-nasdaq.png",
+   body:["Signal: neutral to mildly positive. The Nasdaq breadth thrust ratio is near 0.52, above the weak zone but below the level needed for a formal thrust. The digital signal is 0.00. The Nasdaq Composite remains above its 200-day average but sits close to its 50-day average after a June pullback.",
+   "Nasdaq breadth has improved from weak levels but has not produced a high-conviction upside thrust. A push toward the upper threshold with price reclaiming the 50-day would improve the picture; a fade back toward 0.40 would reinforce the current mixed Nasdaq breadth message."]},
+
+  /* ==================== SENTIMENT (listNum=14) ==================== */
+  {id:"sen01",g:"sen",nbox:"POS",cat:"Positioning & Exposure",sig:"caut",title:"Positioning & Exposure — Put/Call, NAAIM, Rydex",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+   img:IMG+"stockcharts-sentiment-listnum14-01-000-positioning-exposure-put-call-naaim-rydex.png",
+   body:["Caution: this combined chart tracks equity put/call, NAAIM exposure, and the Rydex bear-plus-money-market versus bullish assets ratio against the S&P 500. The caution is in the lower two panels: NAAIM exposure is elevated near 84.7 while the Rydex defensive ratio is low near 0.06.",
+   "That means active managers and fund flows appear meaningfully exposed to equities — not automatically bearish, but there may be less sidelined caution to absorb a surprise selloff. The equity put/call line has rebounded from an extremely complacent low but is not at panic levels. Confirmation for bulls would be price strength while exposure stays steady; a warning would be falling prices with exposure still crowded."]},
+
+  {id:"sen02",g:"sen",nbox:"$VIX",cat:"Volatility",sig:"caut",title:"$VIX — Volatility Index",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+   img:IMG+"stockcharts-sentiment-listnum14-02-001-vix-volatility-index.png",
+   body:["Caution: VIX closed near 16.15 on July 2, above the green support line around 15 but below the orange 20 zone. The index has been making lower highs since the March volatility spike, so the volatility trend is still calmer than earlier in the year.",
+   "This is constructive for equities as long as VIX remains below 20. The caution is that VIX is near the lower end of its recent range, so the risk/reward of expecting further compression is not attractive. A close above 20 would mark a meaningful shift from calm tape to renewed stress. The VIX of VIX is also subdued near 88.8, so a sharp expansion would likely matter."]},
+
+  {id:"sen03",g:"sen",nbox:"$CPC",cat:"Put/Call",sig:"caut",title:"$CPC — Total Put/Call Ratio",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+   img:IMG+"stockcharts-sentiment-listnum14-03-002-cpc-put-call-ratio-total-eod.png",
+   body:["Caution: $CPC fell to about 0.79 after recently pushing close to 1.00. The 5-day average is still higher near 0.93, while the 50-day average sits around 0.84. A short-term fear spike has already started to fade.",
+   "From a contrarian perspective, the current reading is not a major panic signal — it is closer to neutral-to-complacent, especially if it stays near the lower green reference line. Bulls would prefer price strength with $CPC staying orderly; bears would want $CPC to remain low while the S&P 500 loses momentum."]},
+
+  {id:"sen04",g:"sen",nbox:"$CPCE",cat:"Put/Call",sig:"neut",title:"$CPCE — Equity Only Put/Call Ratio",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+   img:IMG+"stockcharts-sentiment-listnum14-04-003-cpce-put-call-ratio-equity-only-eod.png",
+   body:["$CPCE dropped back toward 0.53 after a sharp rebound from the June complacency low. The 5-day average is near 0.54, so the short-term surge in equity put demand has eased quickly.",
+   "This is a mixed read. The June low showed too much complacency, but the recent rebound showed traders briefly reached for protection. The fast retreat means fear is not persistent. A move back above roughly 0.65-0.70 would show hedging demand returning; another slide toward 0.45-0.50 would warn of renewed complacency."]},
+
+  {id:"sen05",g:"sen",nbox:"$CPCI",cat:"Put/Call",sig:"neut",title:"$CPCI — Index Only Put/Call Ratio",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+   img:IMG+"stockcharts-sentiment-listnum14-05-004-cpci-put-call-ratio-index-only-eod.png",
+   body:["$CPCI closed near 0.97, with the 5-day and 50-day averages near 1.06 and 1.04. The chart has lifted from the April-May lows but remains well below the major stress levels seen in late 2024 and April 2025.",
+   "This suggests institutional or index-level hedging demand is present but not extreme. A move back above 1.17 would be a stronger risk-off signal. Staying below the moving averages while equities hold trend is more consistent with normal hedging than panic."]},
+
+  {id:"sen06",g:"sen",nbox:"AAII",cat:"Survey Sentiment",sig:"bull",title:"AAII Bulls − Bears",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+   img:IMG+"stockcharts-sentiment-listnum14-06-005-aaii-bulls-bears.png",
+   body:["AAII bulls are near 31.4 while bears are near 42.3, leaving the bulls-minus-bears spread around -10.9. Retail sentiment remains net bearish even as the S&P 500 weekly chart is near highs and above its 13-week EMA and 40-week moving average.",
+   "This is the most constructive contrarian chart in the list. Skepticism has persisted through the price advance, meaning the market is still climbing a wall of worry rather than being universally loved. Bullish confirmation would be the S&P 500 holding above the 13-week EMA near 7306 while the spread slowly improves. The warning would be a weekly price reversal while AAII remains bearish, which could invite a test of the 40-week average near 6958."]},
+
+  /* ==================== TACTICAL TIMING (listNum=6) ==================== */
+  {id:"tac01",g:"tac",nbox:"VTI",cat:"Total Market",sig:"neut",title:"VTI — Total Market",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-01-01-total-market.png",
+   body:["VTI recovered strongly from the late-June low near 359.95 into a July 1 high near 372.24, then gave back part of that move on July 2. The late-session bounce lifted price back above the orange 5-day average around 367.47, which keeps the chart from turning outright bearish.",
+   "The setup is neutral-to-constructive as long as VTI holds above the 366.18-367.47 support band. A push back above 369.5-370.5 would show the pullback is being absorbed; a failure back below 366 would warn the July 1 high may have started a deeper tactical retracement."]},
+
+  {id:"tac02",g:"tac",nbox:"$OEX",cat:"S&P 100",sig:"neut",title:"$OEX — S&P 100",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-02-02-s-p-100.png",
+   body:["$OEX is holding up better than the broader small/mid-cap groups. After a spike toward 3696.09, it fell back toward the 3645 area, then rebounded to finish above the 5-day average near 3643.27.",
+   "That late recovery keeps the large-cap leadership read intact. Bulls want to see $OEX hold above 3643-3645 and retest 3671-3696. A decisive break back below the average would shift this from leadership to a failed bounce."]},
+
+  {id:"tac03",g:"tac",nbox:"$SPX",cat:"S&P 500",sig:"neut",title:"$SPX — S&P 500",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-03-03-s-p-500.png",
+   body:["$SPX is similar to $OEX but a little less clean. It rallied hard from the June 26 low near 7294 into a July 2 spike near 7540, then reversed toward the 7427 area before recovering late.",
+   "The index finished above the 5-day average near 7447, so the tactical uptrend is bruised rather than broken. Holding 7427-7448 is important. A move back above 7508-7541 would confirm renewed upside momentum; losing 7427 would put the late-June breakout at risk."]},
+
+  {id:"tac04",g:"tac",nbox:"$MID",cat:"S&P 400 Mid Cap",sig:"caut",title:"$MID — S&P 400 Mid Cap",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-04-04-s-p-400.png",
+   body:["Caution: $MID is one of the weaker tactical charts. It peaked near 3861 on July 1, then fell below the 5-day average near 3820 and finished around 3803 after only a modest rebound.",
+   "The recent candles show a lower-high/lower-low pattern since the peak. Reclaiming 3820-3825 would be the first repair signal, while a break below 3766 would confirm sellers remain in control on this short-term timeframe."]},
+
+  {id:"tac05",g:"tac",nbox:"$SML",cat:"S&P 600 Small Cap",sig:"caut",title:"$SML — S&P 600 Small Cap",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-05-05-s-p-600.png",
+   body:["Caution: $SML had a strong late-June advance, but the July 2 action pushed it below the 5-day average near 1792. The chart is still above the late-June base, but the clean short-term uptrend has been interrupted.",
+   "The key upside repair level is 1792-1800, where the moving average and breakdown area sit. If $SML cannot reclaim that zone, the next downside watch area is roughly 1767-1762."]},
+
+  {id:"tac06",g:"tac",nbox:"QQQ",cat:"Nasdaq 100",sig:"caut",title:"QQQ — Nasdaq 100",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-06-06-nasdaq-100.png",
+   body:["Caution: QQQ is the weakest large-cap chart in this list. After a rebound into the 737-738 zone, it formed a lower high and then dropped sharply below the 5-day average near 721.66, finishing around 712.60.",
+   "This is a defensive short-term signal. A bounce above 721-722 is needed just to reclaim the moving average, and a move through 724-728 would help repair the failed breakout attempt. Below 707.56, the chart would be vulnerable to a retest of the 704-703 area."]},
+
+  {id:"tac07",g:"tac",nbox:"IWB",cat:"Russell 1000",sig:"neut",title:"IWB — Russell 1000",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-07-07-russell-1000.png",
+   body:["IWB sits between the stronger large-cap indexes and weaker smaller-cap charts. It briefly broke below the 5-day average near 406.81, then recovered to close around 408.75.",
+   "That reclaim is constructive, but not decisive. Holding 406-407 keeps the recovery case alive. A push back above 410.25-412.17 would show buyers regaining control; losing 405.84 would put the late-June rally under pressure."]},
+
+  {id:"tac08",g:"tac",nbox:"IWM",cat:"Russell 2000",sig:"caut",title:"IWM — Russell 2000",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-08-08-russell-2000.png",
+   body:["Caution: IWM rolled over from the 302-303 area and broke below the 5-day average near 298.79. The rebound from 294.98 is constructive, but the chart has not yet reclaimed the moving average.",
+   "The first bullish repair level is 298.8-300.0. Until that area is recovered, the Russell 2000 remains tactically cautious. A break below 294.98 would point to a deeper test of the late-June support cluster near 292.4-294.6."]},
+
+  {id:"tac09",g:"tac",nbox:"$INDU",cat:"Dow Industrials",sig:"bull",title:"$INDU — Dow Industrials",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+   img:IMG+"stockcharts-tactical-listnum6-09-09-dow-industrials.png",
+   body:["$INDU is the strongest chart in the set. It held above a rising 5-day average near 52,302 and pushed to a fresh short-term high near 52,900 by the end of the chart.",
+   "This is the cleanest leadership signal. As long as the Dow holds above 52,300-52,400, the tactical trend remains constructive. A loss of that band would not be fatal, but it would bring the chart back in line with the more mixed large-cap readings elsewhere."]},
+
+  /* ==================== SECTORS CAP-WEIGHT (listNum=16) ==================== */
+  {id:"sec01",g:"sec",nbox:"SPY",cat:"S&P 500 ETF",sig:"bull",title:"SPY — SPDR S&P 500 ETF",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-01-spy-spdr-s-p-500-etf.png",
+   body:["SPY remains in a constructive daily trend. It closed near 744.78, above the 50-day average near 735.91 and well above the 200-day average near 688.74. The late-June pullback held above the 716.58 low and the chart has rebounded back toward the 740-750 area.",
+   "The short-term read is neutral-to-positive. RSI around 54 is not stretched, leaving room for another attempt toward the 754-758 highs. The key support band is roughly 735-741; losing that area would put the 720-717 zone back in play."]},
+
+  {id:"sec02",g:"sec",nbox:"XLB",cat:"Materials",sig:"neut",title:"XLB — Materials Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-02-xlb-materials-select-sector-spdr-fund.png",
+   body:["Materials are constructive on price but still lagging relative to SPY. XLB is above its 20-day, 50-day, and 200-day moving averages, and the latest close near 52.01 keeps it near the upper half of its spring range.",
+   "The relative-strength panel is still negative near -4.55%, which means Materials are participating but not leading. A move above the 53.11-53.70 zone would confirm renewed price leadership; a drop below 50.25-50.50 would return the chart to a sideways, vulnerable posture."]},
+
+  {id:"sec03",g:"sec",nbox:"XLC",cat:"Communication Services",sig:"caut",title:"XLC — Communication Services Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-03-xlc-communication-services-select-sector-spdr-fund.png",
+   body:["Caution: Communication Services is the most cautious sector chart. XLC closed near 109.60, below the 50-day average near 113.23 and the 200-day average near 114.42. The price action has improved from the June low near 105.03, but the bounce is still beneath major moving-average resistance.",
+   "Relative strength is the real warning. The sector is down roughly 14.9% versus SPY on the relative-performance panel, and that line remains in a clear downtrend. Bulls need to see price reclaim 110.84 first, then 113-114.5. Failure near those levels would keep the breakdown active."]},
+
+  {id:"sec04",g:"sec",nbox:"XLE",cat:"Energy",sig:"caut",title:"XLE — Energy Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-04-xle-energy-select-sector-spdr-fund.png",
+   body:["Caution: Energy remains above its 200-day average near 50.65, so the larger recovery is not fully broken. The problem is intermediate trend deterioration: XLE is below the 20-day average near 54.73 and the 50-day average near 56.65 after rolling over from the spring highs.",
+   "The relative-strength line has faded materially from the March peak, though it is still slightly positive versus SPY over the displayed period. The first repair level is 54.7, followed by 56.6-58.0. Below 52.62, the sector risks a deeper test toward the 200-day average."]},
+
+  {id:"sec05",g:"sec",nbox:"XLF",cat:"Financials",sig:"ext",title:"XLF — Financial Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-05-xlf-financial-select-sector-spdr-fund.png",
+   body:["Financials have improved sharply from the March-April low. XLF closed near 55.62, above the 20-day, 50-day, and 200-day moving averages, and is pressing back toward the early-year high near 56.03.",
+   "The short-term chart is strong but a bit extended, with RSI near 73.8. That does not make the chart bearish, but it does argue for some pullback risk after a fast move. Holding above 53.4-54.0 would keep the breakout attempt intact."]},
+
+  {id:"sec06",g:"sec",nbox:"XLI",cat:"Industrials",sig:"bull",title:"XLI — Industrial Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-06-xli-industrial-select-sector-spdr-fund.png",
+   body:["Industrials are one of the cleanest leaders in this list. XLI closed near 183.91, above the 20-day average near 179.63, the 50-day near 174.93, and the 200-day near 163.67. Price is just below the recent high near 186.09.",
+   "Relative strength is positive near +3.59% versus SPY and has recovered meaningfully from the spring dip. As long as XLI holds above 179-180, the trend remains constructive. A breakout through 186 would confirm continued leadership."]},
+
+  {id:"sec07",g:"sec",nbox:"XLK",cat:"Technology",sig:"bull",title:"XLK — Technology Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-07-xlk-technology-select-sector-spdr-fund.png",
+   body:["Technology remains the dominant relative leader, with the top panel showing roughly +18% performance versus SPY. Price surged from the April low near 126.53 to a June high near 198.49, then entered a volatile pullback.",
+   "The current caution is short-term, not structural. XLK closed near 180.59, below the 20-day average near 184.65 and slightly above the 50-day near 178.40. A hold above 178-180 would keep the leadership trend intact; losing that band would invite a test toward 170.6 or the rising 200-day area."]},
+
+  {id:"sec08",g:"sec",nbox:"XLP",cat:"Consumer Staples",sig:"neut",title:"XLP — Consumer Staples Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-08-xlp-consumer-staples-select-sector-spdr-fund.png",
+   body:["Watch: Consumer Staples are technically fine on price. XLP closed near 84.99, above the 20-day average near 83.79, the 50-day near 83.49, and the 200-day near 80.68. RSI near 56 is balanced, and the chart has been building a base since the spring decline.",
+   "The watch flag comes from relative weakness. XLP is still about -12.5% versus SPY, so it is not confirming broad leadership. A move above 85.75-86.10 would improve the price picture; a break under 82.15-82.77 would weaken the base."]},
+
+  {id:"sec09",g:"sec",nbox:"XLRE",cat:"Real Estate",sig:"neut",title:"XLRE — Real Estate Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-09-xlre-real-estate-select-sector-spdr-fund.png",
+   body:["Real Estate has a constructive price structure. XLRE closed near 44.68, above the 20-day, 50-day, and 200-day averages, with the 50-day and 200-day both rising. Price remains below the recent highs around 45.25-45.29 but above the June support zone.",
+   "Relative strength is still negative near -8.85%, so the sector is improving on price without becoming a clear leader. Holding above 43.45-43.98 keeps the setup constructive. A breakout above 45.30 would be the next confirmation."]},
+
+  {id:"sec10",g:"sec",nbox:"XLU",cat:"Utilities",sig:"neut",title:"XLU — Utilities Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-10-xlu-utilities-select-sector-spdr-fund.png",
+   body:["Utilities have repaired nicely from the late-May and early-June lows. XLU closed near 45.76, above the 20-day, 50-day, and 200-day averages, and is back near the May-June swing-high area.",
+   "The relative-strength line is still negative near -4.6%, so this is more of a defensive rebound than outright leadership. A push above 46.31-47.40 would improve the bullish case. A break below 44.60-44.80 would bring the 200-day average near 44.12 back into focus."]},
+
+  {id:"sec11",g:"sec",nbox:"XLV",cat:"Health Care",sig:"ext",title:"XLV — Health Care Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-11-xlv-health-care-select-sector-spdr-fund.png",
+   body:["Health Care is one of the strongest recent improvement stories. XLV closed near 163.74 after a sharp breakout above the prior highs near 159-160. Price is above the 20-day, 50-day, and 200-day averages, and volume expanded on the move.",
+   "The only caution is that RSI near 72.9 is overbought in the short term. A pause or pullback toward 159-160 would be normal after this kind of breakout. Holding above that breakout zone would keep the sector in leadership repair mode."]},
+
+  {id:"sec12",g:"sec",nbox:"XLY",cat:"Consumer Discretionary",sig:"caut",title:"XLY — Consumer Discretionary Select Sector SPDR",
+   link:"https://stockcharts.com/panels/?cmd=show&listNum=16&viewType=e",
+   img:IMG+"stockcharts-us-sectors-capweight-listnum16-12-xly-consumer-discretionary-select-sector-spdr-fund.png",
+   body:["Caution: Consumer Discretionary is mixed-to-cautious. XLY closed near 117.12, sitting just above the 200-day average near 117.09 and close to the 50-day average near 117.32. Price has repeatedly failed near 119-122 while holding the 113 area.",
+   "The relative-strength line remains weak near -11.6% versus SPY, which makes this chart a laggard despite its recent bounce. Holding the 116-117 moving-average cluster is important. A close below 113.13 would be a negative turn, while a move above 119.27-121.95 would be needed to flip the chart back to constructive."]}
+];
+
+const SIG = {
+  bull:{label:"Bullish"}, ext:{label:"Bullish · Extended"}, bear:{label:"Bearish"},
+  caut:{label:"Caution"}, neut:{label:"Neutral"}
+};
+
+let activeGroup="all", activeSig="all", query="";
+
+/* ---- Glossary of TA indicators (shown in popups) ---- */
+const DEF = {
+ "ema":"A moving average that weights recent prices more heavily, so it turns faster than a simple average. Traders watch whether price holds above or below it to read trend.",
+ "moving average":"The average price over a set number of periods, smoothing out noise to show trend direction. Price above a rising average is bullish; below a falling one is bearish.",
+ "advance decline line":"A running total of advancing minus declining stocks. A rising line confirms broad participation behind an index move; a falling line warns breadth is narrowing.",
+ "advancing issues":"The number (or share) of stocks closing higher on the day. When advancing issues outnumber declining issues, participation is supporting the move.",
+ "declining issues":"The number (or share) of stocks closing lower on the day. Declining issues persistently above advancing issues warns of narrowing, weakening breadth.",
+ "mcclellan oscillator":"A short-term breadth-momentum gauge built from advancing minus declining stocks. Above zero means broad buying momentum; below zero, broad selling.",
+ "mcclellan summation index":"A running cumulative total of the McClellan Oscillator that captures the intermediate-term breadth trend. Rising and above its average signals improving internal strength.",
+ "summation index":"The cumulative sum of the McClellan Oscillator. It smooths day-to-day breadth swings into a longer trend; crossing above or below its moving average flags shifts in internal momentum.",
+ "zweig breadth thrust":"A rare signal where the share of advancing stocks surges from deeply oversold to strongly overbought within roughly ten days — historically marking the launch of powerful new uptrends.",
+ "breadth thrust":"A surge in the proportion of advancing stocks strong enough to signal a broad, durable demand impulse rather than narrow, mega-cap-only leadership.",
+ "new highs new lows":"Counts of stocks hitting fresh 52-week highs vs. lows. Expanding new highs confirm a healthy rally; rising new lows beside a strong index warn of hidden weakness.",
+ "bullish percent index":"The percentage of stocks in an index on point-and-figure buy signals. Above 50 favors bulls; very high (70+) can be overbought, very low oversold.",
+ "relative strength":"Compares one asset's performance against another (usually a benchmark). A rising ratio means it's outperforming; falling means lagging. Not the same as RSI.",
+ "sctr":"StockCharts Technical Rank — a 0-100 score ranking a security's technical strength against its peer group. Above ~70 is strong; below ~30 is weak.",
+ "overbought":"A condition where price or breadth has risen far and fast, raising odds of a pause or pullback — though it can persist in strong trends.",
+ "oversold":"A condition where price or breadth has fallen far and fast, raising odds of a bounce — though it can persist in strong downtrends.",
+ "uptrend":"A sustained rise of higher highs and higher lows. Trend-followers treat pullbacks as opportunities until that structure breaks.",
+ "downtrend":"A sustained decline of lower highs and lower lows. Rallies are often treated as selling opportunities until the structure repairs.",
+ "divergence":"When price and an indicator disagree — e.g. price makes a new high but breadth doesn't. It warns the move may be losing conviction.",
+ "breakout":"When price pushes decisively through resistance, often starting a new advance. A breakdown is the same through support, to the downside.",
+ "momentum":"The speed and strength of a price or breadth move. Strong momentum confirms a trend; fading momentum can precede a stall or reversal.",
+ "support":"A price area where buying has previously halted declines. Holding support keeps a trend intact; losing it opens lower levels.",
+ "resistance":"A price area where selling has previously capped advances. Clearing resistance is bullish; failing there can stall a rally.",
+ "rsi":"Relative Strength Index — a 0–100 momentum oscillator. Above 70 is overbought, below 30 oversold; the 50 midline splits bullish from bearish momentum.",
+ "macd":"Moving Average Convergence Divergence — tracks the gap between two EMAs to show trend and momentum. Crosses of its signal line flag shifts.",
+ "ppo":"Percentage Price Oscillator — like MACD but in percent, so momentum can be compared across different securities. Above zero is bullish momentum.",
+ "signal line":"A moving average of an oscillator like MACD or PPO. The oscillator crossing above its signal line is bullish momentum; crossing below is bearish.",
+ "vix":"The CBOE Volatility Index — the market's expected 30-day volatility from S&P 500 options. Low VIX signals calm; a spike above ~20 signals rising fear.",
+ "put call ratio":"The volume of put options divided by call options. High readings show fear/hedging (often a contrarian bottom); very low readings show complacency.",
+ "naaim":"NAAIM Exposure Index — a survey of active managers' average equity exposure. High readings mean managers are heavily invested; low readings mean defensive.",
+ "rydex ratio":"A sentiment gauge comparing bearish plus money-market Rydex fund assets to bullish assets. A low ratio means investors are crowded into bullish positions.",
+ "aaii":"The AAII Sentiment Survey of individual investors' bullish vs. bearish outlook. Extreme bearishness is often a contrarian positive; extreme bullishness a caution."
+};
+const TITLE = {
+ "ema":"Exponential Moving Average (EMA)","moving average":"Moving Average",
+ "advance decline line":"Advance-Decline Line","advancing issues":"Advancing Issues","declining issues":"Declining Issues",
+ "mcclellan oscillator":"McClellan Oscillator","mcclellan summation index":"McClellan Summation Index","summation index":"Summation Index",
+ "zweig breadth thrust":"Zweig Breadth Thrust","breadth thrust":"Breadth Thrust",
+ "new highs new lows":"New Highs / New Lows","bullish percent index":"Bullish Percent Index","relative strength":"Relative Strength","sctr":"StockCharts Technical Rank (SCTR)",
+ "overbought":"Overbought","oversold":"Oversold","uptrend":"Uptrend","downtrend":"Downtrend","divergence":"Divergence",
+ "breakout":"Breakout / Breakdown","momentum":"Momentum","support":"Support","resistance":"Resistance",
+ "rsi":"Relative Strength Index (RSI)","macd":"MACD","ppo":"Percentage Price Oscillator (PPO)","signal line":"Signal Line",
+ "vix":"Volatility Index (VIX)","put call ratio":"Put/Call Ratio","naaim":"NAAIM Exposure Index","rydex ratio":"Rydex Ratio","aaii":"AAII Sentiment Survey"
+};
+function defKey(m){
+ const k=m.toLowerCase().replace(/[−]/g,"-").replace(/\//g," ").replace(/[–-]/g," ").replace(/\s+/g," ").trim();
+ const t=[k,k.replace(/s$/,""),k.split(" ").map(w=>w.replace(/s$/,"")).join(" ")];
+ if(/^new (high|low)/.test(k))t.push("new highs new lows");
+ if(/^advance decline/.test(k))t.push("advance decline line");
+ if(/exponential moving average/.test(k))t.push("ema");
+ if(/summation/.test(k)&&/mcclellan/.test(k))t.push("mcclellan summation index");
+ if(/^summation/.test(k))t.push("summation index");
+ if(/zweig/.test(k))t.push("zweig breadth thrust");
+ if(/breadth thrust/.test(k))t.push("breadth thrust");
+ if(/advancing/.test(k))t.push("advancing issues");
+ if(/declining/.test(k))t.push("declining issues");
+ if(/put call/.test(k)||/put\/call/.test(k))t.push("put call ratio");
+ if(/rydex/.test(k))t.push("rydex ratio");
+ if(/^uptrend/.test(k))t.push("uptrend");
+ if(/^downtrend/.test(k))t.push("downtrend");
+ if(/^breakout|^breakdown/.test(k))t.push("breakout");
+ for(const x of t){if(DEF[x])return x;}
+ return null;
+}
+
+/* ---- TA term / number / symbol highlighter ---- */
+const MASTER = new RegExp(
+  '(?<date>(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s\\d{1,2}(?!\\d)(?:\\s?[–-]\\s?\\d{1,2})?)?|(?:19|20)\\d{2}(?:\\s?[–-]\\s?\\d{2,4})?)'
+  + '|(?<sym>\\$?COMPQ|\\$?INDU|\\$?NDX|\\$?NYA|\\$?OEX|\\$?SML|\\$?SPX|\\$?MID|\\$?TRAN|\\$?UTIL|\\$?VLE|\\$?NYMO|\\$?NAMO|\\$?VIX|\\$?CPCE|\\$?CPCI|\\$?CPC|\\bQQQ\\b|\\bVTI\\b|\\bSPY\\b|\\bIWB\\b|\\bIWC\\b|\\bIWM\\b|\\bIWV\\b|\\bXL[BCEFIKPUVY]\\b|\\bXLRE\\b|S&P\\s?500|S&P\\s?100|S&P\\s?Mid\\s?Cap|S&P\\s?Small\\s?Cap|Nasdaq(?:\\s(?:100|Composite))?|NYSE Composite|\\bNYSE\\b|\\bmid-cap\\b|\\bsmall-cap\\b|\\bmicro-cap\\b)'
+  + '|(?<ind>Zweig Breadth Thrust|[Bb]readth [Tt]hrust|McClellan Summation Index|Summation Index|McClellan Oscillator|[Ee]xponential [Mm]oving [Aa]verages?|[Mm]oving [Aa]verages?|[Aa]dvance-decline lines?|[Aa]dvance-decline|[Aa]dvancing issues?|[Dd]eclining issues?|[Bb]ullish [Pp]ercent [Ii]ndex|[Rr]elative[ -][Ss]trength|new[ -][Hh]ighs?\\/new[ -][Ll]ows?|[Nn]ew [Hh]ighs?|[Nn]ew [Ll]ows?|new-low|new-high|signal line|equity put/call|put/call|[Oo]verbought|[Oo]versold|[Uu]ptrends?|[Dd]owntrends?|[Dd]ivergence|[Bb]reakouts?|[Bb]reakdowns?|[Mm]omentum|\\b[Ss]upport\\b|\\b[Rr]esistance\\b|\\bRSI\\b|\\bMACD\\b|\\bPPO\\b|\\bEMAs?\\b|\\bSCTR\\b|\\bNAAIM\\b|\\bRydex\\b|\\bAAII\\b)'
+  + '|(?<period>\\b\\d+-(?:day|week|month|year|minute)s?\\b)'
+  + '|(?<lvl>[+−-]?\\$?\\d[\\d,]*(?:\\.\\d+)?[Kk]?%?)'
+, 'g');
+function hl(s){
+  return s.replace(MASTER,(...args)=>{
+    const g=args[args.length-1], m=args[0];
+    if(g.date!==undefined) return '<span class="ta-date">'+m+'</span>';
+    if(g.sym!==undefined)  return '<span class="ta-sym">'+m+'</span>';
+    if(g.ind!==undefined){const k=defKey(m);return k?'<span class="ta-ind tip" data-t="'+k+'">'+m+'</span>':'<span class="ta-ind">'+m+'</span>';}
+    if(g.period!==undefined||g.lvl!==undefined) return '<span class="ta-num">'+m+'</span>';
+    return m;
+  });
+}
+document.querySelectorAll('.summary p, .summary .concl li, .bottom > p, .bottom .watch li').forEach(el=>{
+  el.innerHTML = hl(el.textContent);
+});
+
+/* ---- Executive Summary collapse (default folded) ---- */
+(function(){
+  const sum=document.getElementById("summary"), tog=document.getElementById("sumToggle");
+  document.getElementById("sumHead").addEventListener("click",()=>{
+    const collapsed=sum.classList.toggle("collapsed");
+    tog.firstChild.textContent=(collapsed?"Show":"Hide")+" ";
+  });
+})();
+
+/* ---- Indicator definition popup ---- */
+const tip=document.createElement('div'); tip.id='tip'; document.body.appendChild(tip);
+let tipFor=null;
+function showTip(el){
+  const k=el.dataset.t, d=DEF[k]; if(!d)return;
+  tip.innerHTML='<span class="tt">'+(TITLE[k]||el.textContent)+'</span>'+d;
+  tip.classList.add('show');
+  const r=el.getBoundingClientRect(), tr=tip.getBoundingClientRect();
+  let left=Math.max(8,Math.min(r.left+r.width/2-tr.width/2, innerWidth-tr.width-8));
+  let top=r.top-tr.height-10, below=false;
+  if(top<8){top=r.bottom+10; below=true;}
+  tip.style.left=left+'px'; tip.style.top=top+'px';
+  tip.style.setProperty('--ax',(r.left+r.width/2-left)+'px');
+  tip.classList.toggle('below',below);
+  tipFor=el;
+}
+function hideTip(){tip.classList.remove('show'); tipFor=null;}
+document.addEventListener('mouseover',e=>{const el=e.target.closest('.ta-ind.tip'); if(el)showTip(el);});
+document.addEventListener('mouseout',e=>{const el=e.target.closest('.ta-ind.tip'); if(el&&!tip.contains(e.relatedTarget))hideTip();});
+document.addEventListener('click',e=>{
+  const el=e.target.closest('.ta-ind.tip');
+  if(el){e.stopPropagation(); (tipFor===el)?hideTip():showTip(el);}
+  else if(!tip.contains(e.target))hideTip();
+});
+window.addEventListener('scroll',hideTip,true);
+window.addEventListener('resize',hideTip);
+
+// counts
+["bull","ext","caut","neut","bear"].forEach(s=>{
+  document.getElementById("s-"+s).textContent = CHARTS.filter(c=>c.sig===s).length;
+});
+
+// filter dropdowns
+const filtersEl=document.getElementById("filters");
+function mkSelect(type,options){
+  const wrap=document.createElement("div"); wrap.className="selwrap";
+  const sel=document.createElement("select"); sel.dataset.type=type;
+  options.forEach(o=>{
+    const opt=document.createElement("option");
+    opt.value=o.val; opt.textContent=o.label;
+    if(o.cls) opt.className=o.cls;
+    sel.appendChild(opt);
+  });
+  const SIGCLS=["sig-bull","sig-ext","sig-caut","sig-neut","sig-bear"];
+  sel.addEventListener("change",()=>{
+    const val=sel.value;
+    if(type==="grp")activeGroup=val; else activeSig=val;
+    const isSet=val!=="all";
+    if(type==="sig"){
+      sel.classList.remove("set",...SIGCLS); wrap.classList.remove("set",...SIGCLS);
+      if(isSet){sel.classList.add("sig-"+val); wrap.classList.add("sig-"+val);}
+    }else{
+      sel.classList.toggle("set",isSet);
+      wrap.classList.toggle("set",isSet);
+    }
+    render();
+  });
+  wrap.appendChild(sel);
+  filtersEl.appendChild(wrap);
+}
+mkSelect("sig",[
+  {val:"all",label:"All signals"},
+  {val:"bull",label:"● Bullish",cls:"opt-bull"},
+  {val:"ext",label:"● Bullish · Extended",cls:"opt-ext"},
+  {val:"neut",label:"● Neutral",cls:"opt-neut"},
+  {val:"caut",label:"● Caution",cls:"opt-caut"},
+  {val:"bear",label:"● Bearish",cls:"opt-bear"}
+]);
+mkSelect("grp",[
+  {val:"all",label:"All lists"},
+  ...GROUP_ORDER.map(g=>({val:g,label:G[g].label}))
+]);
+
+document.getElementById("search").addEventListener("input",e=>{query=e.target.value.toLowerCase();render();});
+
+// build cards + toc, grouped by list
+const cardsEl=document.getElementById("cards"), tocEl=document.getElementById("toc");
+GROUP_ORDER.forEach(g=>{
+  const gc=CHARTS.filter(c=>c.g===g);
+
+  // group header row in cards
+  const gh=document.createElement("div");
+  gh.className="grouphdr"; gh.id="g-"+g; gh.dataset.group=g;
+  gh.innerHTML=`<h2>${G[g].label}</h2><div class="gmeta">${G[g].meta}</div>`;
+  cardsEl.appendChild(gh);
+
+  // toc section header
+  const th=document.createElement("h3");
+  th.textContent=G[g].label; th.dataset.tocgroup=g;
+  tocEl.appendChild(th);
+
+  gc.forEach(c=>{
+    const card=document.createElement("div");
+    card.className="card "+c.sig; card.id=c.id; card.dataset.group=c.g; card.dataset.sig=c.sig;
+    card.dataset.text=(c.title+" "+c.cat+" "+c.nbox+" "+G[c.g].label+" "+c.body.join(" ")).toLowerCase();
+    // Some source lists only provided images, not per-chart URLs. For those, build a
+    // unique per-symbol StockCharts link from the ticker; keep real shared-chart URLs
+    // where the source gave them, and fall back to the list page for non-symbol composites.
+    let chartHref=c.link, chartLabel="↗ Open on StockCharts";
+    if(/panels\/\?cmd=show/.test(c.link)){
+      const NONSYM=["POS","AAII"];
+      if(c.nbox && !NONSYM.includes(c.nbox)){
+        chartHref="https://stockcharts.com/h-sc/ui?s="+encodeURIComponent(c.nbox);
+      }else{
+        chartLabel="↗ Open list on StockCharts";
+      }
+    }
+    card.innerHTML=`
+      <div class="head">
+        <div class="nbox">${c.nbox}</div>
+        <div class="htext"><h3>${c.title}</h3><div class="cat">${c.cat}</div></div>
+        <div class="right"><span class="tag ${c.sig}">${SIG[c.sig].label}</span><span class="caret"></span></div>
+      </div>
+      <div class="body">
+        ${c.body.map(p=>`<p>${hl(p)}</p>`).join("")}
+        <div class="links">
+          <a class="openchart" href="${chartHref}" target="_blank" rel="noopener">${chartLabel}</a>
+          <a class="openchart" href="${c.img}" target="_blank" rel="noopener">🖼 View chart image</a>
+        </div>
+      </div>`;
+    card.querySelector(".head").addEventListener("click",()=>card.classList.toggle("open"));
+    cardsEl.appendChild(card);
+
+    const a=document.createElement("a");
+    a.href="#"+c.id; a.dataset.id=c.id; a.dataset.group=c.g;
+    a.innerHTML=`<span class="dot" style="background:var(--${c.sig})"></span>${c.nbox} · ${c.cat}`;
+    a.addEventListener("click",()=>{const t=document.getElementById(c.id);t.classList.add("open");});
+    tocEl.appendChild(a);
+  });
+});
+
+function render(){
+  let shown=0;
+  const groupShown={};
+  CHARTS.forEach(c=>{
+    const el=document.getElementById(c.id);
+    const ok=(activeGroup==="all"||c.g===activeGroup)&&
+             (activeSig==="all"||c.sig===activeSig)&&
+             (query===""||el.dataset.text.includes(query));
+    el.style.display=ok?"":"none";
+    const link=tocEl.querySelector(`a[data-id="${c.id}"]`);
+    if(link)link.style.display=ok?"":"none";
+    if(ok){shown++; groupShown[c.g]=true;}
+  });
+  // show/hide group headers (cards + toc) based on whether any child is visible
+  GROUP_ORDER.forEach(g=>{
+    const vis=!!groupShown[g];
+    const gh=document.getElementById("g-"+g); if(gh)gh.style.display=vis?"":"none";
+    const th=tocEl.querySelector(`h3[data-tocgroup="${g}"]`); if(th)th.style.display=vis?"":"none";
+  });
+  document.getElementById("noresults").style.display=shown?"none":"block";
+}
+
+// scrollspy
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      tocEl.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
+      const link=tocEl.querySelector(`a[data-id="${e.target.id}"]`);
+      if(link)link.classList.add("on");
+    }
+  });
+},{rootMargin:"-130px 0px -70% 0px"});
+CHARTS.forEach(c=>obs.observe(document.getElementById(c.id)));
+
+render();
+</script>
+</body>
+</html>

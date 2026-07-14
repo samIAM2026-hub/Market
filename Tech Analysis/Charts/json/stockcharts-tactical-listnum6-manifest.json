@@ -1,0 +1,78 @@
+{
+  "source": "https://stockcharts.com/panels/?cmd=show&listNum=6&viewType=e",
+  "listName": "[Market Sum] 030 - EQUITIES - Tactical Market Timing (5-Day MA)",
+  "charts": [
+    {
+      "index": 1,
+      "title": "01 - Total Market",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-01-01-total-market.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=VTI&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797453&r=156",
+      "symbol": "VTI",
+      "chartId": "2304797453"
+    },
+    {
+      "index": 2,
+      "title": "02 - S&P 100",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-02-02-s-p-100.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24OEX&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797448&r=637",
+      "symbol": "$OEX",
+      "chartId": "2304797448"
+    },
+    {
+      "index": 3,
+      "title": "03 - S&P 500",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-03-03-s-p-500.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24SPX&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797452&r=620",
+      "symbol": "$SPX",
+      "chartId": "2304797452"
+    },
+    {
+      "index": 4,
+      "title": "04 - S&P 400",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-04-04-s-p-400.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24MID&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797454&r=477",
+      "symbol": "$MID",
+      "chartId": "2304797454"
+    },
+    {
+      "index": 5,
+      "title": "05 - S&P 600",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-05-05-s-p-600.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24SML&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797451&r=982",
+      "symbol": "$SML",
+      "chartId": "2304797451"
+    },
+    {
+      "index": 6,
+      "title": "06 - NASDAQ 100",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-06-06-nasdaq-100.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=QQQ&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797455&r=668",
+      "symbol": "QQQ",
+      "chartId": "2304797455"
+    },
+    {
+      "index": 7,
+      "title": "07 - Russell 1000",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-07-07-russell-1000.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=IWB&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797449&r=582",
+      "symbol": "IWB",
+      "chartId": "2304797449"
+    },
+    {
+      "index": 8,
+      "title": "08 - Russell 2000",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-08-08-russell-2000.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=IWM&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797450&r=332",
+      "symbol": "IWM",
+      "chartId": "2304797450"
+    },
+    {
+      "index": 9,
+      "title": "09 - Dow Industrials",
+      "imagePath": "../Image/stockcharts-tactical-listnum6-09-09-dow-industrials.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24INDU&p=30&yr=0&mn=1&dy=0&id=p26428371887&a=2304797456&r=581",
+      "symbol": "$INDU",
+      "chartId": "2304797456"
+    }
+  ]
+}

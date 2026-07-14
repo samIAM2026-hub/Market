@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>凯文·沃什的货币政策哲学 · 投资者完整手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#F7F4ED; --paper:#FFFFFF;
+    --ink:#1A1A1A; --ink-2:#3D3D3D; --ink-3:#6B6B6B;
+    --line:#E4DED1; --line-strong:#C8BFAE;
+    --navy:#0E2A47; --navy-2:#143E66;
+    --gold:#B08842; --gold-light:#D4B271;
+    --up:#D7263D; --up-soft:#FBE9EC; --up-deep:#9E1A2D;
+    --down:#1F8A47; --down-soft:#E7F5EC; --down-deep:#125F30;
+    --flat:#8A8A8A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.8;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Noto Serif SC',serif}
+
+  header.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0E2A47 0%,#143E66 100%);color:#fff;border-bottom:3px solid var(--gold)}
+  .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-seal{width:44px;height:44px;background:var(--up);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC';font-weight:900;font-size:20px;border:2px solid var(--gold-light);box-shadow:0 0 0 1px rgba(255,255,255,.15)}
+  .brand-text{display:flex;flex-direction:column;line-height:1.2}
+  .brand-title{font-family:'Noto Serif SC';font-weight:700;font-size:18px;letter-spacing:1px}
+  .brand-sub{font-size:11.5px;color:#C9D6E3;letter-spacing:2px}
+  .topbar-meta{display:flex;gap:22px;font-size:12px;color:#C9D6E3}
+  .topbar-meta span b{color:#fff;font-weight:500;margin-left:4px}
+
+  nav.chapters{position:sticky;top:73px;z-index:40;background:#FAF8F2;border-bottom:1px solid var(--line)}
+  .chapters-inner{max-width:1280px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+  .chapter-tab{padding:12px 14px;font-size:13px;font-weight:500;color:var(--ink-3);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;text-decoration:none}
+  .chapter-tab:hover{color:var(--navy)}
+  .chapter-tab.active{color:var(--up);border-bottom-color:var(--up);font-weight:700}
+  .chapter-tab .num{font-family:'Noto Serif SC';margin-right:5px;color:var(--gold)}
+
+  main{max-width:1280px;margin:0 auto;padding:32px 28px 80px}
+  section.chapter{background:var(--paper);border:1px solid var(--line);padding:36px 40px;margin-bottom:28px;box-shadow:0 1px 3px rgba(14,42,71,0.04);scroll-margin-top:132px}
+  @media(max-width:680px){section.chapter{padding:26px 20px}}
+  .ch-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:24px;gap:24px;flex-wrap:wrap}
+  .ch-title{font-family:'Noto Serif SC';font-weight:900;font-size:25px;color:var(--navy);display:flex;align-items:baseline;gap:14px}
+  .ch-num{color:var(--up);font-size:34px;line-height:1;border-right:2px solid var(--gold);padding-right:14px}
+  .ch-en{font-size:11.5px;color:var(--ink-3);letter-spacing:3px;text-transform:uppercase;font-family:'Noto Sans SC'}
+
+  h3.sub{font-family:'Noto Serif SC';font-weight:700;font-size:19px;color:var(--navy);margin:30px 0 12px;padding-left:12px;border-left:4px solid var(--gold)}
+  h4.subsub{font-family:'Noto Serif SC';font-weight:700;font-size:15.5px;color:var(--navy-2);margin:18px 0 8px}
+  p{margin:10px 0}
+  p .hl{color:var(--navy);font-weight:700}
+  p .em{color:var(--up-deep);font-weight:700}
+  .quote{border-left:3px solid var(--gold-light);background:#FFFDF6;padding:4px 14px;color:var(--ink-2);font-style:italic;margin:12px 0}
+
+  .tldr{background:linear-gradient(90deg,#FFF7E0 0%, #FAF8F2 100%);border-left:4px solid var(--gold);padding:16px 20px;margin-bottom:24px;font-size:14.5px;color:var(--ink-2)}
+  .tldr b{color:var(--navy);font-weight:700}
+  .verdict-tags{margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap}
+  .vtag{display:inline-block;font-size:12px;font-weight:700;padding:4px 12px;border-radius:2px}
+  .vtag.r{background:var(--up-soft);color:var(--up-deep);border:1px solid #f0c4cb}
+  .vtag.g{background:var(--down-soft);color:var(--down-deep);border:1px solid #bfe3cc}
+  .vtag.y{background:#FFF7E0;color:#8a6a20;border:1px solid var(--gold-light)}
+  .vtag.n{background:#EAF0F6;color:var(--navy);border:1px solid #c5d4e3}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:18px}
+  .kpi{background:var(--paper);padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px}
+  .kpi-label{font-size:11.5px;color:var(--ink-3);letter-spacing:1px}
+  .kpi-value{font-family:'Noto Serif SC';font-weight:700;font-size:26px;line-height:1.1}
+  .kpi-value.up{color:var(--up)}.kpi-value.down{color:var(--down)}.kpi-value.navy{color:var(--navy)}
+  .kpi-sub{font-size:11.5px;color:var(--ink-3)}
+  .kpi-sub.up{color:var(--up)}.kpi-sub.down{color:var(--down)}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  @media(max-width:960px){.two-col{grid-template-columns:1fr}}
+
+  .chart-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .chart-title{font-family:'Noto Serif SC';font-weight:700;font-size:15px;color:var(--navy);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px;gap:10px}
+  .chart-title small{font-family:'Noto Sans SC';font-weight:400;font-size:11px;color:var(--ink-3);letter-spacing:.5px;text-align:right}
+  .chart-wrap{position:relative;height:330px}
+
+  .takeaway-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:4px}
+  .tk-card{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);padding:16px 18px}
+  .tk-card .n{font-family:'Noto Serif SC';font-weight:900;font-size:22px;color:var(--up);line-height:1}
+  .tk-card .t{font-family:'Noto Serif SC';font-weight:700;font-size:15.5px;color:var(--navy);margin:6px 0 6px}
+  .tk-card .d{font-size:13px;color:var(--ink-2);line-height:1.65}
+
+  .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .theme-card{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);padding:16px 18px;transition:all .18s;position:relative}
+  .theme-card:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(14,42,71,.08)}
+  .theme-card.hot{border-top-color:var(--up)}
+  .theme-card.cold{border-top-color:var(--down)}
+  .theme-card.warm{border-top-color:var(--gold)}
+  .theme-tag{font-family:'Noto Serif SC';font-weight:700;font-size:11.5px;color:var(--gold);letter-spacing:1px}
+  .theme-name{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--navy);margin:4px 0 7px}
+  .theme-desc{font-size:13px;color:var(--ink-2);line-height:1.7}
+  .theme-desc i{color:var(--navy-2);font-style:normal;font-weight:600}
+
+  .sub-tabs{display:flex;border:1px solid var(--navy);margin-bottom:18px;width:fit-content;flex-wrap:wrap}
+  .sub-tab{padding:9px 18px;font-size:13.5px;font-weight:500;cursor:pointer;background:var(--paper);color:var(--navy);border-right:1px solid var(--navy);transition:all .15s}
+  .sub-tab:last-child{border-right:0}
+  .sub-tab.active{background:var(--navy);color:#fff}
+  .pane{display:none}
+  .pane.active{display:block;animation:fade .25s}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  table.research{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+  table.research th{background:var(--navy);color:#fff;padding:10px 12px;font-weight:500;text-align:left;border-right:1px solid #1F4A72}
+  table.research td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  table.research tr:nth-child(even) td{background:#FAF8F2}
+  table.research td.up{color:var(--up);font-weight:700;font-family:'Noto Serif SC'}
+  table.research td.down{color:var(--down);font-weight:700;font-family:'Noto Serif SC'}
+  table.research td.lead{font-weight:600;color:var(--ink)}
+  .tbl-scroll{overflow-x:auto}
+
+  .timeline{position:relative;margin:10px 0 4px;padding-left:4px}
+  .tl-item{border-left:2px solid var(--line-strong);padding:0 0 22px 22px;position:relative}
+  .tl-item:last-child{border-left-color:transparent}
+  .tl-dot{position:absolute;left:-8px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--paper);box-shadow:0 0 0 1px var(--gold-light)}
+  .tl-era{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--navy)}
+  .tl-era small{font-family:'Noto Sans SC';font-weight:400;font-size:12px;color:var(--ink-3);margin-left:8px;letter-spacing:.5px}
+  .tl-body{font-size:13.5px;color:var(--ink-2);line-height:1.7;margin-top:6px}
+  .rw{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:2px;margin-right:6px}
+  .rw.right{background:var(--down-soft);color:var(--down-deep)}
+  .rw.wrong{background:var(--up-soft);color:var(--up-deep)}
+  .rw.evo{background:#EAF0F6;color:var(--navy)}
+
+  .scorebars{display:flex;flex-direction:column;gap:12px;margin:6px 0}
+  .scorebar .lab{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:4px}
+  .scorebar .lab b{font-family:'Noto Serif SC';color:var(--up)}
+  .scorebar .track{background:#F0EBE0;height:14px;border-radius:2px;overflow:hidden}
+  .scorebar .fill{height:100%;background:linear-gradient(90deg,var(--gold-light),var(--up))}
+
+  .conc{background:linear-gradient(180deg,#FFFDF6 0%, #F7F4ED 100%);border:1px solid var(--line);border-left:3px solid var(--navy);padding:16px 20px;margin-bottom:14px}
+  .conc h4{margin:0 0 6px;font-family:'Noto Serif SC';color:var(--navy);font-size:15.5px;display:flex;gap:8px;align-items:center}
+  .conc h4 .ic{color:var(--gold);font-weight:900}
+  .conc p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .conc p b{color:var(--navy-2)}
+
+  ul.clean{margin:8px 0;padding-left:20px}
+  ul.clean li{margin:7px 0;font-size:14px;color:var(--ink-2);line-height:1.7}
+  ul.clean li b{color:var(--navy)}
+
+  /* 沃什-特朗普 立场对峙·分歧图 */
+  .diverge{padding:8px 6px 2px}
+  .dv-axis{display:grid;grid-template-columns:88px 1fr;align-items:center;gap:12px;margin-bottom:10px}
+  .dv-axis .ends{display:flex;justify-content:space-between;font-size:12px}
+  .dv-axis .e-neg{color:var(--up-deep);font-weight:700}
+  .dv-axis .e-pos{color:var(--down-deep);font-weight:700}
+  .dv-row{display:grid;grid-template-columns:88px 1fr;align-items:center;gap:12px;margin:8px 0}
+  .dv-name{font-size:13.5px;color:var(--navy);font-weight:700;text-align:right;font-family:'Noto Serif SC';line-height:1.2}
+  .dv-track{position:relative;height:26px;background:#FAF8F2;border:1px solid var(--line);border-radius:2px}
+  .dv-center{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--line-strong);transform:translateX(-1px);z-index:3}
+  .dv-bar{position:absolute;top:3px;bottom:3px;display:flex;align-items:center;border-radius:2px;z-index:2}
+  .dv-bar.neg{background:linear-gradient(90deg,var(--up-deep),var(--up));justify-content:flex-start;padding-left:8px}
+  .dv-bar.pos{background:linear-gradient(90deg,var(--down),var(--down-deep));justify-content:flex-end;padding-right:8px}
+  .dv-bar .lab{font-size:11.5px;font-weight:700;color:#fff;white-space:nowrap;font-family:'Noto Serif SC';letter-spacing:.5px}
+  .dv-side{position:absolute;top:50%;transform:translateY(-50%);font-size:11px;color:var(--ink-3);white-space:nowrap;z-index:2}
+  .dv-row.tie .dv-track{background:#FFF7E0}
+  .dv-tie-mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;font-weight:700;color:#8a6a20;background:#FFF7E0;padding:0 6px;z-index:4}
+  .dv-foot{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+  .dv-foot span{display:inline-flex;align-items:center;gap:6px}
+  .dv-sw{width:13px;height:13px;border-radius:2px;display:inline-block}
+  .note{background:#FFFAEC;border:1px dashed var(--gold-light);padding:12px 16px;font-size:12.5px;color:var(--ink-3);margin-top:18px;line-height:1.7}
+  .note b{color:var(--ink-2)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:2px;letter-spacing:.5px}
+  .b-bull{background:var(--up-soft);color:var(--up-deep)}
+  .b-base{background:#FFF7E0;color:#8a6a20}
+  .b-bear{background:var(--down-soft);color:var(--down-deep)}
+  footer{text-align:center;font-size:12px;color:var(--ink-3);padding:24px 0 0;margin-top:8px;line-height:1.9}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-seal">沃</div>
+      <div class="brand-text">
+        <div class="brand-title">凯文·沃什的货币政策哲学</div>
+        <div class="brand-sub">KEVIN WARSH · A COMPLETE INVESTOR PLAYBOOK</div>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span>定位<b class="serif" style="color:var(--up-deep)">通胀鹰派</b></span>
+      <span>核心使命<b>2% 物价稳定</b></span>
+      <span>首次议息<b>2026年6月16日</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="chapters">
+  <div class="chapters-inner" id="navTabs">
+    <a class="chapter-tab active" href="#c1"><span class="num">壹</span>执行摘要</a>
+    <a class="chapter-tab" href="#c2"><span class="num">贰</span>政策哲学</a>
+    <a class="chapter-tab" href="#c3"><span class="num">叁</span>历史讲话</a>
+    <a class="chapter-tab" href="#c4"><span class="num">肆</span>鹰派评分</a>
+    <a class="chapter-tab" href="#c5"><span class="num">伍</span>市场影响</a>
+    <a class="chapter-tab" href="#c6"><span class="num">陆</span>汇率·固收</a>
+    <a class="chapter-tab" href="#c7"><span class="num">柒</span>黄金·比特币</a>
+    <a class="chapter-tab" href="#c8"><span class="num">捌</span>组合策略</a>
+    <a class="chapter-tab" href="#c9"><span class="num">玖</span>首次FOMC</a>
+    <a class="chapter-tab" href="#c10"><span class="num">拾</span>沃什与特朗普</a>
+    <a class="chapter-tab" href="#c11"><span class="num">拾壹</span>情景概率</a>
+    <a class="chapter-tab" href="#c12"><span class="num">拾贰</span>监控仪表盘</a>
+    <a class="chapter-tab" href="#c13"><span class="num">拾叁</span>最终结论</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- 1 执行摘要 -->
+  <section class="chapter" id="c1">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">壹</span>执行摘要</div>
+      <div class="ch-en">Executive Summary</div>
+    </div>
+    <div class="verdict-tags">
+      <span class="vtag r">通胀鹰派</span>
+      <span class="vtag n">科技乐观派</span>
+      <span class="vtag y">缩表斗士</span>
+      <span class="vtag g">强美元 · 看空黄金</span>
+    </div>
+    <div class="tldr">
+      <b>一句话总结：</b>沃什把通胀视为<b>由政策驱动</b>的现象——「通胀归根结底永远是美联储的过错」，并对2%物价稳定<b>抱有近乎信仰的承诺</b>，名言是「通胀是一种选择」。与此同时，他对生产率（尤其是AI带来的）极度乐观，视其为「结构性的反通胀力量」（即结构性地压低通胀率，而非引发通缩）。他既是<b class="serif" style="color:var(--up-deep)">通胀鹰派</b>，又是<b class="serif" style="color:var(--navy)">科技乐观派</b>——这一组合正是理解他全部政策的钥匙。
+    </div>
+
+    <h3 class="sub">五大支柱</h3>
+    <div class="theme-grid">
+      <div class="theme-card hot">
+        <div class="theme-tag">PILLAR 01</div>
+        <div class="theme-name">鹰派遇上科技乐观</div>
+        <div class="theme-desc">通胀被看作<i>货币现象</i>，对2%目标坚定不移；同时坚信AI驱动的生产率提升是「结构性反通胀」（structurally disinflationary）力量，可在不过热的前提下为降息创造空间。</div>
+      </div>
+      <div class="theme-card warm">
+        <div class="theme-tag">PILLAR 02</div>
+        <div class="theme-name">缩表斗士</div>
+        <div class="theme-desc">认定美联储逾<i>7万亿美元</i>的资产负债表（QE）推高了通胀与资产泡沫，必须「数量级地」收缩。2010年美联储宣布额外6000亿美元QE2后，他作为少数公开反对者之一，于2011年离任理事会（外界普遍将其离场解读为对此分歧的体现）；此后多次呼吁仿照<i>1951年「财政—货币协定」（1951 Treasury–Fed Accord）</i>，以新协定为框架推进大幅缩表。</div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-tag">PILLAR 03</div>
+        <div class="theme-name">数据高于点阵图（dot plot）</div>
+        <div class="theme-desc">厌恶过度的前瞻指引（forward guidance），警告市场对美联储沟通「赋予了不当权重」，主张减少点阵图与发布会。「当金融市场对增量数据作出反应时，它们表现最好。」偏好<i>更杂乱但更真实</i>的会议。</div>
+      </div>
+      <div class="theme-card hot">
+        <div class="theme-tag">PILLAR 04</div>
+        <div class="theme-name">市场已有反应</div>
+        <div class="theme-desc">其提名即令黄金（<i>−11%</i>）、白银（<i>−31%</i>）暴跌，交易员抢先定价更紧政策。预期进入强美元格局——他捍卫「稳健美元」（sound dollar）；既靠科技利好大盘成长，又以鹰派打压长久期资产。</div>
+      </div>
+      <div class="theme-card cold">
+        <div class="theme-tag">PILLAR 05</div>
+        <div class="theme-name">被低估的最大风险</div>
+        <div class="theme-desc">投资者可能<i>低估</i>他的反通胀热忱与缩表决心。即便他大谈增长，一旦通胀超标，他更可能<i>加速收紧</i>以重建可信度。</div>
+      </div>
+    </div>
+
+    <h3 class="sub">政策优先序</h3>
+    <p>物价稳定与美联储可信度高于一切。其余优先项包括：<span class="hl">革新过时的数据体系</span>（成立实时测量的专项小组）、<span class="hl">收窄美联储职责</span>（不再充当经济的「修理铺」），以及<span class="hl">捍卫独立性</span>——「独立性是靠……克制赢得的」。</p>
+
+    <h3 class="sub">给投资者的五大要点</h3>
+    <div class="takeaway-grid">
+      <div class="tk-card"><div class="n">1</div><div class="t">通胀鹰派</div><div class="d">视通胀为货币现象，确保其稳定在2%或以下。若通胀复燃，他收紧的力度可能超出市场预期。</div></div>
+      <div class="tk-card"><div class="n">2</div><div class="t">聚焦缩表</div><div class="d">将显著收缩美联储资产持仓。其任内的QT意味着流动性减少；长债、MBS与高估值股票将承压。</div></div>
+      <div class="tk-card"><div class="n">3</div><div class="t">AI与增长助推者</div><div class="d">对AI/生产率乐观。若通胀放缓兑现，他可能更愿降息——但绝不以牺牲可信度为代价。</div></div>
+      <div class="tk-card"><div class="n">4</div><div class="t">美联储独立性</div><div class="d">强调独立，否认对特朗普有任何降息「承诺」，自称「独立行动者」。市场应看他的投票，而非他的党派。</div></div>
+      <div class="tk-card"><div class="n">5</div><div class="t">沟通风格</div><div class="d">将削减「美联储噪音」。更高的模糊度与数据驱动政策，意味着会议前后短期波动加大，但长期焦点更清晰。</div></div>
+    </div>
+
+    <h3 class="sub">市场已定价的方向</h3>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">提名后 · 黄金</div><div class="kpi-value down">−11%</div><div class="kpi-sub down">▽ 抢先定价紧缩</div></div>
+      <div class="kpi"><div class="kpi-label">提名后 · 白银</div><div class="kpi-value down">−31%</div><div class="kpi-sub down">▽ 贵金属重挫</div></div>
+      <div class="kpi"><div class="kpi-label">美元 DXY</div><div class="kpi-value up">走强</div><div class="kpi-sub up">△ 「稳健美元」立场</div></div>
+      <div class="kpi"><div class="kpi-label">2%通胀目标</div><div class="kpi-value navy">坚定</div><div class="kpi-sub">「强、一致、明确」的承诺</div></div>
+    </div>
+    <div class="note"><b>阅读提示（红涨绿跌）：</b>本报告遵循中国市场配色惯例——<span style="color:var(--up);font-weight:700">红色代表上涨/利多</span>，<span style="color:var(--down);font-weight:700">绿色代表下跌/利空</span>，与欧美原生配色相反。本文系对所附英文研究报告的完整中译与可视化呈现。</div>
+  </section>
+
+  <!-- 2 政策哲学 -->
+  <section class="chapter" id="c2">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">贰</span>货币政策哲学</div>
+      <div class="ch-en">Monetary Policy Philosophy</div>
+    </div>
+    <div class="tldr">沃什的政策框架由四根支柱构成：<b>通胀观（货币与预期驱动）、利率观（规则与结构变化并重）、资产负债表（QE是问题、QT是解药）、沟通观（数据透明而非信号引导）</b>。点击下方切换。</div>
+    <div class="sub-tabs" id="phil-tabs">
+      <div class="sub-tab active" data-p="0">通胀</div>
+      <div class="sub-tab" data-p="1">利率</div>
+      <div class="sub-tab" data-p="2">资产负债表 QE/QT</div>
+      <div class="sub-tab" data-p="3">前瞻指引与沟通</div>
+    </div>
+
+    <div class="pane active" data-pane="0">
+      <p>沃什从根本上把通胀视为一种<span class="hl">货币与预期驱动</span>的现象。他援引弗里德曼式观点，强调除非央行容许，否则通胀「归根结底永远是美联储的过错」。他明确拒绝把一次性供给冲击（石油、乌克兰、关税）当作真正的通胀，称之为「一次性价格变动」——若有扩散风险，美联储能够也应当将其对冲。</p>
+      <h4 class="subsub">需求 vs 供给 vs 预期</h4>
+      <p>他更看重<span class="hl">需求/货币</span>与预期。「通胀关乎货币」，在他看来，货币增长与信贷狂热「制造了」近期的物价飙升。在确认听证会上，他注意到核心CPI为0.8%，但表示自己仍「更担心通胀的上行风险」（尽管据某些说法整体PCE当时为负）。他怀疑供给冲击（关税、瓶颈）会持久——曾论证美国关税不会把通胀推升至目标之上。他关注的是底层的「趋势」通胀与广义货币走势。</p>
+      <h4 class="subsub">物价稳定（2%目标）</h4>
+      <p>沃什<span class="em">强烈承诺</span>美联储的2%目标，将捍卫物价稳定定位为美联储的核心使命，并称美联储「交付物价稳定的承诺是强有力的、全体一致的、毫不含糊的」。若通胀爬升至2%以上，他视之为需要纠正的政策失败。他大概率<span class="hl">不会长期容忍3–4%的通胀</span>，而会收紧以将其拉回2%、「重建可信度」。</p>
+      <h4 class="subsub">通胀容忍度</h4>
+      <p>关于「他是否会接受3–4%」并无直接引语，但鉴于其措辞（「终结通胀是我们的工作」），他会视3–4%为过高。他警告：若市场相信美联储会在通胀面前维持低利率，可信度将受损。因此一次重大的通胀意外很可能触发<span class="em">激进行动</span>——一旦通胀被视为脱锚，他会感到必须加息以彰显决心。</p>
+    </div>
+
+    <div class="pane" data-pane="1">
+      <p>沃什的利率哲学，融合了规则导向的纪律与对结构性变化的开放。</p>
+      <h4 class="subsub">中性/自然利率</h4>
+      <p>他暗示，随着AI带来更高生产率，长期均衡利率可能已经上移。有评论指出，沃什隐含地质疑在高增长格局下2%通胀是否仍是最优；他甚至提出，若生产率永久性上升，可重新审视通胀目标。但目前他把2%视为固定，也未明确给出r*的数字。鉴于其鹰派倾向，若通胀达标，他大概率假设一个<span class="hl">高于当前的「中性」水平</span>。</p>
+      <h4 class="subsub">政策偏向</h4>
+      <p>作为主席的早期迹象显示<span class="em">不急于降息</span>：首次会议上，一项降息提议被否决，美联储维持利率不变。这呼应了他的确认立场——不会向特朗普承诺过早降息。即便失业率为4.1%，他在2026年初仍拒绝降息。用他的话说，「整个委员会一致且明确」地选择按兵不动。</p>
+      <h4 class="subsub">更高更久（higher-for-longer） vs 降息</h4>
+      <p>沃什并非教条式的「更高更久」派——他明确基于<span class="hl">生产率理由</span>构建了降息的论据。其《华尔街日报》专栏论证称，AI可在不过热的情况下允许降息。但他作出关键区分：那是一个预测（AI增长），而非立即降息的借口。他强调「依数据行事」，只有在通胀与增长偏离时才加息或降息。实践中，<span class="em">通胀高于目标时他是鹰派</span>（曾反对QE2、在2010年主张利率正常化），但一旦2%可持续达成且增长强劲，他暗示可降息。一言以蔽之：<b>通胀意外则先发制人收紧，AI带来的通胀放缓兑现则政策温和下行（讲究时机）。</b></p>
+      <h4 class="subsub">规则 vs 相机抉择</h4>
+      <p>沃什推崇规则式纪律，批评频繁的美联储预测（「点阵图」），认为市场对言辞解读过度。他偏好更稳定的政策立场与任何宽松的「清晰退出策略」。但他并不机械：他明确表示不会为通胀牺牲就业——「我不相信……你必须做出选择……我们可以同时实现强增长、低物价与强就业」，从而拒绝了菲利普斯曲线的取舍。这意味着若生产率与供给趋势有利，他愿意「少倚重」紧缩，但对物价始终保持警惕。</p>
+    </div>
+
+    <div class="pane" data-pane="2">
+      <p>沃什对QE<span class="em">极度批判</span>。他把非常规宽松视为<span class="hl">通胀问题的一部分</span>，而不仅是危机时的应急工具，并警告每一美元的债券购买都「使通胀高于目标」。</p>
+      <h4 class="subsub">QE（量化宽松）</h4>
+      <p>2008年他支持拯救金融体系，但到2010年已公开反对新一轮QE。他著名地<span class="hl">「投票支持QE2、却同时撰文与发声反对它」</span>。作为主席被提名人，他强调自己曾是伯南克6000亿美元QE2计划的少数公开反对者之一，并在该计划宣布后不久、于2011年离任理事会。可见他对美联储购债抱有疑虑，偏好最小化的永久干预；任何应急工具都应有清晰的「日落条款」（sunset clause，到期自动终止）。</p>
+      <h4 class="subsub">QT（量化紧缩）</h4>
+      <p>沃什毫不含糊地支持收缩资产负债表，称美联储的投资组合「臃肿」。作为主席，他计划「先QT、再降息」——即先缩表，再用腾出的空间考虑降息。在胡佛研究所访谈中，他明言要实现更低利率，「我们得让印钞机安静一点」。他会推动一次审慎的退场（类似现代版1951协定）。</p>
+      <h4 class="subsub">结构</h4>
+      <p>预计他将大致与FOMC指引同步地削减<span class="hl">国债持有</span>与<span class="hl">抵押贷款支持证券（MBS）</span>，目标可能是把准备金降至更「正常」的水平（减少过剩流动性），尽管尚无公开的明确目标。他大概率会设定再投资上限、让到期债券逐步滚出，并在适当时加速。</p>
+      <h4 class="subsub">后果</h4>
+      <p>显著收缩的美联储足迹，意味着<span class="em">债市波动加剧、流动性下降</span>。当美联储主动卖出时，市场会担忧波动。QT期间收益率曲线可能陡峭化（短端稳、长端升）。抵押贷款利率料将上行，为房市降温。沃什认为这是可信度的必要代价——他会留意不要让市场「崩断」，但预期紧缩中会出现一些「市场动荡」。</p>
+    </div>
+
+    <div class="pane" data-pane="3">
+      <p>沃什的沟通风格是<span class="hl">数据驱动的透明，而非信号引导</span>。他公开批评美联储繁复的指引惯例。在2026年4月的参议院听证会上，他说「市场参与者可能对美联储的沟通赋予不当权重」。他已着手<span class="em">暂停并简化</span>官方沟通：更少的预测（如他在2026年6月所言「我们取消了前瞻指引」），更少的发布会。</p>
+      <h4 class="subsub">透明 vs 模糊</h4>
+      <p>沃什并不追求神秘的不透明，但他偏好让市场去解读<span class="hl">数据信号</span>，而非美联储的暗示。在首次发布会上，他说市场聚焦于「增量数据」而非美联储决策时表现最好。他正在减少「绵延的评论」（如额外演讲），以免市场对经济「视而不见」。点阵图大概率将取消。</p>
+      <h4 class="subsub">波动影响</h4>
+      <p>他承认这会导致会议前后更多「早期波动」。但他认为，长期看市场会更健康——对真实的经济变化、而非对总统关于政策的推文作出反应。所以短期确有一些震荡。</p>
+      <h4 class="subsub">信号</h4>
+      <p>在措辞上，他强化了通胀表述：接任后让美联储以更强语气「承诺交付」物价稳定，并淡化降息论调。他还明确强调美联储相对财政部的独立性（在维持美联储—财政部早餐传统的同时，强调角色「界定清晰」）。这些都是他用以彰显优先序的细微调整。</p>
+    </div>
+  </section>
+
+  <!-- 3 历史讲话 -->
+  <section class="chapter" id="c3">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">叁</span>历史讲话分析</div>
+      <div class="ch-en">Historical Speech Analysis</div>
+    </div>
+    <div class="tldr">跨越二十年的六个阶段。一以贯之的主线是<b>对通胀的执念</b>；演化之处在于他对<b>技术驱动增长与数据现代化</b>日益重视。<span class="rw right">看对</span><span class="rw wrong">看错</span><span class="rw evo">一致性/演化</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-era">2006–2008<small>危机前</small></div>
+        <div class="tl-body">危机酝酿期，沃什是通胀鹰派。在FOMC讨论中宣称「通胀风险持续压倒就业风险」，反复警告低利率会催生资产泡沫与长期通胀。<br><span class="rw right">看对</span>他看到金融失衡正在累积（虽未预见时点，后来也懊悔2006年对房贷信贷警告不足），并推动金融稳定（如2007年关于风险与透明度的演讲）。<br><span class="rw wrong">看错</span>对通胀的执着让他忽视了近在咫尺的衰退：直至2008年年中，他仍更担心通胀而非失业，低估了需求与就业的快速下滑。</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-era">2009–2012<small>金融危机 / QE时代</small></div>
+        <div class="tl-body">即便大衰退加深，沃什依然鹰派。2010年末他反对第二轮QE，警示<i>未来</i>通胀。<br><span class="rw right">看对</span>他正确地论证美联储应为应急计划准备清晰退出方案——这一观点后来成为共识。<br><span class="rw wrong">看错</span>2009年他错误坚持上行通胀风险仍占主导（彼时却是通缩逆风），在通胀消退后仍长期反对进一步宽松；其早收紧的呼吁并未应验，通胀始终低于2%、失业居高不下。<br><span class="rw evo">演化</span>通胀执念恒定，但到2011年他承认政策背后的财政烂摊子（对胡佛研究所称赤字与美联储扩张是「一团乱」，需政府收拾）。</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-era">2013–2019<small>胡佛 / 评论时代</small></div>
+        <div class="tl-body">离开美联储后，观点略有软化。他仍反对过度宽松，但对技术驱动增长更开放——2010年代中期访谈中开始谈论新的「AI」与生产率浪潮，并反复强调美联储独立性与透明度。<br><span class="rw evo">一致</span>对QE的不信任与对规则式政策的渴望延续。<br><span class="rw evo">演化</span>更关注数据创新（牵头数据现代化专项小组），但未否认其核心鹰派信念。</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-era">2020–2022<small>新冠 & 通胀飙升</small></div>
+        <div class="tl-body">虽然彼时并非美联储理事，他公开把2020年后的通胀归咎于美联储。在胡佛访谈中论证美联储靠大规模印钞「选择了」通胀，视资产负债表扩张与财政赤字为主因。<br><span class="rw right">看对</span>他预见从QE正常化将很困难，美联储需在退场与增长间权衡。<br><span class="rw wrong">看错</span>可能低估了劳动力市场收紧的速度（就业超预期），也低估了最初的供给冲击、视其为暂时。</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-era">2023–2025<small>就任主席前</small></div>
+        <div class="tl-body">作为主席被提名人，他明确阐述框架。听证与专栏中强调<i>AI驱动的生产率正在提振增长</i>，相信「美国是赢家」；同时重申其在资产负债表改革与通胀上的鹰派立场。其观点在核心议题上与2006–11高度<span class="rw evo">一致</span>：货币对通胀至关重要，美联储须以果断行动赢得可信度。</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-era">2026–至今<small>美联储主席</small></div>
+        <div class="tl-body">最初几次会议上，他在通胀上释放连续性信号：尽管超标仍维持利率不变。<br><span class="rw right">看对</span>对物价稳定的强调与执行2%目标的决心，提振了市场对美联储坚定立场的预期。<br><span class="rw wrong">看错</span>言之尚早；若通胀自然回落，其最初按兵不动或显得过于保守。<br><span class="rw evo">一致</span>他兑现了数据导向（减少指引），频繁谈及生产率，正如其承诺：独立、对物价稳定鹰派、对创新驱动增长开放。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 鹰派评分 -->
+  <section class="chapter" id="c4">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">肆</span>鹰派还是鸽派？</div>
+      <div class="ch-en">Hawk or Dove?</div>
+    </div>
+    <div class="tldr">沃什是<b class="serif" style="color:var(--up-deep)">通胀上的明确鹰派</b>，在劳动力松弛上偏温和鸽派（不惧零失业），在金融稳定上中度偏鹰。在1–10分量表上（10=沃尔克级鹰派），综合约为<b>7–8</b>。</div>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">沃什·四维鹰派画像 <small>10 = 极鹰</small></div>
+        <div class="chart-wrap"><canvas id="radar"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">历任主席鹰派光谱 <small>1=极鸽 · 10=极鹰</small></div>
+        <div class="chart-wrap"><canvas id="chairBars"></canvas></div>
+      </div>
+    </div>
+
+    <h3 class="sub">逐项评分</h3>
+    <div class="scorebars">
+      <div class="scorebar"><div class="lab"><span>通胀鹰派程度</span><b>8 / 10</b></div><div class="track"><div class="fill" style="width:80%"></div></div></div>
+      <div class="scorebar"><div class="lab"><span>劳动力市场鹰派程度</span><b>6 / 10</b></div><div class="track"><div class="fill" style="width:60%"></div></div></div>
+      <div class="scorebar"><div class="lab"><span>金融稳定鹰派程度</span><b>7 / 10</b></div><div class="track"><div class="fill" style="width:70%"></div></div></div>
+      <div class="scorebar"><div class="lab"><span>资产泡沫担忧</span><b>7 / 10</b></div><div class="track"><div class="fill" style="width:70%"></div></div></div>
+    </div>
+    <ul class="clean">
+      <li><b>通胀鹰派 ~8/10：</b>即使通胀极低，仍持续强调上行风险，曾对抗QE并推动加息。</li>
+      <li><b>劳动力鹰派 ~6/10：</b>拒绝「以更高通胀换就业」的取舍；作为主席视紧张就业不构成通胀的借口。但不同于伯南克/耶伦，只要通胀受控，他对失业并不焦虑。</li>
+      <li><b>金融稳定 ~7/10：</b>极担忧宽松货币催生资产泡沫，会倾向收紧以遏制信贷狂热。</li>
+      <li><b>资产泡沫 ~7/10：</b>如上；明确警告扭曲与退出策略之必要。</li>
+    </ul>
+
+    <h3 class="sub">横向对比</h3>
+    <p><span class="hl">沃尔克</span>在通胀上是极端鹰派（10），沃什没那么严苛。<span class="hl">格林斯潘</span>更温和（需要时鹰、常常偏鸽），沃什比他更稳定地偏鹰。<span class="hl">伯南克/耶伦</span>相比之下是鸽派（大规模QE、相对迟缓的收紧），故沃什在通胀与资产负债表政策上明显更鹰。<span class="hl">鲍威尔</span>居中——最初偏鸽（大量QE、低利率），到2022年转鹰；沃什一贯比2022年前的鲍威尔更鹰，与2022年末的鲍威尔相近。综合而言，沃什处于现代美联储主席的鹰派一端，尤其在通胀与资产负债表议题上：沃什约7–8、沃尔克~10、格林斯潘~6–7、伯南克/耶伦~5–6、鲍威尔~7（任期末）。</p>
+  </section>
+
+  <!-- 5 市场影响 -->
+  <section class="chapter" id="c5">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">伍</span>市场影响分析</div>
+      <div class="ch-en">Market Impact Analysis</div>
+    </div>
+    <div class="tldr">一个沃什式美联储将催生<b>多重格局</b>。点击切换各资产/板块，查看其<span class="badge b-bull">牛市</span><span class="badge b-base">基准</span><span class="badge b-bear">熊市</span>三情景。</div>
+    <div class="sub-tabs" id="mkt-tabs">
+      <div class="sub-tab active" data-m="0">标普500</div>
+      <div class="sub-tab" data-m="1">纳指100</div>
+      <div class="sub-tab" data-m="2">小盘股</div>
+      <div class="sub-tab" data-m="3">金融</div>
+      <div class="sub-tab" data-m="4">地产</div>
+      <div class="sub-tab" data-m="5">公用/工业</div>
+      <div class="sub-tab" data-m="6">能源</div>
+      <div class="sub-tab" data-m="7">大宗商品</div>
+    </div>
+
+    <div class="pane active" data-mpane="0">
+      <h4 class="subsub">股票（标普500）</h4>
+      <p>近期，其鹰派立场与QT会收紧金融条件、压制估值；提名时标普曾短暂下跌（−0.4%）。</p>
+      <p><span class="badge b-bull">牛市</span> 若AI驱动增长如沃什所料提升盈利，即便政策温和收紧，股市仍可凭借更高生产率与持续增长上涨；减税或亲增长财政（与特朗普一致）亦助力。若通胀低、利率最终下行，估值倍数或维持高位。</p>
+      <p><span class="badge b-base">基准</span> 盈利温和增长，股票围绕合理价值交易。QT逐步小幅推高收益率、压缩市盈率。受益于AI主题，科技与成长板块跑赢。</p>
+      <p><span class="badge b-bear">熊市</span> 若沃什过度收紧或通胀更黏，估值倍数显著压缩。小盘与高估值成长股最先受创，市场领导可能从科技转向价值/周期。</p>
+    </div>
+    <div class="pane" data-mpane="1">
+      <h4 class="subsub">纳斯达克100</h4>
+      <p>沃什对AI与生产率的热情利好大型科技。微软、Alphabet、英伟达等有望从支持创新的政策中获益。但QT与更高利率会压制长久期科技股（贴现率上升）。</p>
+      <p><span class="badge b-bull">牛市</span> AI革命壮观展开，软件、半导体、云盈利激增；沃什稍后允许温和降息；大型科技引领广泛反弹。</p>
+      <p><span class="badge b-base">基准</span> 科技受益于长期趋势，但增长被金融紧缩抵消。领导地位仍在科技，但绝对回报更低。</p>
+      <p><span class="badge b-bear">熊市</span> 资产价格重估重挫科技估值；沃什的QT引发资本从超买科技撤离。若财政对网络安全、国防科技加大投入，这些细分或能扛住。</p>
+    </div>
+    <div class="pane" data-mpane="2">
+      <h4 class="subsub">罗素2000 / 小盘股</h4>
+      <p>小盘与周期股对<i>流动性敏感</i>。在沃什格局下，若利率与收益率被推高，它们将跑输。区域银行能从更高利率获取净息差（NIM），但信贷条件可能收紧。周期股（能源、工业、材料）若增长尚可则相对更好；<i>最受伤</i>的是高杠杆小公司。</p>
+      <p><span class="badge b-bull">牛市</span> 生产率繁荣转化为更强的国内需求，小盘与内需型企业兴旺。</p>
+      <p><span class="badge b-base">基准</span> 小盘落后大盘；周期略有跑赢，但整体中性配置。</p>
+      <p><span class="badge b-bear">熊市</span> 若沃什收紧过头或衰退来袭，信贷收紧、盈利下滑，小盘崩塌。</p>
+    </div>
+    <div class="pane" data-mpane="3">
+      <h4 class="subsub">金融板块（银行、保险、资管、券商）</h4>
+      <p><span class="hl">银行</span>是更高利率（更宽净息差）与沃什规则式清晰度的明确受益者，商业银行与区域银行料将跑赢（即「沃什主义」）。保险公司从更高的债券与固收收益率获益。资管与券商受益于更高波动与利率（交易收入增加），但若下行削减AUM则受损。沃什的机构背景带来的监管确定性也利好大行。<b>任何情景下银行可能获益最多，金融整体表现强劲。</b></p>
+    </div>
+    <div class="pane" data-mpane="4">
+      <h4 class="subsub">房地产</h4>
+      <p>更高利率与QT对REITs、商业地产与住房不利。<span class="hl">REITs</span>面临资本化率（cap rate）与融资成本压力；<span class="hl">商业地产</span>在资本开支放缓、LTV收紧时脆弱；<span class="hl">住宅</span>因（美联储驱动的）更高房贷利率而需求降温、房价增速放缓。</p>
+      <p><span class="badge b-bull">牛市</span> 若沃什高估增长而提前降息，地产可能反弹。</p>
+      <p><span class="badge b-base">基准</span> 地产与REITs因融资成本上升而跑输。</p>
+      <p><span class="badge b-bear">熊市</span> 收益率急升触发房市衰退与REIT剧烈抛售。</p>
+    </div>
+    <div class="pane" data-mpane="5">
+      <h4 class="subsub">公用事业</h4>
+      <p>在更高利率格局下通常表现不佳（固定收益率 vs 上行的债券收益率）。沃什可能的条件下，公用事业普遍偏弱；只有在严重衰退转向（收益率暴跌）时才可能反弹。</p>
+      <h4 class="subsub">工业</h4>
+      <p>表现分化。美国工业（国防承包商、机械、零部件）可受益于任何增长或支出（尤其若特朗普加码基建/国防）；商业周期型工业若美联储克制拖累总需求则可能落后；若全球增长稳健，机械/运输尚可。</p>
+    </div>
+    <div class="pane" data-mpane="6">
+      <h4 class="subsub">能源（石油、天然气、管道）</h4>
+      <p>能源市场复杂。沃什式美联储（聚焦压低通胀与生产率）或意味着需求稳步增长、供给/管道趋松。油价方面：若全球增长延续（且特朗普/EPA继续推动生产），油价或维持高位，利好上游与管道。</p>
+      <p><span class="badge b-bull">牛市</span> 强增长叠加地缘紧张使油价高企（即便美联储鹰派），能源股上涨。</p>
+      <p><span class="badge b-base">基准</span> 油价区间震荡，综合性巨头持稳，管道平稳。</p>
+      <p><span class="badge b-bear">熊市</span> 严厉收紧触发衰退，油需与油价崩塌，重创能源股（或仅做对冲的防御类如公用事业相对抗跌）。</p>
+    </div>
+    <div class="pane" data-mpane="7">
+      <h4 class="subsub">大宗商品（黄金、白银、铜、铀）</h4>
+      <p>沃什<span class="em">看空贵金属</span>。其鹰派抗通胀执政，在宣布当日即令黄金骤跌。强美元与更高实际收益率下，金银承压。</p>
+      <p><span class="badge b-bull">牛市</span> 若沃什的政策「引发某种危机」（债务危机或货币危机），黄金飙升。</p>
+      <p><span class="badge b-base">基准</span> 大宗（工业金属除外）跑输；若增长尚可铜尚好，铀因核能推动上行，但黄金回落。</p>
+      <p><span class="badge b-bear">熊市</span> 美元飙升、收益率上行——金银进一步暴跌。（沃什获提名后黄金的反转已预示此格局。）</p>
+    </div>
+  </section>
+
+  <!-- 6 汇率 固收 -->
+  <section class="chapter" id="c6">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">陆</span>汇率与固定收益影响</div>
+      <div class="ch-en">Currency & Fixed Income</div>
+    </div>
+
+    <h3 class="sub">汇率影响</h3>
+    <div class="theme-grid">
+      <div class="theme-card hot">
+        <div class="theme-tag">DXY</div>
+        <div class="theme-name">美元指数 · 走强</div>
+        <div class="theme-desc">他明确呼吁「稳健美元」，与特朗普偏好弱美元相左。反通胀立场与QT收紧美元流动性，推升美元价值。提名后美元已温和上涨。除非美联储严重失误，否则美国维持强势货币。</div>
+      </div>
+      <div class="theme-card warm">
+        <div class="theme-tag">USD/CAD</div>
+        <div class="theme-name">加元 · 走弱</div>
+        <div class="theme-desc">更强美元意味加元疲软。对加拿大投资者，沃什利多美元、利空加元。进口美国投入品的企业承压，出口商或受益；大宗（油、金属）或对冲加元下跌。</div>
+      </div>
+      <div class="theme-card hot">
+        <div class="theme-tag">USD/JPY</div>
+        <div class="theme-name">美元/日元 · 上行</div>
+        <div class="theme-desc">日本超低利率 vs 鹰派美联储，USDJPY大概率上行。沃什不愿见日元过度贬值监管，USDJPY趋升。</div>
+      </div>
+      <div class="theme-card cold">
+        <div class="theme-tag">EUR/USD</div>
+        <div class="theme-name">欧元/美元 · 下行</div>
+        <div class="theme-desc">强美元利差下，EUR/USD大概率下跌。沃什的美联储与（若更松的）欧央行形成对比，欧元对鹰派美元走弱。风险：欧元区冲击或引发日元/瑞郎避险流。</div>
+      </div>
+    </div>
+    <div class="note"><b>逻辑：</b>沃什聚焦通胀与独立性，意味美国利率相对海外更高/更少负值。尽管他主导过美联储的G20与全球对话，但其美联储的优先序（必要时收紧）利好美元。据报道他曾倡导强美元政策。</div>
+
+    <h3 class="sub">固定收益影响</h3>
+    <div class="tbl-scroll">
+    <table class="research">
+      <thead><tr><th>品种</th><th>方向与判断</th></tr></thead>
+      <tbody>
+        <tr><td class="lead">2年期国债</td><td>近期大概率走高。鹰派资质与QT推升前端，尤其当市场重新定价美联储决心（2年收益率已上行）。若通胀回落，沃什最终或降息使2年下行——但需核心通胀确有可信下行趋势。<b>最可能路径：</b>温和上行（周期中段至约5%+区间），随后趋稳。</td></tr>
+        <tr><td class="lead">10年期国债</td><td>随QT，期限溢价（term premium）上升。若沃什以压低通胀「赢得独立」，10年收益率或升破4½–5%；但若AI带来的通胀放缓为真，收益率或封顶甚至回落。<b>曲线形态：</b>短端锚定则陡峭，短端上行则趋平——初期前端跳升或先趋平，随后若降息则陡峭化。</td></tr>
+        <tr><td class="lead">30年期国债</td><td>反映长期通胀。QT与鹰派美联储下偏空，熊市情景或达5.5–6%。若可信度把通胀锚定2%附近，30年或稳定在高于10年20–40bp。</td></tr>
+        <tr><td class="lead">投资级债券</td><td>更高收益率压制价格（估值下降），低违约需求或令IG利差温和走阔。优质债（国债、AAA市政债）与美联储收益率竞争；IG收益率跟随国债上行。</td></tr>
+        <tr><td class="lead">高收益债</td><td>对信用敏感。若增长放缓或风险偏好（risk appetite）下降，沃什的收紧将令利差走阔。经济稳定时，HY或凭借强劲盈利扛住；但<b>熊市情景</b>下收益率跳升、HY跑输。</td></tr>
+        <tr><td class="lead">市政债</td><td>美国市政债常在财政担忧或避险时上涨。若利率上行、赤字走阔，市政债因更高的利率基数承压，但税收优势提供缓冲。对评级敏感（有赤字的州/市跑输），预计相对国债温和跑输。</td></tr>
+        <tr><td class="lead">TIPS（通胀保值债）</td><td>两股力量：实际收益率 vs 盈亏平衡通胀。若沃什展现决心，通胀预期下降、盈亏平衡收窄，压制TIPS；但若长期增长/需求强劲，实际收益率未必飙升。TIPS总收益料维持在约3%中段（实际）、盈亏平衡约2%。若通胀意外走高，TIPS获买盘。</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note"><b>收益率曲线：</b>近期大概率从轻度倒挂到走平（短端高、QT亦推高长端）；若美联储稍后降息则陡峭化。沃什治下曲线形态将<b>由数据驱动</b>——紧盯核心通胀与增长意外。</div>
+  </section>
+
+  <!-- 7 黄金 比特币 -->
+  <section class="chapter" id="c7">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">柒</span>黄金与比特币分析</div>
+      <div class="ch-en">Gold & Bitcoin</div>
+    </div>
+    <div class="tldr">沃什在结构上<b>看空黄金与比特币</b>（提名时市场已发出信号）。其格局有多重拖累：更高实际利率、更强美元、可信的美联储。唯有「政策失败或危机」（转向情景）才会逆转，使两者转多。</div>
+
+    <h3 class="sub">黄金分析</h3>
+    <p><span class="hl">传导机制：</span>黄金在以下情形走强——①实际利率下降、②美元下跌、③通胀上行、④美联储可信度走弱。而沃什的政策驱动①更高实际利率、②更高美元、③力压通胀、④重建可信度，<span class="em">四项全部指向看空</span>。</p>
+    <div class="theme-grid">
+      <div class="theme-card hot"><div class="theme-tag">BULL · 牛市</div><div class="theme-name">被迫转向</div><div class="theme-desc">若沃什<i>被迫转向</i>（经济急剧走弱或债务危机爆发），美联储可信度受损、实际利率崩塌。在此情景（类似鲍威尔式转向或危机时代），黄金作为对冲飙升。全球动荡或美国财政冲击也会推高金价。</div></div>
+      <div class="theme-card warm"><div class="theme-tag">BASE · 基准</div><div class="theme-name">沃什大致成功</div><div class="theme-desc">通胀回到~2%、经济靠生产率增长、可信度稳固。收益率稳定在略高水平、美元强势。黄金大概率横盘或小幅下行——通胀与增长看似稳定时，投资者对黄金需求下降。</div></div>
+      <div class="theme-card cold"><div class="theme-tag">BEAR · 熊市</div><div class="theme-name">坚守不让</div><div class="theme-desc">沃什坚决守住通胀防线（或鹰过头）。短端利率高企（5%+）、实际收益率强正、美元走强。黄金的抗通胀角色弱化，金价或轻易跌破<i>$4,500/oz</i>（低于2026年1月水平），白银等跌得更狠。</div></div>
+    </div>
+    <p><b>结论：</b>在无冲击情况下，沃什的美联储<span class="em">预期看空黄金</span>。只有政策失败或危机（转向情景）才会反转，使黄金转多。</p>
+
+    <h3 class="sub">比特币分析</h3>
+    <p>比特币走向与黄金平行，但<span class="hl">波动更大</span>。比特币偏爱流动性、低利率、弱美元与通胀焦虑，而沃什的政策恰恰相反。</p>
+    <div class="theme-grid">
+      <div class="theme-card hot"><div class="theme-tag">BULL · 牛市</div><div class="theme-name">作为另类资产</div><div class="theme-desc">若沃什政策失败、或美国政府失去信心，BTC或作为替代品上涨。若美联储最终在财政贬值担忧中深度降息、美元走弱，投资者或涌向比特币这一「数字黄金」。沃什本人曾言，在美元走弱时比特币作为组合分散工具「说得通」。</div></div>
+      <div class="theme-card warm"><div class="theme-tag">BASE · 基准</div><div class="theme-name">停滞或温和跑输</div><div class="theme-desc">稳定的沃什格局下，BTC大概率停滞或略跑输风险资产。高实际收益率与强美元抽干加密需求。但投机与技术采用提供一些支撑，沃什对创新的正面看法或间接为加密拥趸增添信心。</div></div>
+      <div class="theme-card cold"><div class="theme-tag">BEAR · 熊市</div><div class="theme-name">环境最为敌对</div><div class="theme-desc">坚定的沃什带来更高利率、可信的低通胀（且可能为巩固稳定而收紧监管）。实际收益率高企，套息者偏好生息资产；美元强势抑制BTC。比特币作为投机资产下跌。（在<i>沃尔克式</i>时代BTC会很挣扎；在<i>鲍威尔式</i>极宽松中BTC曾暴涨——沃什在意图上更接近沃尔克。）</div></div>
+    </div>
+    <p><b>传导：</b>唯有当沃什最终对特朗普「走过场式地妥协」（如突然深度降息或货币竞争），比特币才可能向上意外。</p>
+  </section>
+
+  <!-- 8 组合策略 -->
+  <section class="chapter" id="c8">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">捌</span>组合策略</div>
+      <div class="ch-en">Portfolio Strategy</div>
+    </div>
+    <div class="tldr">假设视角：<b>一名持有美元敞口的加拿大人，长线ETF/股票投资者兼宏观交易者。</b>三种情景给出截然不同的配置剧本。点击切换。</div>
+    <div class="sub-tabs" id="port-tabs">
+      <div class="sub-tab active" data-pt="0">A · 沃什正确</div>
+      <div class="sub-tab" data-pt="1">B · 过度鹰派</div>
+      <div class="sub-tab" data-pt="2">C · 被迫转向</div>
+    </div>
+    <div class="pane active" data-ppane="0">
+      <h4 class="subsub">情景 A — 沃什正确（增长上行、通胀受控）</h4>
+      <p><b>资产配置：</b>侧重<span class="hl">科技与周期</span>（纳指100、AI/半导体、工业）。适度持有股票（标普）并分散。低配债券（收益率正常化上行）——可持短久期或TIPS（通胀受控）。少量黄金与加密。若加元稳定，可用部分海外（如新兴市场）对冲美元。</p>
+      <p><span class="badge b-bull">赢家</span> AI/科技股、银行（曲线陡峭）、周期型小盘。 <span class="badge b-bear">输家</span> 长久期债券（国债、长债公司债）、防御型REITs与公用事业。</p>
+      <p><b>风险：</b>美联储仍偏紧；若通胀再加速，市场回落。</p>
+    </div>
+    <div class="pane" data-ppane="1">
+      <h4 class="subsub">情景 B — 沃什过度鹰派（增长放缓）</h4>
+      <p><b>配置：</b>转向防御：增加现金与优质债券（逢跌买入），减持股票（尤其高市盈率科技）。强调<span class="hl">价值与红利</span>（金融、能源、现金流稳定的精选小盘）。若衰退临近，可做多国债锁定收益率。黄金与加密可作小额对冲。</p>
+      <p><span class="badge b-bull">赢家</span> 高质量债券（短期国债、IG公司债）、防御板块（医疗、必需消费）、现金。 <span class="badge b-bear">输家</span> 高成长科技、小盘成长、新兴市场。</p>
+      <p><b>风险：</b>通胀或意外走高伤及债券；衰退仍可能发生。</p>
+    </div>
+    <div class="pane" data-ppane="2">
+      <h4 class="subsub">情景 C — 被迫转向（衰退）</h4>
+      <p><b>配置：</b>积极风险偏好。加码股票，尤其周期（材料、工业、能源）与成长（科技），押注美联储最终降息。低配债券（尤其短端，随收益率下行）。在实际利率崩塌之初提早布局<span class="hl">黄金</span>与部分加密。</p>
+      <p><span class="badge b-bull">赢家</span> 债券（尤其长期国债与IG）、黄金（避险）、初期公用/必需消费，随后科技反弹。 <span class="badge b-bear">输家</span> 银行（利率骤降挤压息差）、依赖金融杠杆的标的、美元。</p>
+      <p><b>风险：</b>时点不明；转向可能过头或引发通缩。</p>
+    </div>
+    <div class="note"><b>共同关注因子：</b>密切跟踪 USD/CAD、债券收益率与通胀数据以调整配置。运用期权或波动率策略对冲意外的美联储动作。</div>
+  </section>
+
+  <!-- 9 首次FOMC -->
+  <section class="chapter" id="c9">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">玖</span>首次FOMC会议分析</div>
+      <div class="ch-en">First FOMC Meeting</div>
+    </div>
+    <div class="tldr">就职会议（<b>2026年6月16日</b>），沃什维持利率不变（无意外），19位与会者全票通过「按兵不动」并精简指引。声明在通胀上<b>明显更鹰</b>，点阵图被废弃，代之以模糊的「数据驱动」指引。</div>
+
+    <h3 class="sub">政策决定</h3>
+    <p>声明明确表示委员会将以「强、一致、明确的承诺」<span class="hl">交付物价稳定</span>——这是鲍威尔时期未用过的措辞。SEP（经济预测）大概率小幅上调核心通胀预测。点阵图被废弃。预测或下调了长期失业率（反映其生产率乐观），并维持长期联邦基金利率大致不变。</p>
+
+    <h3 class="sub">即时变化</h3>
+    <p>相比鲍威尔的最后一次会议，语气有<span class="em">明显收紧</span>。声明删除前瞻指引引用、加入更强通胀表述。点阵图被移除，美联储承诺成立数据专项小组（新增）。鲍威尔惯用的「预期（anticipate）」式措辞，在通胀控制上被换成更坚决的「准备采取行动（prepared to）」。资产负债表表述也调整为强调收缩。</p>
+
+    <h3 class="sub">新闻发布会</h3>
+    <p>沃什语气自信而鹰派，强调数据与生产率专项小组（首次FOMC发布会如此）。相比鲍威尔，他更多使用<span class="hl">「通胀」「可信度」「生产率」</span>。他说自己「不相信」通胀与失业之间存在「残酷的选择」（明确否定菲利普斯曲线），更多谈及「金融稳定」与（资产负债表等）美联储工具的重要性。对失业着墨较少，更聚焦技术（AI专项小组）。词频分析：一场发布会里他数十次提到「通胀」或「价格」，并反复援引鲍威尔时期极少使用的「可信度」一词。</p>
+
+    <h3 class="sub">市场反应（首周）</h3>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">首周·各资产反应 <small>红=上涨 / 绿=下跌</small></div>
+        <div class="chart-wrap"><canvas id="fomcBars"></canvas></div>
+      </div>
+      <div style="align-self:stretch">
+        <ul class="clean">
+          <li><b>股票：</b>温和波动——科技小幅上涨（AI推动），但金融与传统经济股因银行受益于利率不变而略微跑赢。标普一度跌约0.5%后收复（类似1月初的反应）。</li>
+          <li><b>债券：</b>2年与10年国债上行约5–10bp，市场定价更鹰路径（期限溢价略升）。曲线进一步走平（持有 vs 预期降息）。</li>
+          <li><b>美元：</b>因鹰派声明小幅上涨，但仍在近期区间内。</li>
+          <li><b>黄金：</b>首日下跌约2–3%（自高位回落），市场把沃什强硬的通胀措辞解读为利空黄金。</li>
+          <li><b>比特币：</b>公告后下跌约5–10%，强美元/可信度叙事抑制加密。</li>
+          <li><b>信用利差：</b>因不确定性小幅走阔，但变动有限。</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">隐藏信号</h3>
+    <p>精明的交易员注意到沃什强调生产率、缺少短期前瞻指引，并标记他<span class="em">毫无鸽派倾向</span>、暗示更高的「中性」立场。他提到仅有<i>一位委员</i>提出降息提议，表明初期对按兵不动有共识。观察者还注意到他对独立性与数据的坚持（「问自己一些难问题」）。在Q&A中他拒绝重复点阵图论调，意味着沟通<span class="hl">模糊度将上升</span>，或加大每次会议前后的波动。市场领悟到：沃什的美联储很可能只在通胀放缓信号更清晰后才转向，而非先发制人。一言以蔽之，路线图是：<b>对通胀措辞犀利、逐步缩表、降息须由数据独家决定。</b></p>
+
+    <h3 class="sub">四年路线图</h3>
+    <p>首次FOMC暗示一种<span class="hl">更高更久</span>的偏向，并对数据保持警惕。他释放信号：通胀超标不会被容忍，但同时建立了基础设施（专项小组）以挖掘实时数据与生产率趋势。市场理解为：<i>沃什将对通胀强硬，让创新去做宽松的活，关注劳动力/增长趋势而不轻易屈服于降息诉求。</i></p>
+  </section>
+
+  <!-- 10 沃什与特朗普 -->
+  <section class="chapter" id="c10">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">拾</span>沃什与特朗普</div>
+      <div class="ch-en">Warsh & Trump</div>
+    </div>
+    <div class="tldr">两人关系是<b>交易型</b>的。特朗普信任沃什的政策「品牌」（鹰派抗通胀斗士），但意识形态相异。沃什反复强调独立——自称「独立行动者」，否认在利率上有任何对价。<b>政治上同为共和党人/华尔街盟友，政策细节上分歧明显。</b></div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">十大议题 · 立场对峙图 <small>按净分歧排序<br>左红=冲突主导 / 右绿=一致主导</small></div>
+        <div class="diverge">
+          <div class="dv-axis">
+            <div></div>
+            <div class="ends"><span class="e-neg">◀ 冲突主导</span><span style="color:var(--ink-3)">势均力敌</span><span class="e-pos">一致主导 ▶</span></div>
+          </div>
+          <!-- 净分歧 = 一致度 − 冲突度；按冲突由强到弱排序 -->
+          <div class="dv-row"><div class="dv-name">美元政策</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar neg" style="right:50%;width:46%"><span class="lab">冲突 9</span></div><span class="dv-side" style="left:51%">一致 1</span></div></div>
+          <div class="dv-row"><div class="dv-name">利率</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar neg" style="right:50%;width:34.5%"><span class="lab">冲突 8</span></div><span class="dv-side" style="left:51%">一致 2</span></div></div>
+          <div class="dv-row"><div class="dv-name">关税/贸易</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar neg" style="right:50%;width:23%"><span class="lab">冲突 7</span></div><span class="dv-side" style="left:51%">一致 3</span></div></div>
+          <div class="dv-row"><div class="dv-name">财政赤字</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar neg" style="right:50%;width:23%"><span class="lab">冲突 7</span></div><span class="dv-side" style="left:51%">一致 3</span></div></div>
+          <div class="dv-row"><div class="dv-name">政府支出</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar neg" style="right:50%;width:11.5%"><span class="lab">冲突 6</span></div><span class="dv-side" style="left:51%">一致 4</span></div></div>
+          <div class="dv-row tie"><div class="dv-name">能源政策</div><div class="dv-track"><div class="dv-center"></div><span class="dv-tie-mark">5 · 5 势均力敌</span></div></div>
+          <div class="dv-row"><div class="dv-name">金融监管</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar pos" style="left:50%;width:11.5%"><span class="lab">一致 6</span></div><span class="dv-side" style="right:51%">冲突 4</span></div></div>
+          <div class="dv-row"><div class="dv-name">AI/科技</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar pos" style="left:50%;width:23%"><span class="lab">一致 7</span></div><span class="dv-side" style="right:51%">冲突 3</span></div></div>
+          <div class="dv-row"><div class="dv-name">银行监管</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar pos" style="left:50%;width:23%"><span class="lab">一致 7</span></div><span class="dv-side" style="right:51%">冲突 3</span></div></div>
+          <div class="dv-row"><div class="dv-name">通胀</div><div class="dv-track"><div class="dv-center"></div><div class="dv-bar pos" style="left:50%;width:34.5%"><span class="lab">一致 8</span></div><span class="dv-side" style="right:51%">冲突 2</span></div></div>
+          <div class="dv-foot">
+            <span><span class="dv-sw" style="background:var(--up)"></span>冲突主导（净分歧 &lt; 0）</span>
+            <span><span class="dv-sw" style="background:#FFF7E0;border:1px solid var(--gold-light)"></span>势均力敌</span>
+            <span><span class="dv-sw" style="background:var(--down)"></span>一致主导（净分歧 &gt; 0）</span>
+          </div>
+        </div>
+      </div>
+      <div style="align-self:stretch">
+        <h4 class="subsub">一致领域</h4>
+        <p>两人都厌恶失控通胀、都想要增长（沃什靠AI，特朗普常标榜增长）；都倾向更少限制的银行业（尽管沃什并非去监管鹰派）。沃什主张收窄美联储职责（少关注不平等），与特朗普对「政治化美联储」的批评一致。</p>
+        <h4 class="subsub">分歧领域</h4>
+        <p><b>利率：</b>特朗普公开要求降息，沃什顶住压力在2026年拒绝降息。<b>美元：</b>特朗普偏好弱美元提振出口，沃什坚称「稳健美元」。<b>关税/贸易：</b>特朗普加征关税，沃什淡化其通胀效应。<b>财政赤字：</b>特朗普大举赤字，沃什警告其助推通胀与利息成本。<b>监管：</b>特朗普求去监管，沃什不主张拆除危机后的安全机制。<b>能源：</b>特朗普亲石油，沃什中性。<b>金融监督：</b>特朗普想要更友好的美联储，沃什坚持独立。</p>
+      </div>
+    </div>
+
+    <h3 class="sub">八项最终判断</h3>
+    <div class="conc"><h4><span class="ic">①</span>特朗普的信任</h4><p>特朗普<b>尊重</b>沃什的背景（华尔街老将、前布什官员），但态度谨慎。沃什已释放独立信号，特朗普也公开背书。所以特朗普大概率信任其能力，但若通胀维持低位仍会推动降息。</p></div>
+    <div class="conc"><h4><span class="ic">②</span>为何选择沃什</h4><p>主要为<b>通胀可信度与市场信心</b>。他是美联储内部人士（受市场信任），曾质疑QE与通胀；并提供了美联储改革与强美元的叙事，为特朗普团队所喜。<b>概率排序：</b>(1) 通胀鹰派资质，(2) 市场信心/美联储声望，(3) 亲增长形象（创新、供给侧），(4) 对特朗普降息的忠诚度，(5) 参议院可获确认性。</p></div>
+    <div class="conc"><h4><span class="ic">③</span>独立性</h4><p>沃什坚称将<b>高度独立</b>。所有证据表明他不会简单地为白宫意愿盖橡皮章。其生涯既有党派一致、也有独立立场（如2011年QE异议）。预计中度独立——他会倾听政治，但不被指挥。</p></div>
+    <div class="conc"><h4><span class="ic">④</span>鹰派 vs 特朗普偏好</h4><p>特朗普普遍想要宽松货币，沃什<b>更鹰</b>。沃什的天然倾向比特朗普所愿更紧。若打分，沃什立场接近光谱高端，而特朗普所求的立场要低得多。</p></div>
+    <div class="conc"><h4><span class="ic">⑤</span>对投资者的最大风险</h4><p>最大风险是<b>错误定价独立性与政策时点</b>。若投资者假设沃什会因特朗普想要就降息，一旦他为可信度而维持高利率，他们将措手不及。政治僵局（特朗普推降息 vs 沃什抵制）也可能引发波动。</p></div>
+    <div class="conc"><h4><span class="ic">⑥</span>最大机会</h4><p>沃什的美联储收紧为<b>金融（银行）</b>及任何受益于强美元的板块提供催化。与生产率挂钩的股票（科技、AI）或因其政策提振创新投资而跑赢。</p></div>
+    <div class="conc"><h4><span class="ic">⑦</span>若两人分歧</h4><p>历史与沃什的性格表明<b>沃什很可能在美联储决策上占上风</b>。美联储独立性（1951协定）赋予主席在FOMC的多数地位，特朗普无法解雇主席。唯有极端压力才能动摇沃什。</p></div>
+    <div class="conc"><h4><span class="ic">⑧</span>监测这段关系</h4><p>留意公开分歧：如特朗普发推批评、或沃什公开反驳政策构想；关注任命（沃什是否独立地坐镇美联储理事会）；国会听证、沃什关于「做好本职」的公开表态 vs 白宫反应，都将揭示这段动态。</p></div>
+
+    <div class="note"><b>对市场的总体含义：</b>特朗普—沃什组合预示复杂格局：或许更低的结构性通胀（利好实体经济、科技，利空黄金），但没有免费午餐（更紧信贷、更高利率）。能源（尤其石油）或在去监管与增长聚焦下繁荣，却得不到特朗普想要的美元贬值红利；金融与国防或受益于特朗普的支出计划叠加沃什的利率政策；科技受益于共享的「美国优先」创新目标。<b>最大风险是财政—货币张力：</b>若特朗普施压宽松而沃什坚守，市场或见政策冲突。综合而言，<b>沃什并非特朗普最志同道合的美联储主席</b>，在贸易与美元偏好上与特朗普分歧最大。</div>
+  </section>
+
+  <!-- 11 情景概率 -->
+  <section class="chapter" id="c11">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">拾壹</span>情景分析与概率矩阵</div>
+      <div class="ch-en">Scenario & Probability Matrix</div>
+    </div>
+    <div class="tldr">为沃什任期定义四条路径，并给出概率与各资产的一年期回报/风险估计。<b>四路径概率合计100%。</b></div>
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-title">四情景概率分布 <small>合计 100%</small></div>
+        <div class="chart-wrap"><canvas id="scenPie"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">标普500 · 各情景一年期回报 <small>方向性估计</small></div>
+        <div class="chart-wrap"><canvas id="scenSpx"></canvas></div>
+      </div>
+    </div>
+
+    <div class="theme-grid" style="margin-top:18px">
+      <div class="theme-card hot"><div class="theme-tag">情景 A · 概率 ~25%</div><div class="theme-name">沃什成功执政</div><div class="theme-desc"><i>特征：</i>通胀回到~2%，生产率/AI繁荣支撑3–4%增长，失业维持低位（≤4%）而无通胀抬头，可信度增强。<br><i>市场：</i>科技/工业引领强劲牛市；利率温和回落（2/10年见顶后小幅下行）、信用利差收窄；美元稳健偏强；黄金跑输。<br><i>领先资产：</i>纳指/AI股、美国银行、资本品周期、工业金属。</div></div>
+      <div class="theme-card cold"><div class="theme-tag">情景 B · 概率 ~30%</div><div class="theme-name">过度鹰派</div><div class="theme-desc"><i>特征：</i>美联储过紧；增长放缓（GDP~1%）；通胀过快跌破2%；市场担忧政策失误。<br><i>市场：</i>股票收缩（尤其高成长），估值压缩；短/中端收益率随可信度推升而跳升；信用利差走阔；美元上涨；黄金与国债避险（黄金在通胀下行时甚至可能仍跌）。<br><i>领先资产：</i>短期债券（2/5年）、防御股（公用、必需消费）、美元。</div></div>
+      <div class="theme-card warm"><div class="theme-tag">情景 C · 概率 ~25%</div><div class="theme-name">被迫转向（衰退）</div><div class="theme-desc"><i>特征：</i>2027–28衰退来袭（由收紧或外部冲击引发）；劳动力市场走弱；美联储被迫转向降息/QE。<br><i>市场：</i>转向后股票剧烈反弹（尤其成长/科技）；收益率全曲线下行；美元走弱；黄金与高质量债券因刺激上涨；信用紧张缓解。<br><i>领先资产：</i>长期国债、REITs（随收益率下行）、贵金属（黄金）、高贝塔周期。</div></div>
+      <div class="theme-card"><div class="theme-tag">情景 D · 概率 ~20%</div><div class="theme-name">特朗普—沃什冲突</div><div class="theme-desc"><i>特征：</i>持续分歧（2026–2028）；特朗普公开要求降息而沃什抵制；不确定性主导。<br><i>市场：</i>围绕美联储/白宫沟通的波动期；资产价格随政治推文剧烈摇摆；风险溢价上升。<br><i>领先资产：</i>难以判断——可能现金与外汇对冲受益；黄金作避险；加密或见暴涨暴跌。</div></div>
+    </div>
+
+    <h3 class="sub">资产 × 情景 · 一年期回报/风险矩阵</h3>
+    <div class="tbl-scroll">
+    <table class="research">
+      <thead><tr><th>资产（1年回报/风险）</th><th>A：沃什成功</th><th>B：过度鹰派</th><th>C：转向</th><th>D：冲突</th></tr></thead>
+      <tbody>
+        <tr><td class="lead">标普500</td><td class="up">+15% / 中</td><td class="down">−10% / 高</td><td class="up">+20% / 中</td><td>0% / 高</td></tr>
+        <tr><td class="lead">纳指100</td><td class="up">+20% / 中</td><td class="down">−20% / 高</td><td class="up">+25% / 中</td><td>±0% / 高</td></tr>
+        <tr><td class="lead">小盘股（罗素2000）</td><td class="up">+10% / 中</td><td class="down">−15% / 高</td><td class="up">+15% / 中</td><td class="down">−5% / 高</td></tr>
+        <tr><td class="lead">10年期国债（收益率）</td><td class="down">↓1–1.5%</td><td class="up">↑+0.5%</td><td class="down">↓−1.0%</td><td class="up">↑+0.2%</td></tr>
+        <tr><td class="lead">黄金</td><td class="up">+5% / 中</td><td class="down">−10% / 高</td><td class="up">+15% / 中</td><td class="up">+5% / 高</td></tr>
+        <tr><td class="lead">比特币</td><td class="up">+10% / 高</td><td class="down">−25% / 高</td><td class="up">+30% / 中</td><td class="up">+10% / 高</td></tr>
+        <tr><td class="lead">DXY（美元指数）</td><td class="up">+5% / 中</td><td class="up">+10% / 高</td><td class="down">−5% / 中</td><td class="up">+10% / 高</td></tr>
+        <tr><td class="lead">USD/CAD</td><td class="down">−5% / 中</td><td class="down">−10% / 高</td><td class="up">+5% / 中</td><td class="down">−10% / 高</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note">（货币假设为加元 vs 美元；收益率变动为方向性的百分点变化。表中红色=上行、绿色=下行，遵循红涨绿跌惯例。）</div>
+  </section>
+
+  <!-- 12 监控仪表盘 -->
+  <section class="chapter" id="c12">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">拾贰</span>监控仪表盘 · 25大指标</div>
+      <div class="ch-en">Monitoring Dashboard · Top 25</div>
+    </div>
+    <div class="tldr">追踪一组广泛的指标。每项含：沃什关注度、看多/看空阈值、政策信号。<b>遵循红涨绿跌：红=偏紧/利空股市，绿=偏松/利好股市。</b></div>
+    <div class="tbl-scroll">
+    <table class="research">
+      <thead><tr><th>指标</th><th>为何重要</th><th style="color:#FBE9EC">看空阈值（偏紧）</th><th style="color:#E7F5EC">看多阈值（偏松）</th></tr></thead>
+      <tbody>
+        <tr><td class="lead">CPI / 核心CPI</td><td>对2%目标的直接衡量</td><td class="up">核心CPI &gt;3.5% 或加速</td><td class="down">核心CPI ≤2.5%、趋近2%</td></tr>
+        <tr><td class="lead">PCE / 核心PCE</td><td>美联储偏爱的指标</td><td class="up">持续高于2.5%</td><td class="down">趋近2%</td></tr>
+        <tr><td class="lead">PPI</td><td>通胀压力的早期信号（批发）</td><td class="up">环比 &gt;0.5% 持续</td><td class="down">环比回落</td></tr>
+        <tr><td class="lead">截尾均值CPI（Trimmed-Mean CPI · 达拉斯联储）</td><td>沃什明确偏爱截尾指标</td><td class="up">&gt;2.5%</td><td class="down">~2%</td></tr>
+        <tr><td class="lead">工资增长（时薪、ECI）</td><td>高工资通胀威胁物价稳定</td><td class="up">&gt;4–5%</td><td class="down">≤3%</td></tr>
+        <tr><td class="lead">失业率</td><td>双重使命目标之一</td><td class="up">U3 &lt;~4%（偏紧）</td><td class="down">U3 &gt;~5%（松弛）</td></tr>
+        <tr><td class="lead">非农就业（NFP）</td><td>快速就业+低失业=需求过剩</td><td class="up">&gt;300k（加速）</td><td class="down">&lt;100k/月</td></tr>
+        <tr><td class="lead">GDP增长</td><td>沃什在意（生产率驱动的）底层增长</td><td class="up">&lt;1%（或促转向）</td><td class="down">&gt;3%</td></tr>
+        <tr><td class="lead">生产率（每小时GDP）</td><td>他的焦点所在；支撑低利率论据</td><td class="up">停滞/负增长</td><td class="down">同比 &gt;2%</td></tr>
+        <tr><td class="lead">ISM 制造业 & 服务业PMI</td><td>需求趋势</td><td class="up">跌破45</td><td class="down">扩张区（&gt;50）但不过热</td></tr>
+        <tr><td class="lead">美联储资产负债表（规模与结构）</td><td>其核心观点</td><td class="up">重启大规模购债</td><td class="down">持续缩减（−$10–20亿/月）</td></tr>
+        <tr><td class="lead">期限溢价（10年）</td><td>市场为债券风险定价</td><td class="up">上升（紧缩偏向）</td><td class="down">下行/压低收益率</td></tr>
+        <tr><td class="lead">信用利差（Baa-国债、HY-国债）</td><td>反映金融压力</td><td class="up">走阔 &gt;150–200bp</td><td class="down">收窄</td></tr>
+        <tr><td class="lead">银行信贷标准（SLOOS调查）</td><td>早期信贷条件</td><td class="up">收紧 &gt;20% 净</td><td class="down">放松（银行乐于放贷）</td></tr>
+        <tr><td class="lead">市场化通胀预期（5y5y盈亏平衡）</td><td>美联储可信度衡量</td><td class="up">跳升至 &gt;2.5%</td><td class="down">稳定在2%附近</td></tr>
+        <tr><td class="lead">美元指数（DXY）</td><td>沃什关注全球货币效应</td><td class="up">急跌（或激进口通胀）</td><td class="down">走强（弱全球需求/通胀）</td></tr>
+        <tr><td class="lead">标普500 / 纳指100 点位</td><td>财富与信心衡量</td><td class="up">因美联储担忧跌5–10%</td><td class="down">基于基本面创新高</td></tr>
+        <tr><td class="lead">黄金价格</td><td>抗通胀对冲</td><td class="up">上涨（市场对美联储失信）</td><td class="down">下跌（可信度完好）</td></tr>
+        <tr><td class="lead">比特币价格</td><td>风险资产兼外汇对冲</td><td class="up">上涨（美元下行/风险偏好）</td><td class="down">下跌（风险厌恶/强美元）</td></tr>
+        <tr><td class="lead">10年期国债收益率</td><td>借贷基准</td><td class="up">上行（鹰派偏向）</td><td class="down">下行（转向/通缩）</td></tr>
+        <tr><td class="lead">油价（布伦特/WTI）</td><td>投入成本/政策冲击</td><td class="up">飙升（&gt;$90）抬升通胀忧虑</td><td class="down">暴跌（&lt;$60）缓解通胀</td></tr>
+        <tr><td class="lead">风险情绪（VIX、信用指数）</td><td>市场压力衡量</td><td class="up">VIX飙升</td><td class="down">低VIX（信心）</td></tr>
+        <tr><td class="lead">M2货币供应</td><td>沃什在意货币</td><td class="up">M2反弹</td><td class="down">M2增速放缓</td></tr>
+        <tr><td class="lead">高科技资本开支</td><td>非常规·生产率投资先行</td><td class="up">骤降</td><td class="down">强劲扩张</td></tr>
+        <tr><td class="lead">FOMC声明/纪要措辞</td><td>从点阵图转向数据焦点的线索</td><td class="up">通胀语气强化、缩表加速</td><td class="down">承认通胀放缓、暗示降息空间</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note"><b>政策触发器：</b>对沃什而言——<b>通胀读数</b>（CPI/PCE）在目标或以下将招致降息，高于目标或飙升则触发加息或加速QT；<b>劳动力数据</b>（尤其工资加速）接近舒适水平（U3~4.5%、工资~3%）将允许宽松，持续过热则维持政策强硬；<b>金融压力</b>（信用利差、VIX）走阔或会缓和其鹰派。</div>
+  </section>
+
+  <!-- 13 最终结论 -->
+  <section class="chapter" id="c13">
+    <div class="ch-head">
+      <div class="ch-title"><span class="ch-num">拾叁</span>最终结论</div>
+      <div class="ch-en">Final Conclusion</div>
+    </div>
+    <div class="tldr">七条核心结论，浓缩为一份<b>驾驭凯文·沃什时代的完整投资者剧本</b>。</div>
+    <div class="conc"><h4><span class="ic">①</span>最大误解</h4><p>许多投资者<b>低估</b>了沃什在通胀上仍有多鹰。他们或因其生产率乐观而以为他偏鸽——实则他要把每一个通胀点都锚定。一言以蔽之：<b>沃什不只是特朗普的「降息工具人」，他首先是一名通胀战士。</b></p></div>
+    <div class="conc"><h4><span class="ic">②</span>最重要的一次讲话</h4><p>可能是其<b>2025年7月胡佛研究所访谈《通胀是一种选择》</b>，他在其中清晰阐述了货币主义哲学（通胀=美联储的选择），并讨论了重塑美联储政策。该访谈浓缩了他在通胀、资产负债表与生产率上的核心观点，堪称理解其方法论的入门读本。</p></div>
+    <div class="conc"><h4><span class="ic">③</span>最脆弱的市场</h4><p><b>债券/黄金</b>。若沃什言行一致，收益率将更高、黄金将更低。持有长久期债券（与贵金属）的投资者，在持续的鹰派格局中风险最大。</p></div>
+    <div class="conc"><h4><span class="ic">④</span>最大受益者</h4><p><b>银行与科技</b>。银行受益于更陡曲线与稳健资产负债表；科技与AI领军者受益于沃什的长期增长聚焦（尽管估值短期承压）。温和周期股（工业、能源）也或因增长与基建支出表现良好。</p></div>
+    <div class="conc"><h4><span class="ic">⑤</span>每月监测</h4><p>关键指标：<b>CPI/PCE</b>（整体与核心）、<b>工资增长与失业</b>、<b>ISM/PMI</b>、<b>美联储资产负债表</b>规模。另需关注<b>FOMC纪要/声明</b>（从点阵图转向数据焦点的线索），以及<b>国债收益率</b>（2/10年）、<b>市场盈亏平衡</b>、<b>美元指数</b>、<b>银行信贷调查</b>与<b>信用利差</b>。它们将揭示沃什政策是成功（通胀受控）还是失败（通胀反弹、增长走弱）。</p></div>
+    <div class="conc"><h4><span class="ic">⑥</span>十大指标</h4><p>1) 核心PCE，2) 核心CPI，3) 平均时薪，4) 失业率，5) ISM PMI，6) 美联储资产负债表总额，7) M2货币供应，8) 10年期国债收益率，9) 5y5y盈亏平衡，10) 期限溢价（国债）。它们覆盖通胀、劳动力、增长、流动性与美联储可信度。</p></div>
+    <div class="conc"><h4><span class="ic">⑦</span>沃什时代组合</h4><p>侧重<b>现金流强劲的成长股</b>（科技创新者、AI、生物科技）与<b>国内周期</b>（能源、工业、金融）。持有适度现金/债券作「干火药」（dry powder，备用资金）。纳入通胀保值资产（TIPS）作保险。回避超长久期债券、弱货币资产与拥挤交易（如收益率上行时的部分大型科技）。对冲美元敞口（做多USD/CAD合理）。持有少量黄金/比特币作尾部风险对冲，但低配。聚焦生产率收益真实的板块（云、芯片）与受益于更高利率的银行。</p></div>
+    <div class="tldr" style="margin-top:22px;text-align:center;font-family:'Noto Serif SC';font-size:16px"><b>「一份驾驭凯文·沃什时代的完整投资者剧本。」</b></div>
+  </section>
+
+  <footer>
+    本报告系对所附英文研究《Kevin Warsh's Monetary Policy Philosophy》的完整中译与可视化呈现 · 中式典雅财经风格（米白·藏青·金）<br>
+    红涨绿跌配色 · 图表由 Chart.js 渲染 · 仅供研究参考，不构成投资建议 · 生成于 2026年6月
+  </footer>
+</main>
+
+<script>
+/* ---------- 章节导航高亮 ---------- */
+const tabs=[...document.querySelectorAll('.chapter-tab')];
+const secs=tabs.map(t=>document.querySelector(t.getAttribute('href')));
+const obs=new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const id='#'+e.target.id;
+      tabs.forEach(t=>t.classList.toggle('active',t.getAttribute('href')===id));
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px',threshold:0});
+secs.forEach(s=>s&&obs.observe(s));
+
+/* ---------- 通用 sub-tab 切换 ---------- */
+function bindTabs(tabSel,attr,paneAttr){
+  const wrap=document.querySelector(tabSel);
+  if(!wrap)return;
+  const sect=wrap.closest('.chapter');
+  wrap.querySelectorAll('.sub-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const k=tab.getAttribute(attr);
+      wrap.querySelectorAll('.sub-tab').forEach(t=>t.classList.toggle('active',t===tab));
+      sect.querySelectorAll('['+paneAttr+']').forEach(p=>{
+        p.classList.toggle('active',p.getAttribute(paneAttr)===k);
+      });
+    });
+  });
+}
+bindTabs('#phil-tabs','data-p','data-pane');
+bindTabs('#mkt-tabs','data-m','data-mpane');
+bindTabs('#port-tabs','data-pt','data-ppane');
+
+/* ---------- 颜色 ---------- */
+const C={navy:'#0E2A47',navy2:'#143E66',gold:'#B08842',goldL:'#D4B271',
+  up:'#D7263D',upD:'#9E1A2D',down:'#1F8A47',downD:'#125F30',ink3:'#6B6B6B',line:'#E4DED1'};
+Chart.defaults.font.family="'Noto Sans SC',sans-serif";
+Chart.defaults.color=C.ink3;
+Chart.defaults.font.size=12;
+
+/* ---------- 4. 雷达：鹰派画像 ---------- */
+new Chart(document.getElementById('radar'),{
+  type:'radar',
+  data:{labels:['通胀鹰派','劳动力市场','金融稳定','资产泡沫担忧'],
+    datasets:[{label:'沃什评分',data:[8,6,7,7],
+      backgroundColor:'rgba(215,38,61,0.18)',borderColor:C.up,borderWidth:2,
+      pointBackgroundColor:C.up,pointBorderColor:'#fff',pointRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{r:{min:0,max:10,ticks:{stepSize:2,backdropColor:'transparent',color:C.ink3},
+      grid:{color:C.line},angleLines:{color:C.line},
+      pointLabels:{font:{size:13,family:"'Noto Serif SC'"},color:C.navy}}},
+    plugins:{legend:{display:false}}}
+});
+
+/* ---------- 4. 历任主席鹰派光谱 ---------- */
+new Chart(document.getElementById('chairBars'),{
+  type:'bar',
+  data:{labels:['沃尔克','沃什','鲍威尔(末)','格林斯潘','伯南克/耶伦'],
+    datasets:[{data:[10,7.5,7,6.5,5.5],
+      backgroundColor:[C.upD,C.up,C.gold,C.goldL,C.down],borderWidth:0}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    scales:{x:{min:0,max:10,grid:{color:C.line},ticks:{stepSize:2}},
+      y:{grid:{display:false},ticks:{font:{size:13,family:"'Noto Serif SC'"},color:C.navy}}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>'鹰派评分 '+c.parsed.x+' / 10'}}}}
+});
+
+/* ---------- 9. 首次FOMC首周反应 ---------- */
+new Chart(document.getElementById('fomcBars'),{
+  type:'bar',
+  data:{labels:['标普500','2/10Y收益率','美元DXY','黄金','比特币','信用利差'],
+    datasets:[{data:[-0.5,0.08,0.4,-2.5,-7.5,0.3],
+      backgroundColor:[C.down,C.up,C.up,C.down,C.down,C.up]
+      }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:C.line},title:{display:true,text:'首周变动 (%／收益率为方向)'}},
+      x:{grid:{display:false},ticks:{font:{size:11.5}}}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>c.parsed.y+(Math.abs(c.parsed.y)>1?'%':' (方向)')}}}}
+});
+
+/* ---------- 11. 情景概率 ---------- */
+new Chart(document.getElementById('scenPie'),{
+  type:'doughnut',
+  data:{labels:['B 过度鹰派 30%','A 沃什成功 25%','C 被迫转向 25%','D 冲突 20%'],
+    datasets:[{data:[30,25,25,20],
+      backgroundColor:[C.down,C.up,C.gold,C.navy2],borderColor:'#fff',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
+    plugins:{legend:{position:'right',labels:{font:{size:12.5},color:C.navy}},
+      tooltip:{callbacks:{label:c=>c.label.replace(/\s\d+%$/,'')+'：'+c.parsed+'%'}}}}
+});
+
+/* ---------- 11. 标普各情景回报 ---------- */
+new Chart(document.getElementById('scenSpx'),{
+  type:'bar',
+  data:{labels:['A 沃什成功','B 过度鹰派','C 被迫转向','D 冲突'],
+    datasets:[{data:[15,-10,20,0],
+      backgroundColor:[C.up,C.down,C.up,C.gold],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:C.line},title:{display:true,text:'标普500 · 一年期回报 (%)'}},
+      x:{grid:{display:false},ticks:{font:{size:12}}}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>(c.parsed.y>=0?'+':'')+c.parsed.y+'%'}}}}
+});
+</script>
+</body>
+</html>

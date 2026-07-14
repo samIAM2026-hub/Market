@@ -1,0 +1,126 @@
+{
+  "source": "https://stockcharts.com/panels/?cmd=show&listNum=4&viewType=e",
+  "listName": "[Market Sum] 010 - EQUITIES - US Indexes",
+  "charts": [
+    {
+      "index": 1,
+      "title": "$COMPQ - Nasdaq Composite",
+      "imagePath": "../Image/stockcharts-us-indexes-01-compq-nasdaq-composite.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24COMPQ&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797398&r=337",
+      "symbol": "$COMPQ",
+      "chartId": "2304797398"
+    },
+    {
+      "index": 2,
+      "title": "$INDU - Dow Jones Industrial Average",
+      "imagePath": "../Image/stockcharts-us-indexes-02-indu-dow-jones-industrial-average.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24INDU&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797402&r=307",
+      "symbol": "$INDU",
+      "chartId": "2304797402"
+    },
+    {
+      "index": 3,
+      "title": "$MID - S&P 400 Mid Cap Index",
+      "imagePath": "../Image/stockcharts-us-indexes-03-mid-s-p-400-mid-cap-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24MID&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797400&r=178",
+      "symbol": "$MID",
+      "chartId": "2304797400"
+    },
+    {
+      "index": 4,
+      "title": "$NDX - Nasdaq 100 Index",
+      "imagePath": "../Image/stockcharts-us-indexes-04-ndx-nasdaq-100-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24NDX&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797399&r=167",
+      "symbol": "$NDX",
+      "chartId": "2304797399"
+    },
+    {
+      "index": 5,
+      "title": "$NYA - NYSE Composite Index",
+      "imagePath": "../Image/stockcharts-us-indexes-05-nya-nyse-composite-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24NYA&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797390&r=273",
+      "symbol": "$NYA",
+      "chartId": "2304797390"
+    },
+    {
+      "index": 6,
+      "title": "$OEX - S&P 100 Index",
+      "imagePath": "../Image/stockcharts-us-indexes-06-oex-s-p-100-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24OEX&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797395&r=387",
+      "symbol": "$OEX",
+      "chartId": "2304797395"
+    },
+    {
+      "index": 7,
+      "title": "$SML - S&P 600 Small Cap Index",
+      "imagePath": "../Image/stockcharts-us-indexes-07-sml-s-p-600-small-cap-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24SML&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797389&r=438",
+      "symbol": "$SML",
+      "chartId": "2304797389"
+    },
+    {
+      "index": 8,
+      "title": "$SPX - S&P 500 Large Cap Index",
+      "imagePath": "../Image/stockcharts-us-indexes-08-spx-s-p-500-large-cap-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797394&r=126",
+      "symbol": "$SPX",
+      "chartId": "2304797394"
+    },
+    {
+      "index": 9,
+      "title": "$TRAN - Dow Jones Transportation Average",
+      "imagePath": "../Image/stockcharts-us-indexes-09-tran-dow-jones-transportation-average.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24TRAN&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797393&r=383",
+      "symbol": "$TRAN",
+      "chartId": "2304797393"
+    },
+    {
+      "index": 10,
+      "title": "$UTIL - Dow Jones Utility Average",
+      "imagePath": "../Image/stockcharts-us-indexes-10-util-dow-jones-utility-average.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24UTIL&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797388&r=879",
+      "symbol": "$UTIL",
+      "chartId": "2304797388"
+    },
+    {
+      "index": 11,
+      "title": "$VLE - Value Line Arithmetic Index",
+      "imagePath": "../Image/stockcharts-us-indexes-11-vle-value-line-arithmetic-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24VLE&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797391&r=883",
+      "symbol": "$VLE",
+      "chartId": "2304797391"
+    },
+    {
+      "index": 12,
+      "title": "IWB - iShares Russell 1000 ETF",
+      "imagePath": "../Image/stockcharts-us-indexes-12-iwb-ishares-russell-1000-etf.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=IWB&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797396&r=165",
+      "symbol": "IWB",
+      "chartId": "2304797396"
+    },
+    {
+      "index": 13,
+      "title": "IWC - iShares Micro-Cap ETF",
+      "imagePath": "../Image/stockcharts-us-indexes-13-iwc-ishares-micro-cap-etf.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=IWC&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797392&r=939",
+      "symbol": "IWC",
+      "chartId": "2304797392"
+    },
+    {
+      "index": 14,
+      "title": "IWM - iShares Russell 2000 ETF",
+      "imagePath": "../Image/stockcharts-us-indexes-14-iwm-ishares-russell-2000-etf.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=IWM&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797397&r=553",
+      "symbol": "IWM",
+      "chartId": "2304797397"
+    },
+    {
+      "index": 15,
+      "title": "IWV - iShares Russell 3000 ETF",
+      "imagePath": "../Image/stockcharts-us-indexes-15-iwv-ishares-russell-3000-etf.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=IWV&p=D&yr=1&mn=0&dy=0&id=p33678962317&a=2304797401&r=408",
+      "symbol": "IWV",
+      "chartId": "2304797401"
+    }
+  ]
+}

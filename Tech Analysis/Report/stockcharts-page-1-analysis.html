@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockCharts Page 1 — Full Chart Analysis</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --ink:#1a2230; --muted:#5d6b80;
+    --line:#e3e8ef; --navy:#1f3a5f; --accent:#2563eb;
+    --bull:#1f9d6b; --bull-bg:#e7f6ef;
+    --ext:#0d8f9e; --ext-bg:#d8f1f4;
+    --bear:#d64545; --bear-bg:#fcecec;
+    --caut:#d98a17; --caut-bg:#fdf3e2;
+    --neut:#6b7280; --neut-bg:#eef1f5;
+    --shadow:0 1px 3px rgba(20,30,50,.07),0 6px 20px rgba(20,30,50,.05);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Layout */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  header.top{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;padding:38px 0 30px}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.4px}
+  header.top .sub{color:#cdddf0;font-size:15px;margin-bottom:18px}
+  header.top .meta{display:flex;flex-wrap:wrap;gap:10px;font-size:13px}
+  header.top .meta span{background:rgba(255,255,255,.12);padding:5px 12px;border-radius:20px}
+  .disclaimer{font-size:12px;color:#b9cbe2;margin-top:16px;font-style:italic}
+
+  /* Stat strip */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:-26px auto 0;position:relative;z-index:2}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+  .stat .num{font-size:26px;font-weight:700}
+  .stat .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .stat.bull .num{color:var(--bull)} .stat.caut .num{color:var(--caut)}
+  .stat.bear .num{color:var(--bear)} .stat.neut .num{color:var(--neut)}
+  .stat.ext .num{color:var(--ext)}
+
+  /* Exec summary */
+  .summary{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin:26px 0;box-shadow:var(--shadow)}
+  .summary h2{margin:0 0 12px;font-size:20px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .summary.collapsed h2{margin:0}
+  .summary h2 .sum-toggle{font-size:12.5px;font-weight:600;color:var(--accent);border:1px solid var(--line);border-radius:7px;padding:4px 12px}
+  .summary h2 .sum-toggle:after{content:"";display:inline-block;width:6px;height:6px;margin-left:7px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:translateY(-2px) rotate(45deg);transition:.2s}
+  .summary:not(.collapsed) h2 .sum-toggle:after{transform:translateY(1px) rotate(-135deg)}
+  .summary.collapsed .sum-body{display:none}
+  .summary p{margin:0 0 12px;color:#33415a}
+  .summary p:last-child{margin-bottom:0}
+  .sum-sub{font-size:13px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+  .summary .sum-sub:first-of-type{margin-top:6px}
+  .concl{list-style:none;counter-reset:cc;margin:6px 0 0;padding:0}
+  .concl li{position:relative;counter-increment:cc;padding:9px 14px 9px 44px;margin-bottom:8px;background:#f6f9fc;border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:9px;color:#33415a;font-size:14px;line-height:1.55}
+  .concl li:last-child{margin-bottom:0}
+  .concl li:before{content:counter(cc);position:absolute;left:12px;top:9px;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .concl li b{color:var(--navy)}
+  .sum-list{margin:6px 0 0;padding-left:20px}
+  .sum-list li{margin-bottom:8px;color:#33415a;font-size:14.5px;line-height:1.55}
+  .sum-list li:last-child{margin-bottom:0}
+
+  /* Controls */
+  .controls{position:sticky;top:0;z-index:30;background:rgba(244,246,249,.92);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .controls .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#fff;font-family:var(--font)}
+  .search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .search svg{position:absolute;left:12px;top:11px;width:16px;height:16px;fill:var(--muted)}
+  /* Filter dropdowns */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .selwrap{position:relative;display:inline-flex}
+  .selwrap select{appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    font-family:var(--font);font-size:13px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:9px;padding:9px 32px 9px 13px;cursor:pointer;
+    transition:.15s;max-width:230px}
+  .selwrap select:hover{border-color:var(--accent)}
+  .selwrap select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .selwrap select.set{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
+  .selwrap:after{content:"";position:absolute;right:13px;top:50%;width:7px;height:7px;
+    border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:translateY(-70%) rotate(45deg);pointer-events:none}
+  .selwrap.set:after{border-color:#fff}
+  /* signal colour coding in the dropdown */
+  .selwrap select option.opt-bull{color:var(--bull)}
+  .selwrap select option.opt-ext{color:var(--ext)}
+  .selwrap select option.opt-caut{color:var(--caut)}
+  .selwrap select option.opt-neut{color:var(--neut)}
+  .selwrap select option.opt-bear{color:var(--bear)}
+  /* when a signal is chosen, tint the closed dropdown to match instead of navy */
+  .selwrap select.sig-bull{background:var(--bull-bg);border-color:var(--bull);color:var(--bull);font-weight:700}
+  .selwrap select.sig-ext{background:var(--ext-bg);border-color:var(--ext);color:var(--ext);font-weight:700}
+  .selwrap select.sig-caut{background:var(--caut-bg);border-color:var(--caut);color:var(--caut);font-weight:700}
+  .selwrap select.sig-neut{background:var(--neut-bg);border-color:var(--neut);color:var(--neut);font-weight:700}
+  .selwrap select.sig-bear{background:var(--bear-bg);border-color:var(--bear);color:var(--bear);font-weight:700}
+  .selwrap.sig-bull:after{border-color:var(--bull)}
+  .selwrap.sig-ext:after{border-color:var(--ext)}
+  .selwrap.sig-caut:after{border-color:var(--caut)}
+  .selwrap.sig-neut:after{border-color:var(--neut)}
+  .selwrap.sig-bear:after{border-color:var(--bear)}
+
+  /* Converter */
+  .conv{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin:0 0 26px;overflow:hidden}
+  .conv-head{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;cursor:pointer;background:linear-gradient(135deg,#243f63,#34618f);color:#fff}
+  .conv-head h2{margin:0;font-size:17px;display:flex;align-items:center;gap:9px}
+  .conv-head .ch-sub{font-size:12px;color:#cbdcef;font-weight:400;margin-left:4px}
+  .conv-toggle{font-size:12.5px;color:#dce8f5;border:1px solid rgba(255,255,255,.4);border-radius:7px;padding:4px 11px}
+  .conv-body{padding:20px 24px 22px}
+  .conv.collapsed .conv-body{display:none}
+  .conv-row{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+  .conv-field{flex:1;min-width:170px}
+  .conv-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+  .conv-field .badge{font-size:10.5px;color:#0d7268;background:#e1f4f0;border-radius:4px;padding:1px 6px;margin-left:6px;letter-spacing:0;text-transform:none;font-weight:600}
+  .conv-field input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:20px;font-weight:700;color:var(--ink);font-family:var(--font);background:#fafbfd}
+  .conv-field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12);background:#fff}
+  .conv-eq{font-size:22px;color:var(--accent);padding-bottom:12px;font-weight:700}
+  .conv-ratio{margin-top:16px;font-size:13.5px;color:#33415a;background:#f0f4f9;border-radius:9px;padding:11px 15px;line-height:1.6}
+  .conv-ratio b{color:var(--navy)}
+  .conv-cal{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+  .conv-cal summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--accent);list-style:none}
+  .conv-cal summary::-webkit-details-marker{display:none}
+  .conv-cal summary:before{content:"⚙ ";}
+  .conv-cal .conv-row{margin-top:12px}
+  .conv-cal .conv-field input{font-size:15px;font-weight:600}
+  .conv-note{font-size:12px;color:var(--muted);margin-top:11px;line-height:1.55}
+
+  /* Main grid */
+  .main{display:grid;grid-template-columns:230px 1fr;gap:28px;margin:22px 0 60px;align-items:start}
+  nav.toc{position:sticky;top:128px;font-size:13px;max-height:calc(100vh - 150px);overflow-y:auto}
+  nav.toc h3{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#9aa6b6;margin:0 0 8px}
+  nav.toc a{display:block;padding:5px 8px;color:var(--muted);border-radius:6px;border-left:2px solid transparent;line-height:1.35}
+  nav.toc a:hover{background:#fff;color:var(--ink);text-decoration:none}
+  nav.toc a.on{color:var(--navy);border-left-color:var(--navy);background:#fff;font-weight:600}
+  nav.toc a .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:middle}
+
+  /* Cards */
+  .cards{display:flex;flex-direction:column;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:130px;border-left:4px solid var(--neut)}
+  .card.bull{border-left-color:var(--bull)} .card.bear{border-left-color:var(--bear)}
+  .card.caut{border-left-color:var(--caut)} .card.neut{border-left-color:var(--neut)}
+  .card.ext{border-left-color:var(--ext)}
+  .card .head{display:flex;align-items:flex-start;gap:14px;padding:18px 22px;cursor:pointer}
+  .card .nbox{flex-shrink:0;width:40px;height:40px;border-radius:9px;background:var(--neut-bg);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+  .card.bull .nbox{background:var(--bull-bg)} .card.bear .nbox{background:var(--bear-bg)} .card.caut .nbox{background:var(--caut-bg)} .card.ext .nbox{background:var(--ext-bg)}
+  .card .htext{flex:1;min-width:0}
+  .card .htext h3{margin:0;font-size:16.5px;color:var(--ink);line-height:1.3}
+  .card .htext .cat{font-size:12px;color:var(--muted);margin-top:3px}
+  .card .right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .tag.bull{background:var(--bull-bg);color:var(--bull)} .tag.bear{background:var(--bear-bg);color:var(--bear)}
+  .tag.caut{background:var(--caut-bg);color:var(--caut)} .tag.neut{background:var(--neut-bg);color:var(--neut)}
+  .tag.ext{background:var(--ext-bg);color:var(--ext)}
+  .card .caret{width:11px;height:11px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:.2s;margin-top:-4px}
+  .card.open .caret{transform:rotate(-135deg);margin-top:2px}
+  .card .body{display:none;padding:0 22px 20px 22px}
+  .card.open .body{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .card .body p{margin:0 0 11px;color:#33415a;font-size:14.5px}
+  .card .body p:last-child{margin-bottom:0}
+  .card .body .openchart{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;font-weight:600;padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:#fafbfd}
+  .card .body .openchart:hover{border-color:var(--accent);text-decoration:none;background:#fff}
+
+  .noresults{display:none;text-align:center;padding:50px;color:var(--muted)}
+
+  /* Bottom line */
+  .bottom{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;border-radius:14px;padding:28px 32px;margin:8px 0 50px}
+  .bottom h2{margin:0 0 14px;font-size:21px}
+  .bottom p{color:#dce8f5;margin:0 0 12px}
+  .bottom .watch{background:rgba(255,255,255,.1);border-radius:10px;padding:16px 20px;margin-top:16px}
+  .bottom .watch h4{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:#bcd2ec}
+  .bottom .watch ul{margin:0;padding-left:18px}
+  .bottom .watch li{margin-bottom:6px;color:#eaf2fb}
+  .bottom .b-sub{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9fc6ff;margin:22px 0 10px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16)}
+  .bottom .b-sub:first-of-type{margin-top:0;padding-top:0;border-top:none}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 0 40px}
+
+  /* TA highlight tokens */
+  .ta-ind{color:#5a3ec8;background:#eee9fc;border-radius:4px;padding:0 4px;font-weight:600}
+  .ta-num{color:#b4530a;background:#fcefdd;border-radius:4px;padding:0 4px;font-weight:700;white-space:nowrap}
+  .ta-sym{color:#0d7268;background:#e1f4f0;border-radius:4px;padding:0 4px;font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;white-space:nowrap}
+  .ta-date{color:#64748b;font-style:italic;font-weight:600}
+  /* darker variants for dark Bottom Line panel */
+  .bottom .ta-ind{color:#cfc4ff;background:rgba(124,103,233,.22)}
+  .bottom .ta-num{color:#ffce91;background:rgba(212,138,23,.22)}
+  .bottom .ta-sym{color:#9fe8dd;background:rgba(13,114,104,.28)}
+  .bottom .ta-date{color:#bcd2ec}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;font-size:12px;color:var(--muted);align-items:center}
+  .legend b{font-weight:600;color:var(--ink);margin-right:2px}
+  .legend .k{display:inline-flex;align-items:center;gap:6px}
+  .legend .sw{width:13px;height:13px;border-radius:4px;display:inline-block}
+  .legend .sw.ind{background:#eee9fc;border:1px solid #5a3ec8}
+  .legend .sw.num{background:#fcefdd;border:1px solid #b4530a}
+  .legend .sw.sym{background:#e1f4f0;border:1px solid #0d7268}
+  .legend .hint{color:#9aa6b6;font-style:italic}
+
+  /* tippable indicator terms */
+  .ta-ind.tip{cursor:help;border-bottom:1px dashed #8b78e0}
+  .bottom .ta-ind.tip{border-bottom-color:#cfc4ff}
+  #tip{position:fixed;z-index:200;max-width:300px;background:#1a2230;color:#eef2f8;
+       padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.55;
+       box-shadow:0 10px 30px rgba(10,18,35,.32);opacity:0;pointer-events:none;
+       transition:opacity .12s ease,transform .12s ease;transform:translateY(4px)}
+  #tip.show{opacity:1;transform:none}
+  #tip .tt{display:block;font-weight:700;font-size:11.5px;text-transform:uppercase;
+           letter-spacing:.5px;color:#8fbcff;margin-bottom:5px}
+  #tip:after{content:"";position:absolute;left:var(--ax,50%);width:11px;height:11px;
+             background:#1a2230;transform:translateX(-50%) rotate(45deg)}
+  #tip:not(.below):after{bottom:-5px}
+  #tip.below:after{top:-5px}
+
+  @media(max-width:860px){
+    .main{grid-template-columns:1fr} nav.toc{display:none}
+    .stats{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>StockCharts — Full ChartList Analysis</h1>
+    <div class="sub">Dave Keller's Market Misbehavior LIVE ChartList · June 26, 2026 refresh · Pages 1–2 · 37 charts · technical interpretation</div>
+    <div class="meta">
+      <span>🗓 Report prepared: June 26, 2026</span>
+      <span>📅 Chart data: June 26, 2026</span>
+      <span>📊 37 charts analyzed (pages 1–2)</span>
+      <span>🧭 Net read: constructive primary trend, tactical support test</span>
+    </div>
+    <div class="disclaimer">This is technical chart interpretation only, not investment advice.</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat bull"><div class="num" id="s-bull">0</div><div class="lbl">Bullish</div></div>
+    <div class="stat ext"><div class="num" id="s-ext">0</div><div class="lbl">Bullish · Extended</div></div>
+    <div class="stat neut"><div class="num" id="s-neut">0</div><div class="lbl">Neutral / Mixed</div></div>
+    <div class="stat caut"><div class="num" id="s-caut">0</div><div class="lbl">Caution / Watch</div></div>
+    <div class="stat bear"><div class="num" id="s-bear">0</div><div class="lbl">Bearish</div></div>
+  </div>
+
+  <div class="summary collapsed" id="summary">
+    <h2 id="sumHead">Executive Summary <span class="sum-toggle" id="sumToggle">Show</span></h2>
+    <div class="sum-body">
+    <div class="sum-sub">Market Regime — Constructive Primary Trend, Tactical Caution</div>
+    <p>The June 26 charts do not show a broad bearish breakdown, but they also do not restore a clean bullish tape. The market remains in a <b>constructive primary trend with tactical stress</b> — a support test inside an uptrend rather than a confirmed reversal.</p>
+    <p>The S&amp;P 500 closed at 7,354.02, slightly below its 50-day average near 7,363.43 and below its 21-day EMA near 7,418.26, keeping the daily chart under pressure. On the weekly chart, SPY closed at 728.99, below its 5-week EMA near 736.73, but still above the 13-, 21-, and 34-week EMAs. The message is split by timeframe: the intermediate and long-term uptrend is alive, while the short-term trend remains vulnerable.</p>
+    <p>The bullish offset is breadth. The NYSE, S&amp;P 500, mid-cap, and small-cap advance-decline lines remain above their 50-day averages. Around 65.2% of S&amp;P 500 stocks are above their 200-day averages, and 64.6% are above their 50-day averages. RSP/SPY remains above both its 50- and 200-day averages, and IWM/SPY improved to 0.411, also above both key averages. That is not the internal profile of a market that has already broadly broken down.</p>
+    <p>The main tactical warnings are money flow, Nasdaq breadth, and risk-appetite cooling. SPY Chaikin Money Flow remains negative near -0.124. The Nasdaq 100 Bullish Percent Index improved to 38, but is still below the important 50 level. High beta versus low volatility fell sharply on the day, and stocks versus bonds remain below their 50-day average. VIX traded above 20 intraday but closed at 18.41, so volatility flashed a warning without confirming a panic regime.</p>
+    <p>Credit and bond volatility remain stabilizers. High-yield spreads were still calm near 2.78, and MOVE closed near 66.79. Major equity breaks are more dangerous when price, breadth, volatility, credit, and rates volatility deteriorate together. As of this June 26 refresh, that full stress confirmation is not present.</p>
+    <div class="sum-sub">Leadership Read</div>
+    <p>Leadership is selective. Semiconductors remain in a powerful relative uptrend, but SMH/SPY fell sharply to 0.839 after being very extended. Small caps and equal weight continue to argue for broadening, and value cyclicals (industrials, financials, materials) have improved from earlier lows.</p>
+    <p>The offset is that broad growth versus value bounced but remains below its 50-day average, while pure growth/value stays firmer. The cleaner description is <b>selective broadening with semiconductor leadership, but not a fully synchronized risk-on tape</b>.</p>
+    <div class="sum-sub">Cross-Asset Message</div>
+    <p>Cross-asset charts reinforce the selective tone. The U.S. dollar is firm, while gold bounced but remains technically damaged, crude stays below its 200-day average, and Bitcoin remains below both its 50- and 200-day averages. Stocks vs. bonds (SPY/TLT) has slipped below its 50-day average, weakening the tactical allocation signal. Cross-asset risk appetite is less convincing than equity breadth alone suggests.</p>
+    <div class="sum-sub">Key Conclusion &amp; Thesis</div>
+    <p>The most important market line is still the S&amp;P 500's 50-day area. A quick reclaim of the 50-day average near 7,363 and the 21-day EMA near 7,418 would repair the short-term trend. A decisive failure below the June 26 low near 7,294, especially with VIX holding above 20, negative CMF, and weakening breadth, would shift the dashboard toward deeper correction risk.</p>
+    <p>The thesis is therefore disciplined rather than aggressively bullish: stay aware that the primary trend is intact, but demand confirmation from price, volatility, and money flow before treating the pullback as fully resolved.</p>
+    <div class="sum-sub">Highest-Conviction Conclusions</div>
+    <ol class="concl">
+      <li><b>Price is the problem; breadth is the offset.</b> The S&amp;P 500 is below the 21-day EMA and slightly below the 50-day average, but advance-decline lines, percentage-above-MA readings, equal weight, and small caps remain constructive.</li>
+      <li><b>Still a support test inside an uptrend,</b> not a confirmed bearish reversal. Long-term charts, credit, and breadth remain supportive.</li>
+      <li><b>Leadership is broadening but uneven.</b> Small caps and equal weight are the best evidence; semiconductors lead but are extended; Nasdaq breadth and growth/value are not fully confirming.</li>
+      <li><b>Nasdaq 100 breadth remains the clearest internal warning.</b> A Bullish Percent Index near 38 is still below the 50 line.</li>
+      <li><b>Money flow, VIX, and NAAIM exposure are the main risk controls.</b> Negative CMF, an intraday VIX spike above 20, and very high manager exposure make the market less forgiving.</li>
+      <li><b>Credit and rates volatility are not confirming panic.</b> High-yield spreads near 2.78 and MOVE near 66.79 keep this from becoming a systemic-stress call.</li>
+      <li><b>Commodities and crypto remain weak.</b> Gold, crude oil, and Bitcoin are all below key averages.</li>
+      <li><b>The secular trend is intact.</b> The NYSE Composite holds above its 12- and 60-month averages with a positive Coppock Curve.</li>
+    </ol>
+    </div>
+  </div>
+
+  <div class="conv collapsed" id="conv">
+    <div class="conv-head" id="convHead">
+      <h2>🔄 XUS.U &nbsp;⇄&nbsp; SPX Converter <span class="ch-sub">USD units · iShares Core S&amp;P 500</span></h2>
+      <span class="conv-toggle" id="convToggle">Show</span>
+    </div>
+    <div class="conv-body">
+      <div class="conv-row">
+        <div class="conv-field">
+          <label>S&amp;P 500 Index <span class="badge">SPX</span></label>
+          <input id="inSpx" type="number" inputmode="decimal" step="0.01" placeholder="7354.02">
+        </div>
+        <div class="conv-eq">⇄</div>
+        <div class="conv-field">
+          <label>XUS.U Price <span class="badge">USD</span></label>
+          <input id="inXus" type="number" inputmode="decimal" step="0.01" placeholder="46.91">
+        </div>
+      </div>
+      <div class="conv-ratio" id="convRatio"></div>
+      <details class="conv-cal">
+        <summary>Calibration anchor — edit to re-sync the ratio</summary>
+        <div class="conv-row">
+          <div class="conv-field"><label>Anchor SPX level</label><input id="calSpx" type="number" inputmode="decimal" step="0.01" value="7472.79"></div>
+          <div class="conv-field"><label>Anchor XUS.U price</label><input id="calXus" type="number" inputmode="decimal" step="0.01" value="46.91"></div>
+        </div>
+        <div class="conv-note">Anchored to the <span class="ta-date">June 22, 2026</span> close. XUS.U holds the S&amp;P 500 in USD, so the two track in near-lockstep — but the ratio drifts slightly over time (dividends, ~0.09% fee). For best accuracy, re-anchor with a fresh same-day XUS.U + SPX pair. This is an approximation, not investment advice.</div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="row">
+      <div class="search">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 019.5 14z"/></svg>
+        <input id="search" type="text" placeholder="Search charts, indicators, symbols…">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="legend">
+      <b>Color key:</b>
+      <span class="k"><span class="sw ind"></span>TA indicators &amp; concepts</span>
+      <span class="k"><span class="sw num"></span>Levels &amp; numbers</span>
+      <span class="k"><span class="sw sym"></span>Symbols &amp; tickers</span>
+      <span class="hint">— hover or tap an underlined indicator for its definition</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="main">
+    <nav class="toc"><h3>Charts</h3><div id="toc"></div></nav>
+    <div>
+      <div class="cards" id="cards"></div>
+      <div class="noresults" id="noresults">No charts match your search or filter.</div>
+
+      <div class="bottom">
+        <h2>Bottom Line</h2>
+        <p>The June 26 refresh leaves the market in a <b>constructive but tactically fragile</b> position. The long-term trend, credit backdrop, rates volatility, equal weight, small caps, and broad participation measures remain supportive. The caution comes from the S&amp;P 500's failure to reclaim its short-term averages, negative money flow, weak Nasdaq breadth, risk-appetite cooling, and crowded professional exposure.</p>
+        <p>The dashboard does not justify an outright bearish regime call yet. It does justify a tighter, more conditional bullish view: the market needs to reclaim the 50-day and 21-day areas quickly, or the June 26 support test can evolve into a deeper correction.</p>
+        <p><b>Monitoring checklist:</b> S&amp;P 500 — 50-day near 7,363, 21-day EMA near 7,418, June 26 low near 7,294; VIX behavior around 20; SPY CMF crossing back above or staying below zero; S&amp;P 500 percent above 50-/200-day averages; Nasdaq 100 BPI vs. 50; SMH/SPY holding its 50-day relative average; IWM/SPY and RSP/SPY above their 50-/200-day averages; high-yield spreads calm vs. widening; SPY/TLT vs. its 50-day average.</p>
+        <div class="watch">
+          <h4>✅ Bullish repair signals</h4>
+          <ul>
+            <li>S&amp;P 500 closes back above the 50-day average near 7,363</li>
+            <li>S&amp;P 500 then reclaims the 21-day EMA near 7,418</li>
+            <li>VIX stays below 20 after any intraday spikes</li>
+            <li>SPY Chaikin Money Flow moves back above zero</li>
+            <li>Nasdaq 100 Bullish Percent Index climbs back above 50</li>
+            <li>SPY/TLT reclaims its 50-day average near 8.58</li>
+            <li>RSP/SPY and IWM/SPY hold above their 50- and 200-day averages</li>
+          </ul>
+        </div>
+        <div class="watch">
+          <h4>🛑 Bearish / correction confirmation</h4>
+          <ul>
+            <li>S&amp;P 500 closes decisively below the June 26 low near 7,294</li>
+            <li>VIX holds above 20 instead of merely spiking intraday</li>
+            <li>SPY CMF remains negative while price makes lower lows</li>
+            <li>Percentage of S&amp;P 500 stocks above the 50-day average falls back below 50%</li>
+            <li>RSP/SPY and IWM/SPY lose their reclaimed moving-average support</li>
+            <li>High-yield spreads begin widening materially</li>
+          </ul>
+        </div>
+      </div>
+
+      <footer>
+        Sources: <a href="https://stockcharts.com/articles/sharedcharts.php?cc=1631730&listNum=183&page=1" target="_blank" rel="noopener">ChartList page 1</a> · <a href="https://stockcharts.com/articles/sharedcharts.php?cc=1631730&listNum=183&page=2" target="_blank" rel="noopener">page 2</a> · Dave Keller's Market Misbehavior LIVE · Generated interactive view · Technical interpretation only, not investment advice.
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+const CHARTS = [
+  {n:"100",cat:"Trend",sig:"bull",title:"100 SPY Market Trend",
+   link:"https://stockcharts.com/c-sc/sc?s=SPY&p=W&yr=5&mn=0&dy=0&a=1065471901&i=p96800409922",
+   body:["Signal: bullish primary trend, tactical caution. SPY closed at 728.99, below its 5-week EMA near 736.73, but still above the 13-week, 21-week, and 34-week EMAs. The long and intermediate weekly moving-average stack remains constructive.",
+   "The short-term PPO has turned negative, while the medium- and long-term PPO readings remain positive. That argues for a pullback or consolidation inside a larger uptrend, not a confirmed trend break. A weekly reclaim of the 5-week EMA would improve the chart; a loss of the 13- or 21-week EMA would make the warning more serious."]},
+
+  {n:"110",cat:"Trend",sig:"caut",title:"110 S&P 500 Daily",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=0&mn=10&dy=0&a=2233363326&i=p68513297735",
+   body:["Signal: caution. The S&P 500 closed at 7,354.02, below the 21-day EMA near 7,418.26 and slightly below the 50-day average near 7,363.43. RSI is near 46, showing a loss of upside momentum without being oversold.",
+   "This chart keeps the market in the repair zone. The first bullish repair would be a close back above the 50-day average, then a reclaim of the 21-day EMA. The first bearish confirmation would be a decisive break below the June 26 low near 7,294."]},
+
+  {n:"120",cat:"Trend",sig:"caut",title:"120 $SPX 5-day",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=5&yr=0&mn=0&dy=5&a=1773512912&i=p89351983862",
+   body:["Signal: neutral to caution. The five-minute chart shows choppy intraday trade: an early drop, a rebound, and a close near 7,354 without a decisive upside breakout. RSI was near 47, and MACD was only slightly positive late in the session.",
+   "Short-term buyers stabilized the tape but did not clearly retake control. This supports the broader message that the market is trying to build support, not yet launching into a clean continuation move."]},
+
+  {n:"130",cat:"Breadth",sig:"bull",title:"130 Newer Dow Theory",
+   link:"https://stockcharts.com/c-sc/sc?s=RSP&p=D&yr=1&mn=6&dy=0&a=1501253219&i=p16249768101",
+   body:["Signal: bullish. The equal-weight evidence remains constructive. RSP continues to hold up better than a market would normally show during a broad internal breakdown, and the equal-weight Nasdaq evidence remains a useful check on narrow mega-cap behavior.",
+   "This is one of the stronger arguments that the index weakness is a rotation and support-test phase rather than a broad bearish reversal. The signal would weaken if equal-weight indexes lose their recent breakout structure."]},
+
+  {n:"200",cat:"Macro & Rates",sig:"neut",title:"200 Ten Year $TNX and Yield Curve",
+   link:"https://stockcharts.com/c-sc/sc?s=%24TNX&p=D&yr=1&mn=6&dy=0&a=1261341460&i=p27886013462",
+   body:["Signal: neutral to mildly supportive. The 10-year Treasury yield closed near 4.372%, below its 50-day average near 4.443% and above its 200-day average near 4.223%. The 10-year/3-month spread was about +0.62, and the 10-year/2-year spread about +0.27.",
+   "Rates are not currently delivering a major equity headwind. The curve remains positive, and the slight easing in yields is modestly supportive unless it becomes a recession-scare decline."]},
+
+  {n:"210",cat:"Macro & Rates",sig:"bull",title:"210 High Yield Spreads (inverted)",
+   link:"https://stockcharts.com/c-sc/sc?s=-%24%24HYIOAS&p=D&yr=2&mn=0&dy=0&a=1213312637&i=p16275614462",
+   body:["Signal: bullish, no major credit stress. The high-yield OAS panel showed its latest available reading near 2.78 as of June 25, a small uptick but still a calm credit backdrop. Credit is not yet confirming a serious equity stress event.",
+   "This is important. If equity weakness were paired with widening credit spreads, the market read would become more defensive. For now, credit remains a stabilizing input."]},
+
+  {n:"220",cat:"Commodities & Crypto",sig:"caut",title:"220 Currencies & Commodities",
+   link:"https://stockcharts.com/c-sc/sc?s=%24USD&p=D&yr=1&mn=0&dy=0&a=1261354693&i=p47496017972",
+   body:["Signal: caution for commodity risk appetite. The U.S. dollar remained firm near 101.37. Crude oil stayed weak near 70.27, while gold bounced but remained technically damaged.",
+   "The cross-asset message is selective. Equity breadth has pockets of strength, but commodities and crypto are not confirming a broad risk-appetite surge."]},
+
+  {n:"230",cat:"Commodities & Crypto",sig:"bear",title:"230 Gold",
+   link:"https://stockcharts.com/c-sc/sc?s=GLD&p=D&yr=1&mn=0&dy=0&a=2121968263&i=p54333178752",
+   body:["Signal: bearish, with oversold bounce. GLD closed at 373.63, up 1.13% on the day, but still below its 21-day EMA near 390.35, 50-day average near 411.81, and 200-day average near 409.19. RSI was near 35.5.",
+   "The bounce is not enough to repair the downtrend. Gold needs to reclaim at least the 21-day EMA before this chart becomes neutral, and the 50-/200-day area remains the bigger repair zone."]},
+
+  {n:"240",cat:"Commodities & Crypto",sig:"bear",title:"240 Crude Oil $WTIC",
+   link:"https://stockcharts.com/c-sc/sc?s=%24WTIC&p=D&yr=1&mn=0&dy=0&a=2208293506&i=p29067437756",
+   body:["Signal: bearish / oversold. WTIC crude was near 70.27, down about 2.3%, below its 200-day average near 73.82 and far below its 50-day average near 91.74. RSI was near 27.5.",
+   "Crude is deeply oversold, so a bounce is possible, but the trend is still bearish until price reclaims the 200-day average. Energy leadership remains under pressure."]},
+
+  {n:"250",cat:"Commodities & Crypto",sig:"bear",title:"250 $BTCUSD — Bitcoin to US Dollar",
+   link:"https://stockcharts.com/c-sc/sc?s=%24BTCUSD&p=D&yr=0&mn=6&dy=0&a=2121968269&i=p17511101633",
+   body:["Signal: bearish. Bitcoin was near 60,015 on the live crypto chart, below its 50-day average near 69,838 and 200-day average near 75,848. RSI was near 32.",
+   "Bitcoin is not confirming broad risk-on behavior. The chart needs to reclaim the 50-day average before it stops being a drag on the cross-asset risk message."]},
+
+  {n:"300",cat:"Breadth",sig:"bull",title:"300 The Chart 2022-12",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=2&mn=0&dy=0&a=1311890553&i=p35474572750",
+   body:["Signal: bullish internals, price caution. The S&P 500 price chart is under tactical pressure, but the internal panels are healthier. The NYSE common-stock advance-decline line was near 20,104, S&P 500 stocks above their 50-day averages were near 64.6%, and the S&P 500 Bullish Percent Index was near 55.2.",
+   "The conclusion is constructive, with one condition: breadth can support the market only if price stabilizes. If price breaks lower and breadth rolls over afterward, this chart would quickly lose its bullish offset."]},
+
+  {n:"310",cat:"Breadth",sig:"bull",title:"310 Breadth by Cap Tiers ADLN",
+   link:"https://stockcharts.com/c-sc/sc?s=!ADLINENYC&p=D&yr=1&mn=0&dy=0&a=1773513600&i=p45731084033",
+   body:["Signal: bullish. The NYSE, S&P 500, mid-cap, and small-cap advance-decline lines all remain above their 50-day averages. Small-cap breadth remains especially constructive.",
+   "This is one of the dashboard's cleanest bullish messages. A broad internal breakdown normally shows deterioration across these lines; that is not what this chart shows yet."]},
+
+  {n:"320",cat:"Breadth",sig:"neut",title:"320 McClellan Oscillator (new shading)",
+   link:"https://stockcharts.com/c-sc/sc?s=%24NYMO&p=D&yr=1&mn=0&dy=0&a=1854489018&i=p54144813410",
+   body:["Signal: neutral to mildly constructive. The McClellan Oscillator remains a short-term breadth gauge rather than a primary trend signal. It is not showing the kind of upside thrust that would declare the correction over, but the broader breadth dashboard does not show a broad collapse either.",
+   "The preferred read is neutral-to-constructive. A sustained move below zero while the S&P 500 loses the 50-day average would be a tactical warning."]},
+
+  {n:"330",cat:"Breadth",sig:"neut",title:"330 SPX and NYC new hi/lo",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=1&mn=0&dy=0&a=671240170&i=p95300202566",
+   body:["Signal: mixed but acceptable. The new-high/new-low backdrop remains less powerful than the advance-decline lines, but it has not shifted into a major warning. The key is whether new lows expand while the index fails at the 50-day average.",
+   "For now, this chart supports a mixed internal message: not a breadth thrust, but not a broad risk-off confirmation."]},
+
+  {n:"340",cat:"Breadth",sig:"bull",title:"340 SPX > 200 day and 50 day",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=1&mn=6&dy=0&a=689556808&i=p45500304744",
+   body:["Signal: bullish. About 65.2% of S&P 500 stocks are above their 200-day averages, and about 64.6% are above their 50-day averages. Both readings are comfortably above the 50% line.",
+   "This is a strong breadth offset to the S&P 500's daily price weakness. The warning would be a fast reversal in these readings back below 50%."]},
+
+  {n:"350",cat:"Breadth",sig:"bull",title:"350 S&P 500 Bullish Percent Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24BPSPX&p=D&yr=2&mn=0&dy=0&a=1929116264&i=p90651957181",
+   body:["Signal: neutral to bullish. The S&P 500 Bullish Percent Index closed near 55.2, up slightly on the day. It remains above the neutral 50 line but well below a strong 70-plus thrust zone.",
+   "This supports a constructive but not full-throttle market read. It confirms participation is adequate, not euphoric."]},
+
+  {n:"360",cat:"Breadth",sig:"caut",title:"360 Nasdaq 100 Bullish Percent Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24BPNDX&p=D&yr=2&mn=0&dy=0&a=1437647442&i=p54642849378",
+   body:["Signal: caution. The Nasdaq 100 Bullish Percent Index improved to 38, but remains below the important 50 midpoint. That keeps Nasdaq participation weak even if high-profile technology leadership remains visible.",
+   "This remains one of the more important internal warnings. A move above 50 would meaningfully improve the growth/technology breadth read."]},
+
+  {n:"370",cat:"Breadth",sig:"caut",title:"370 SPY with Chaikin Money Flow",
+   link:"https://stockcharts.com/c-sc/sc?s=SPY&p=D&yr=1&mn=6&dy=0&a=1802127033&i=p39342565788",
+   body:["Signal: caution. SPY closed at 728.99, and Chaikin Money Flow remained negative near -0.124. That means accumulation is not confirming the broader uptrend at the moment.",
+   "This is a tactical warning rather than a standalone sell signal. The chart would improve if CMF moves back above zero while SPY reclaims its short-term moving averages."]},
+
+  {n:"400",cat:"Volatility",sig:"caut",title:"400 VIX",
+   link:"https://stockcharts.com/c-sc/sc?s=%24VIX&p=D&yr=1&mn=0&dy=0&a=1232877357&i=p95878253983",
+   body:["Signal: watch. VIX traded as high as 20.72 intraday but closed at 18.41, below the first major risk threshold near 20. The 20-day average was near 17.92.",
+   "The intraday spike says the market is nervous; the close below 20 says panic has not been confirmed. Sustained VIX closes above 20 would make the S&P 500's 50-day test more dangerous."]},
+
+  {n:"405",cat:"Volatility",sig:"bull",title:"405 $MOVE vs. $VIX",
+   link:"https://stockcharts.com/c-sc/sc?s=%24MOVE&p=D&yr=2&mn=0&dy=0&a=1810661893&i=p22966529991",
+   body:["Signal: bullish / calm rates volatility. MOVE closed near 66.79, down slightly on the day. Bond-market volatility remains low relative to the two-year range.",
+   "This helps keep the macro-risk backdrop constructive. A more serious risk-off environment would usually show MOVE and VIX rising together."]},
+
+  {n:"410",cat:"Sentiment & Positioning",sig:"neut",title:"410 AAII Bull/Bear w/ Spread",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=W&yr=5&mn=0&dy=0&a=721142161&i=p47183143304",
+   body:["Signal: neutral. AAII sentiment remains positive but not extreme. The prior reading showed bulls near 44.9%, bears near 36.1%, and a bull-bear spread around +8.8.",
+   "That is not a major contrarian sell signal by itself. The larger crowding warning comes from NAAIM exposure."]},
+
+  {n:"420",cat:"Sentiment & Positioning",sig:"ext",title:"420 NAAIM Exposure Index",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=W&yr=5&mn=0&dy=0&a=879651448&i=p24133428450",
+   body:["Signal: bullish trend, crowded positioning. NAAIM exposure remains near 98.59, a very high reading. Professional managers are heavily exposed to equities.",
+   "High exposure can persist during strong trends, but it leaves less room for marginal buying if price weakens. This is a crowding risk, not a standalone bearish signal."]},
+
+  {n:"500",cat:"Sector Leadership",sig:"caut",title:"500 Offense vs. Defense (Discretionary vs. Staples)",
+   link:"https://stockcharts.com/c-sc/sc?s=XLY%3AXLP&p=D&yr=2&mn=0&dy=0&a=703052594&i=p49477026100",
+   body:["Signal: caution. Discretionary versus staples remains an important consumer risk-appetite gauge, and the recent rollover keeps this chart in the caution bucket. The equal-weight discretionary/staples panel removes some mega-cap distortion.",
+   "This chart does not confirm a broad consumer-led risk-on impulse. A turn higher would help validate the broadening thesis; continued weakness would favor a more defensive interpretation."]},
+
+  {n:"510",cat:"Sector Leadership",sig:"neut",title:"510 Growth Sectors RS",
+   link:"https://stockcharts.com/c-sc/sc?s=XLK%3ASPY&p=D&yr=2&mn=0&dy=0&a=1662582688&i=p73856816819",
+   body:["Signal: mixed. Technology relative strength remains the strongest part of the broad growth complex, but communication services and discretionary have been weaker. The market's growth leadership is not uniform.",
+   "This is why the leadership read is selective rather than broadly bullish. Technology can remain constructive while the broader growth complex sends a more uneven signal."]},
+
+  {n:"512",cat:"Sector Leadership",sig:"bull",title:"512 Value Sectors RS",
+   link:"https://stockcharts.com/c-sc/sc?s=XLI%3ASPY&p=D&yr=2&mn=0&dy=0&a=1662582730&i=p69031932058",
+   body:["Signal: improving. Industrials, financials, and materials have improved from earlier relative lows. The improvement in these cyclical/value areas supports the idea that leadership is broader than just mega-cap technology.",
+   "The signal would be more convincing if these ratios continue higher while the S&P 500 reclaims its 21-day EMA. If value cyclicals stall while small caps weaken, the broadening thesis would fade."]},
+
+  {n:"514",cat:"Sector Leadership",sig:"neut",title:"514 Defensive Sectors RS",
+   link:"https://stockcharts.com/c-sc/sc?s=XLU%3ASPY&p=D&yr=1&mn=6&dy=0&a=1632447061&i=p56653338041",
+   body:["Signal: neutral / mild defensive bid. Utilities, staples, health care, and real estate have shown some relative stabilization after prior weakness. Defensive stabilization often appears when investors are less comfortable with cyclicals.",
+   "For now, the chart does not show defensive leadership taking over. It is a watch item, not a regime changer."]},
+
+  {n:"519",cat:"Breadth",sig:"caut",title:"519 Hindenburg Omen",
+   link:"https://stockcharts.com/c-sc/sc?s=%24SPX&p=D&yr=5&mn=0&dy=0&a=1732201538&i=p21527910175",
+   body:["Signal: watch. This remains a warning-context chart rather than a direct timing tool. The relevant message is that mixed new-high/new-low behavior can coexist with a rising index, especially near tactical support tests.",
+   "It does not override the constructive advance-decline and percentage-above-moving-average evidence, but it reinforces the need to watch whether internal stress expands."]},
+
+  {n:"520",cat:"Sector Leadership",sig:"ext",title:"520 Semiconductors vs SPX",
+   link:"https://stockcharts.com/c-sc/sc?s=SMH%3ASPY&p=D&yr=2&mn=0&dy=0&a=675478383&i=p83478918005",
+   body:["Signal: bullish but extended. SMH/SPY closed near 0.839, down sharply on the day, but still above its 50-day average near 0.772 and 200-day average near 0.606. Semiconductor leadership remains powerful, but it is no longer a one-way upside line.",
+   "This is still bullish leadership evidence, with an important caveat: the group is extended and volatile. A break of the 50-day relative average would be the first real leadership warning."]},
+
+  {n:"530",cat:"Sector Leadership",sig:"bull",title:"530 Small Caps vs. Large Caps",
+   link:"https://stockcharts.com/c-sc/sc?s=IWM%3ASPY&p=D&yr=2&mn=0&dy=0&a=675478451&i=p93934801937",
+   body:["Signal: bullish. IWM/SPY closed near 0.411, up about 1.0%, above its 50-day average near 0.388 and 200-day average near 0.376.",
+   "Small-cap outperformance is one of the strongest broadening signals in the whole dashboard. A failed breakout back below the 50-day average would be a meaningful warning."]},
+
+  {n:"540",cat:"Sector Leadership",sig:"bull",title:"540 Equal Weight vs SPX",
+   link:"https://stockcharts.com/c-sc/sc?s=RSP%3ASPY&p=D&yr=2&mn=0&dy=0&a=738340869&i=p35526941243",
+   body:["Signal: bullish improvement. RSP/SPY closed near 0.288, above its 50-day average near 0.280 and 200-day average near 0.284.",
+   "This continues to support the broadening argument. Equal-weight outperformance says participation is no longer confined only to the largest index names."]},
+
+  {n:"550",pg:2,cat:"Risk Appetite",sig:"neut",title:"550 Growth vs. Value (+pure)",
+   link:"https://stockcharts.com/c-sc/sc?s=IWF:IWD&p=D&yr=2&mn=0&dy=0&id=p22289388190&a=1574755402",
+   body:["Signal: mixed. IWF/IWD bounced to about 0.490, up 1.48%, but remains below its 50-day average near 0.522. The pure growth/value panel remains firmer near 0.53, above its 50-day average.",
+   "The split matters. Broad growth leadership is still fragile, while the more aggressive pure-growth cohort is holding up better. This keeps the factor read mixed rather than cleanly bullish."]},
+
+  {n:"560",pg:2,cat:"Risk Appetite",sig:"ext",title:"560 High Beta vs Low Vol",
+   link:"https://stockcharts.com/c-sc/sc?s=SPHB:SPLV&p=D&yr=2&mn=0&dy=0&id=p96233958168&a=675478522",
+   body:["Signal: bullish trend, sharp tactical warning. SPHB/SPLV fell to about 1.986, down roughly 3.6%, but remains above its 50-day average near 1.941 and 200-day average near 1.695.",
+   "High beta still leads on the trend, but the daily drop is a clear risk-appetite warning. Holding the 50-day average is now the key test."]},
+
+  {n:"600",pg:2,cat:"Risk Appetite",sig:"caut",title:"600 US vs World",
+   link:"https://stockcharts.com/c-sc/sc?s=SPY:ACWI&p=D&yr=2&mn=0&dy=0&id=p97642651689&a=675478500",
+   body:["Signal: caution. SPY/ACWI closed near 4.73, below its 50-day average near 4.77 and 200-day average near 4.79. U.S. equities remain soft versus the global benchmark.",
+   "This does not negate the U.S. absolute uptrend, but it argues that U.S. leadership is not the cleanest relative-strength story right now."]},
+
+  {n:"700",pg:2,cat:"Risk Appetite",sig:"caut",title:"700 Stocks vs. Bonds",
+   link:"https://stockcharts.com/c-sc/sc?s=SPY:TLT&p=D&yr=3&mn=0&dy=0&id=p66573200122&a=675478452",
+   body:["Signal: caution. SPY/TLT closed near 8.34, below its 50-day average near 8.58 but still above its 200-day average near 7.95.",
+   "Stocks still hold the longer-term advantage over bonds, but the tactical allocation signal is no longer cleanly risk-on. A reclaim of the 50-day average would help; continued weakness would point to a more defensive rotation."]},
+
+  {n:"820",pg:2,cat:"Trend",sig:"bull",title:"820 Weekly SPX w/ MACD/PPO, RSI",
+   link:"https://stockcharts.com/c-sc/sc?s=$SPX&id=p52777088324&p=W&yr=10&mn=0&dy=0&a=1088957736",
+   body:["Signal: bullish long-term, tactical divergence risk. The weekly S&P 500 closed at 7,354.02, still above its 40-week average near 6,936.51. Weekly PPO remains positive, and weekly RSI is near 60.",
+   "The long-term trend remains intact. The risk is that weekly momentum is no longer accelerating cleanly while the daily chart tests support. A weekly close below the 40-week average would be a much larger warning, but that is not the current condition."]},
+
+  {n:"830",pg:2,cat:"Trend",sig:"bull",title:"830 Coppock Curve $NYA",
+   link:"https://stockcharts.com/c-sc/sc?s=$NYA&p=M&yr=30&mn=0&dy=0&id=p81700998465&a=1335044098",
+   body:["Signal: bullish long-term. The NYSE Composite was near 23,689, above its 12-month average near 22,244 and 60-month average near 18,036. The Coppock Curve remains positive near 32.33.",
+   "This chart is the strongest long-term counterweight to the daily caution. It argues against treating the current pullback as a confirmed secular trend break."]},
+
+  {n:"832",pg:2,cat:"Trend",sig:"bull",title:"832 Coppock Curve + Monthly PPO",
+   link:"https://stockcharts.com/c-sc/sc?s=$NYA&p=M&yr=30&mn=0&dy=0&id=p81700998465&a=1976270241",
+   body:["Signal: bullish long-term, late-cycle watch. The companion NYSE monthly chart confirms the same message: price remains above the 12- and 60-month averages, monthly PPO remains positive, and the Coppock Curve remains constructive.",
+   "This is not an early-cycle launch signal; it is a secular-trend-intact signal. It says to respect the long-term uptrend while monitoring shorter-term deterioration."]}
+];
+
+const SIG = {
+  bull:{label:"Bullish"}, ext:{label:"Bullish · Extended"}, bear:{label:"Bearish"},
+  caut:{label:"Caution"}, neut:{label:"Neutral"}
+};
+const CATS = ["Trend","Risk Appetite","Breadth","Macro & Rates","Commodities & Crypto","Volatility","Sentiment & Positioning","Sector Leadership"];
+
+let activeCat="all", activeSig="all", activePg="all", query="";
+
+/* ---- Glossary of TA indicators (shown in popups) ---- */
+const DEF = {
+ "ema":"A moving average that weights recent prices more heavily, so it turns faster than a simple average. Traders watch whether price holds above or below it to read trend.",
+ "moving average":"The average price over a set number of periods, smoothing out noise to show trend direction. Price above a rising average is bullish; below a falling one is bearish.",
+ "cmf":"Chaikin Money Flow gauges buying vs. selling pressure by mixing where price closes in its range with volume. Above zero suggests accumulation; below zero, distribution.",
+ "mcclellan oscillator":"A short-term breadth-momentum gauge built from advancing minus declining stocks. Above zero means broad buying momentum; below zero, broad selling.",
+ "bullish percent index":"The percentage of stocks in an index on point-and-figure buy signals. Above 50 favors bulls; very high (70+) can be overbought, very low oversold.",
+ "advance decline line":"A running total of advancing minus declining stocks. A rising line confirms broad participation behind an index move; a falling line warns breadth is narrowing.",
+ "relative strength":"Compares one asset's performance against another (usually a benchmark). A rising ratio means it's outperforming; falling means lagging. Not the same as RSI.",
+ "new highs new lows":"Counts of stocks hitting fresh 52-week highs vs. lows. Expanding new highs confirm a healthy rally; rising new lows beside a strong index warn of hidden weakness.",
+ "yield curve":"The spread between long- and short-term Treasury yields. A positive (steep) curve is normal; a negative (inverted) curve has historically preceded recessions.",
+ "bull bear spread":"Bullish survey responses minus bearish ones. Used as a contrarian gauge — extreme optimism can mark tops, extreme pessimism bottoms.",
+ "naaim exposure index":"Measures how invested active managers are in equities, from heavily short to fully long. High readings show professionals are committed to the trend.",
+ "move index":"The bond market's version of the VIX — it measures expected Treasury volatility. A rising MOVE signals rate-market stress that can spill into stocks.",
+ "point and figure":"A charting method that ignores time and small wiggles, plotting only meaningful price moves as X's and O's to clarify support, resistance, and signals.",
+ "high yield spread":"The extra yield investors demand to hold riskier 'junk' bonds over Treasuries. Widening spreads signal credit stress; tight spreads signal calm, risk-on conditions.",
+ "higher highs":"A series of peaks each above the last (with troughs also rising) — the textbook definition of an uptrend. The opposite, lower lows, defines a downtrend.",
+ "lower low":"A trough below the prior trough, a hallmark of a downtrend. A higher low instead suggests selling pressure is easing.",
+ "overbought":"A condition (often RSI above 70) where price has risen far and fast, raising odds of a pause or pullback — though it can persist in strong trends.",
+ "oversold":"A condition (often RSI below 30) where price has fallen far and fast, raising odds of a bounce — though it can persist in strong downtrends.",
+ "uptrend":"A sustained rise of higher highs and higher lows. Trend-followers treat pullbacks as opportunities until that structure breaks.",
+ "downtrend":"A sustained decline of lower highs and lower lows. Rallies are often treated as selling opportunities until the structure repairs.",
+ "divergence":"When price and an indicator disagree — e.g. price makes a new high but momentum doesn't. It warns the move may be losing conviction.",
+ "breakout":"When price pushes decisively through resistance, often starting a new advance. A breakdown is the same through support, to the downside.",
+ "trendline":"A straight line connecting successive highs or lows. Holding the line supports the trend; a clean break can signal a change of direction.",
+ "momentum":"The speed and strength of a price move. Strong momentum confirms a trend; fading momentum can precede a stall or reversal.",
+ "accumulation":"Sustained buying that builds positions, often seen as rising volume on up days. The opposite of distribution.",
+ "distribution":"Sustained selling into strength as larger holders trim positions. It can cap rallies even while price still looks firm.",
+ "consolidation":"A sideways pause where price digests a prior move within a range. It often resolves in the direction of the preceding trend.",
+ "risk on":"An environment where investors favor higher-risk assets (stocks, cyclicals, crypto). Risk-off is the flight to safety (cash, bonds, defensives).",
+ "retracement":"A partial pullback against the prevailing trend, often measured with Fibonacci levels (38.2%, 50%, 61.8%) to find likely support or resistance.",
+ "support":"A price area where buying has previously halted declines. Holding support keeps a trend intact; losing it opens lower levels.",
+ "resistance":"A price area where selling has previously capped advances. Clearing resistance is bullish; failing there can stall a rally.",
+ "rsi":"Relative Strength Index — a 0–100 momentum oscillator. Above 70 is overbought, below 30 oversold; the 50 midline splits bullish from bearish momentum.",
+ "macd":"Moving Average Convergence Divergence — tracks the gap between two EMAs to show trend and momentum. Crosses of its signal line flag shifts.",
+ "ppo":"Percentage Price Oscillator — like MACD but in percent, so momentum can be compared across different securities. Above zero is bullish momentum.",
+ "fibonacci":"Retracement levels (23.6%, 38.2%, 50%, 61.8%) drawn from the Fibonacci sequence, used to estimate where a pullback may find support or resistance.",
+ "coppock curve":"A long-term momentum indicator (a smoothed sum of rate-of-change), used mainly on monthly charts. A turn up from below zero has historically flagged durable market bottoms.",
+ "high beta":"High-beta stocks swing more than the market (beta above 1). When high beta leads low-volatility stocks, it signals strong risk appetite (risk-on).",
+ "low volatility":"Low-volatility stocks move less than the market and are defensive. Leadership by low-vol over high-beta signals caution and risk-off positioning.",
+ "signal line":"A moving average of an oscillator like MACD or PPO. The oscillator crossing above its signal line is bullish momentum; crossing below is bearish.",
+ "histogram":"The bars showing the gap between an oscillator (MACD/PPO) and its signal line. Growing bars mean strengthening momentum; shrinking bars, fading momentum."
+};
+const TITLE = {
+ "ema":"Exponential Moving Average (EMA)","moving average":"Moving Average","cmf":"Chaikin Money Flow (CMF)",
+ "mcclellan oscillator":"McClellan Oscillator","bullish percent index":"Bullish Percent Index","advance decline line":"Advance-Decline Line",
+ "relative strength":"Relative Strength","new highs new lows":"New Highs / New Lows","yield curve":"Yield Curve",
+ "bull bear spread":"Bull-Bear Spread","naaim exposure index":"NAAIM Exposure Index","move index":"MOVE Index",
+ "point and figure":"Point-and-Figure","high yield spread":"High-Yield Spread","higher highs":"Higher Highs / Higher Lows",
+ "lower low":"Lower Low","overbought":"Overbought","oversold":"Oversold","uptrend":"Uptrend","downtrend":"Downtrend",
+ "divergence":"Divergence","breakout":"Breakout / Breakdown","trendline":"Trendline","momentum":"Momentum",
+ "accumulation":"Accumulation","distribution":"Distribution","consolidation":"Consolidation","risk on":"Risk-On / Risk-Off",
+ "retracement":"Retracement","support":"Support","resistance":"Resistance","rsi":"Relative Strength Index (RSI)",
+ "macd":"MACD","ppo":"Percentage Price Oscillator (PPO)","fibonacci":"Fibonacci Retracement",
+ "coppock curve":"Coppock Curve","high beta":"High Beta","low volatility":"Low Volatility",
+ "signal line":"Signal Line","histogram":"Histogram"
+};
+function defKey(m){
+ const k=m.toLowerCase().replace(/\//g," ").replace(/[–-]/g," ").replace(/\s+/g," ").trim();
+ const t=[k,k.replace(/s$/,""),k.split(" ").map(w=>w.replace(/s$/,"")).join(" ")];
+ if(/^higher (high|low)/.test(k))t.push("higher highs");
+ if(/lower low/.test(k))t.push("lower low");
+ if(/^new (high|low)/.test(k))t.push("new highs new lows");
+ if(/^advance decline/.test(k))t.push("advance decline line");
+ if(/exponential moving average/.test(k))t.push("ema");
+ if(/chaikin/.test(k))t.push("cmf");
+ if(/coppock/.test(k))t.push("coppock curve");
+ if(/^low vol/.test(k))t.push("low volatility");
+ if(/^high beta/.test(k))t.push("high beta");
+ if(/^uptrend/.test(k))t.push("uptrend");
+ if(/^downtrend/.test(k))t.push("downtrend");
+ if(/^breakout|^breakdown/.test(k))t.push("breakout");
+ if(/^risk (on|off)/.test(k))t.push("risk on");
+ for(const x of t){if(DEF[x])return x;}
+ return null;
+}
+
+/* ---- TA term / number / symbol highlighter ---- */
+const MASTER = new RegExp(
+  // dates & years (consume so day/year isn't mistaken for a level)
+  '(?<date>(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s\\d{1,2}(?!\\d)(?:\\s?[–-]\\s?\\d{1,2})?)?|(?:19|20)\\d{2}(?:\\s?[–-]\\s?\\d{2,4})?)'
+  // symbols & tickers (case-sensitive)
+  + '|(?<sym>\\$?SPX|\\$?VIX|\\$?TNX|\\$?WTIC|\\$?MOVE|\\$?BTCUSD|\\$?NYA|S&P\\s?500|Nasdaq(?:\\s(?:100|Composite))?|NYSE Composite|\\bSPY\\b|\\bRSP\\b|\\bIWM\\b|\\bSMH\\b|\\bGLD\\b|\\bTLT\\b|\\bACWI\\b|\\bIWF\\b|\\bIWD\\b|\\bRPG\\b|\\bRPV\\b|\\bSPHB\\b|\\bSPLV\\b|\\bXLK\\b|\\bXLP\\b|\\bXLY\\b|\\bXLU\\b|\\bXLI\\b|\\bUSD\\b|\\bNYSE\\b|\\bBitcoin\\b)'
+  // TA indicators & concepts
+  + '|(?<ind>[Ee]xponential [Mm]oving [Aa]verages?|[Mm]oving [Aa]verages?|Chaikin Money Flow|McClellan Oscillator|Coppock Curve|Coppock|[Bb]ullish [Pp]ercent [Ii]ndex|[Aa]dvance-decline lines?|[Aa]dvance-decline|[Rr]elative[ -][Ss]trength|new[ -][Hh]ighs?\\/new[ -][Ll]ows?|[Nn]ew [Hh]ighs?|[Nn]ew [Ll]ows?|new-low|new-high|[Yy]ield[ -][Cc]urve|bull-bear spread|NAAIM Exposure Index|MOVE Index|point-and-figure|[Hh]igh[- ]yield spreads?|[Hh]igh[- ]beta|[Ll]ow[- ]vol(?:atility)?|signal line|histogram|[Hh]igher [Hh]ighs?|[Hh]igher [Ll]ows?|[Ll]ower[- ][Hh]igh|[Ll]ower[- ][Ll]ow|[Oo]verbought|[Oo]versold|[Uu]ptrends?|[Dd]owntrends?|[Dd]ivergence|[Bb]reakouts?|[Bb]reakdowns?|[Tt]rendlines?|[Mm]omentum|[Aa]ccumulation|[Dd]istribution|[Cc]onsolidation|[Rr]isk-on|[Rr]isk-off|[Rr]etracements?|\\b[Ss]upport\\b|\\b[Rr]esistance\\b|\\bRSI\\b|\\bMACD\\b|\\bPPO\\b|\\bEMAs?\\b|\\bCMF\\b|Fibonacci)'
+  // moving-average / maturity periods -> number style
+  + '|(?<period>\\b\\d+-(?:day|week|month|year|minute)s?\\b)'
+  // levels, percentages, readings (full-number patterns first so decimals stay intact)
+  + '|(?<lvl>\\d+(?:\\.\\d+)?%(?:\\s?[–-]\\s?\\d+(?:\\.\\d+)?%)?|\\d+(?:\\.\\d+)?k(?:\\s?[–-]\\s?\\d+(?:\\.\\d+)?k)?|\\d+(?:\\.\\d+)?\\s?[–-]\\s?\\d+(?:\\.\\d+)?|\\d+(?:\\.\\d+)?)'
+, 'g');
+function hl(s){
+  return s.replace(MASTER,(...args)=>{
+    const g=args[args.length-1], m=args[0];
+    if(g.date!==undefined) return '<span class="ta-date">'+m+'</span>';
+    if(g.sym!==undefined)  return '<span class="ta-sym">'+m+'</span>';
+    if(g.ind!==undefined){const k=defKey(m);return k?'<span class="ta-ind tip" data-t="'+k+'">'+m+'</span>':'<span class="ta-ind">'+m+'</span>';}
+    if(g.period!==undefined||g.lvl!==undefined) return '<span class="ta-num">'+m+'</span>';
+    return m;
+  });
+}
+// apply to the static Executive Summary and Bottom Line text
+document.querySelectorAll('.summary p, .summary .concl li, .summary .sum-list li, .bottom > p, .bottom .watch li').forEach(el=>{
+  el.innerHTML = hl(el.textContent);
+});
+
+/* ---- Executive Summary collapse (default folded) ---- */
+(function(){
+  const sum=document.getElementById("summary"), tog=document.getElementById("sumToggle");
+  document.getElementById("sumHead").addEventListener("click",()=>{
+    const collapsed=sum.classList.toggle("collapsed");
+    tog.firstChild.textContent=(collapsed?"Show":"Hide")+" ";
+  });
+})();
+
+/* ---- Indicator definition popup ---- */
+const tip=document.createElement('div'); tip.id='tip'; document.body.appendChild(tip);
+let tipFor=null;
+function showTip(el){
+  const k=el.dataset.t, d=DEF[k]; if(!d)return;
+  tip.innerHTML='<span class="tt">'+(TITLE[k]||el.textContent)+'</span>'+d;
+  tip.classList.add('show');
+  const r=el.getBoundingClientRect(), tr=tip.getBoundingClientRect();
+  let left=Math.max(8,Math.min(r.left+r.width/2-tr.width/2, innerWidth-tr.width-8));
+  let top=r.top-tr.height-10, below=false;
+  if(top<8){top=r.bottom+10; below=true;}
+  tip.style.left=left+'px'; tip.style.top=top+'px';
+  tip.style.setProperty('--ax',(r.left+r.width/2-left)+'px');
+  tip.classList.toggle('below',below);
+  tipFor=el;
+}
+function hideTip(){tip.classList.remove('show'); tipFor=null;}
+document.addEventListener('mouseover',e=>{const el=e.target.closest('.ta-ind.tip'); if(el)showTip(el);});
+document.addEventListener('mouseout',e=>{const el=e.target.closest('.ta-ind.tip'); if(el&&!tip.contains(e.relatedTarget))hideTip();});
+document.addEventListener('click',e=>{
+  const el=e.target.closest('.ta-ind.tip');
+  if(el){e.stopPropagation(); (tipFor===el)?hideTip():showTip(el);}
+  else if(!tip.contains(e.target))hideTip();
+});
+window.addEventListener('scroll',hideTip,true);
+window.addEventListener('resize',hideTip);
+
+// counts
+["bull","ext","caut","neut","bear"].forEach(s=>{
+  document.getElementById("s-"+s).textContent = CHARTS.filter(c=>c.sig===s).length;
+});
+
+// filter dropdowns
+const filtersEl=document.getElementById("filters");
+function mkSelect(type,options){
+  const wrap=document.createElement("div"); wrap.className="selwrap";
+  const sel=document.createElement("select"); sel.dataset.type=type;
+  options.forEach(o=>{
+    const opt=document.createElement("option");
+    opt.value=o.val; opt.textContent=o.label;
+    if(o.cls) opt.className=o.cls;
+    sel.appendChild(opt);
+  });
+  const SIGCLS=["sig-bull","sig-ext","sig-caut","sig-neut","sig-bear"];
+  sel.addEventListener("change",()=>{
+    const val=sel.value;
+    if(type==="cat")activeCat=val; else if(type==="sig")activeSig=val; else activePg=val;
+    const isSet=val!=="all";
+    if(type==="sig"){
+      // colour-coded tint for signal, navy for the others
+      sel.classList.remove("set",...SIGCLS); wrap.classList.remove("set",...SIGCLS);
+      if(isSet){sel.classList.add("sig-"+val); wrap.classList.add("sig-"+val);}
+    }else{
+      sel.classList.toggle("set",isSet);
+      wrap.classList.toggle("set",isSet);
+    }
+    render();
+  });
+  wrap.appendChild(sel);
+  filtersEl.appendChild(wrap);
+}
+mkSelect("pg",[
+  {val:"all",label:"All pages"},
+  {val:"1",label:"Page 1"},
+  {val:"2",label:"Page 2"}
+]);
+mkSelect("sig",[
+  {val:"all",label:"All signals"},
+  {val:"bull",label:"● Bullish",cls:"opt-bull"},
+  {val:"ext",label:"● Bullish · Extended",cls:"opt-ext"},
+  {val:"neut",label:"● Neutral",cls:"opt-neut"},
+  {val:"caut",label:"● Caution",cls:"opt-caut"},
+  {val:"bear",label:"● Bearish",cls:"opt-bear"}
+]);
+mkSelect("cat",[
+  {val:"all",label:"All categories"},
+  ...CATS.map(c=>({val:c,label:c}))
+]);
+
+document.getElementById("search").addEventListener("input",e=>{query=e.target.value.toLowerCase();render();});
+
+// build cards + toc
+const cardsEl=document.getElementById("cards"), tocEl=document.getElementById("toc");
+CHARTS.forEach(c=>{
+  const card=document.createElement("div");
+  const pg=c.pg||1;
+  card.className="card "+c.sig; card.id="c"+c.n; card.dataset.cat=c.cat; card.dataset.sig=c.sig; card.dataset.pg=pg;
+  card.dataset.text=(c.title+" "+c.cat+" "+c.body.join(" ")).toLowerCase();
+  card.innerHTML=`
+    <div class="head">
+      <div class="nbox">${c.n}</div>
+      <div class="htext"><h3>${c.title.replace(/^\d+\s/,'')}</h3><div class="cat">${c.cat} · Page ${pg}</div></div>
+      <div class="right"><span class="tag ${c.sig}">${SIG[c.sig].label}</span><span class="caret"></span></div>
+    </div>
+    <div class="body">
+      ${c.body.map(p=>`<p>${hl(p)}</p>`).join("")}
+      <a class="openchart" href="${c.link}" target="_blank" rel="noopener">↗ Open chart on StockCharts</a>
+    </div>`;
+  card.querySelector(".head").addEventListener("click",()=>card.classList.toggle("open"));
+  cardsEl.appendChild(card);
+
+  const a=document.createElement("a");
+  a.href="#c"+c.n; a.dataset.id="c"+c.n;
+  a.innerHTML=`<span class="dot" style="background:var(--${c.sig})"></span>${c.title}`;
+  a.addEventListener("click",()=>{const t=document.getElementById("c"+c.n);t.classList.add("open");});
+  tocEl.appendChild(a);
+});
+
+function render(){
+  let shown=0;
+  CHARTS.forEach(c=>{
+    const el=document.getElementById("c"+c.n);
+    const ok=(activeCat==="all"||c.cat===activeCat)&&
+             (activeSig==="all"||c.sig===activeSig)&&
+             (activePg==="all"||String(c.pg||1)===activePg)&&
+             (query===""||el.dataset.text.includes(query));
+    el.style.display=ok?"":"none";
+    const link=tocEl.querySelector(`[data-id="c${c.n}"]`);
+    if(link)link.style.display=ok?"":"none";
+    if(ok)shown++;
+  });
+  document.getElementById("noresults").style.display=shown?"none":"block";
+}
+
+// scrollspy
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      tocEl.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
+      const link=tocEl.querySelector(`[data-id="${e.target.id}"]`);
+      if(link)link.classList.add("on");
+    }
+  });
+},{rootMargin:"-130px 0px -70% 0px"});
+CHARTS.forEach(c=>obs.observe(document.getElementById("c"+c.n)));
+
+render();
+
+/* ---- XUS.U ⇄ SPX converter ---- */
+(function(){
+  const $=id=>document.getElementById(id);
+  const inSpx=$("inSpx"), inXus=$("inXus"), calSpx=$("calSpx"), calXus=$("calXus"), ratioEl=$("convRatio");
+  const num=el=>{const v=parseFloat(el.value);return isFinite(v)?v:NaN;};
+  let last="spx"; // which side the user last typed
+  function ratio(){ // XUS.U per 1 SPX point
+    const cs=num(calSpx), cx=num(calXus);
+    return (cs>0 && cx>0) ? cx/cs : NaN;
+  }
+  function refreshRatio(){
+    const k=ratio();
+    if(!isFinite(k)){ratioEl.innerHTML="Enter a valid calibration anchor below to set the ratio.";return;}
+    const inv=1/k;
+    ratioEl.innerHTML="<b>Ratio:</b> XUS.U = SPX × <b>"+k.toFixed(7)+"</b> &nbsp;·&nbsp; SPX = XUS.U × <b>"+inv.toFixed(2)+
+      "</b><br><span style='color:#5d6b80'>So 1 XUS.U ≈ <b>"+inv.toFixed(1)+"</b> SPX points, and a 100-point SPX move ≈ <b>$"+(100*k).toFixed(2)+"</b> in XUS.U.</span>";
+  }
+  function fromSpx(){const k=ratio(),s=num(inSpx);inXus.value=(isFinite(k)&&isFinite(s))?(s*k).toFixed(2):"";}
+  function fromXus(){const k=ratio(),x=num(inXus);inSpx.value=(isFinite(k)&&isFinite(x))?(x/k).toFixed(2):"";}
+  function recompute(){ last==="xus"?fromXus():fromSpx(); }
+  inSpx.addEventListener("input",()=>{last="spx";fromSpx();});
+  inXus.addEventListener("input",()=>{last="xus";fromXus();});
+  [calSpx,calXus].forEach(el=>el.addEventListener("input",()=>{refreshRatio();recompute();}));
+  // collapse toggle
+  $("convHead").addEventListener("click",()=>{
+    const c=$("conv").classList.toggle("collapsed");
+    $("convToggle").textContent=c?"Show":"Hide";
+  });
+  // seed with the anchor values so it works out of the box
+  inSpx.value="7354.02"; refreshRatio(); fromSpx();
+})();
+</script>
+</body>
+</html>

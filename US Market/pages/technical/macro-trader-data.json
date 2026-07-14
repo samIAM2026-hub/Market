@@ -1,0 +1,300 @@
+{
+  "asOf": "2026-06-12",
+  "asOfLabel": "June 12, 2026 cash close",
+  "headline": "Risk appetite improved into the close, but restrictive yields and only-partial breadth repair keep the tape constructive-cautious",
+  "panels": {
+    "equity": [
+      {
+        "name": "S&P 500",
+        "value": "7,431.46",
+        "chg": 0.5,
+        "tone": "pos"
+      },
+      {
+        "name": "Nasdaq Composite",
+        "value": "25,888.84",
+        "chg": 0.31,
+        "tone": "pos"
+      },
+      {
+        "name": "Dow Jones",
+        "value": "51,202.26",
+        "chg": 0.7,
+        "tone": "pos"
+      },
+      {
+        "name": "Russell 2000",
+        "value": "2,943.99",
+        "chg": 0.79,
+        "tone": "pos"
+      }
+    ],
+    "volatility": [
+      {
+        "name": "VIX",
+        "value": "17.68",
+        "sub": "fear gauge fell back below the key 20 line",
+        "tone": "pos"
+      },
+      {
+        "name": "VVIX",
+        "value": "100.63",
+        "sub": "vol-of-vol stayed calmer than the prior spike",
+        "tone": "pos"
+      },
+      {
+        "name": "Put/Call",
+        "value": "0.59",
+        "sub": "call demand still outweighing put demand",
+        "tone": "pos"
+      },
+      {
+        "name": "SPX ATR(14)",
+        "value": "elevated",
+        "sub": "range compression improved, but not back to a quiet tape",
+        "tone": "neutral"
+      }
+    ],
+    "rates": [
+      {
+        "name": "2Y yield",
+        "value": "4.08%",
+        "sub": "front-end still high enough to keep the Fed on hold",
+        "tone": "neutral"
+      },
+      {
+        "name": "10Y yield",
+        "value": "4.49%",
+        "chg": 0.03,
+        "tone": "neutral"
+      },
+      {
+        "name": "2s10s",
+        "value": "+40 bp",
+        "sub": "curve stays positively sloped",
+        "tone": "pos"
+      },
+      {
+        "name": "3M (curve)",
+        "value": "4.30%",
+        "sub": "10Y-3M remains slightly positive",
+        "tone": "pos"
+      }
+    ],
+    "fx": [
+      {
+        "name": "DXY",
+        "value": "99.81",
+        "chg": -0.05,
+        "tone": "neutral"
+      },
+      {
+        "name": "USD/JPY",
+        "value": "160.27",
+        "sub": "still a live carry and BoJ-intervention watch",
+        "tone": "neutral"
+      }
+    ],
+    "commodities": [
+      {
+        "name": "WTI crude",
+        "value": "$84.88",
+        "chg": -3.2,
+        "tone": "pos"
+      },
+      {
+        "name": "Gold",
+        "value": "$4,210.30",
+        "chg": 2.49,
+        "sub": "precious metals still bid even as crude broke lower",
+        "tone": "neutral"
+      },
+      {
+        "name": "Copper",
+        "value": "$6.40/lb",
+        "chg": 2.46,
+        "sub": "growth-sensitive metal held up; no hard-landing tell",
+        "tone": "pos"
+      }
+    ],
+    "credit": [
+      {
+        "name": "HYG",
+        "value": "$79.94",
+        "chg": 0.59,
+        "tone": "pos"
+      },
+      {
+        "name": "LQD",
+        "value": "$109.08",
+        "chg": 0.85,
+        "tone": "pos"
+      },
+      {
+        "name": "HYG/LQD",
+        "value": "stable",
+        "sub": "credit still is not amplifying the equity wobble",
+        "tone": "pos"
+      }
+    ],
+    "breadth": [
+      {
+        "name": "A/D line",
+        "value": "+450",
+        "sub": "positive, but still short of broad-thrust territory",
+        "tone": "pos"
+      },
+      {
+        "name": "% > 50-day",
+        "value": "46.5%",
+        "sub": "still sub-50 participation despite the week's rebound",
+        "tone": "neg"
+      },
+      {
+        "name": "% > 200-day",
+        "value": "55.6%",
+        "sub": "majority still holds the long-term trend",
+        "tone": "pos"
+      },
+      {
+        "name": "Net new highs",
+        "value": "+46",
+        "sub": "new highs still outnumber new lows",
+        "tone": "pos"
+      },
+      {
+        "name": "RSP/SPY",
+        "value": "improving",
+        "sub": "equal-weight broadened the move even if mega-caps still matter",
+        "tone": "pos"
+      },
+      {
+        "name": "IWM/SPY",
+        "value": "leading",
+        "sub": "small caps led the week and finished Friday strongest again",
+        "tone": "pos"
+      }
+    ],
+    "leadership": [
+      {
+        "name": "SMH Semis",
+        "value": "repairing",
+        "sub": "AI beta stayed involved after Thursday's large rebound",
+        "tone": "pos"
+      },
+      {
+        "name": "XLK Tech",
+        "value": "mixed but constructive",
+        "sub": "index support still depends on growth leadership holding up",
+        "tone": "pos"
+      },
+      {
+        "name": "XLI Industrials",
+        "value": "firm",
+        "sub": "cyclicals did not roll back over with yields near 4.5%",
+        "tone": "pos"
+      },
+      {
+        "name": "XLF Financials",
+        "value": "stabilizing",
+        "sub": "helpful, but not yet a clean all-clear from a key laggard",
+        "tone": "neutral"
+      },
+      {
+        "name": "XLE Energy",
+        "value": "lagging",
+        "sub": "oil's sharp break pulled the energy bid back down",
+        "tone": "neutral"
+      },
+      {
+        "name": "XLP Staples",
+        "value": "lagging",
+        "sub": "defensive leadership cooled as risk appetite improved",
+        "tone": "pos"
+      },
+      {
+        "name": "XLV Health",
+        "value": "firm",
+        "sub": "defensives did not completely unwind",
+        "tone": "neutral"
+      },
+      {
+        "name": "Crypto beta",
+        "value": "still tentative",
+        "sub": "crypto remains a weaker risk gauge than equities despite bounce attempts",
+        "tone": "neutral"
+      }
+    ]
+  },
+  "indicators": {
+    "movingAverages": [
+      {
+        "ma": "EMA 20",
+        "state": "testing/below",
+        "tone": "neutral"
+      },
+      {
+        "ma": "SMA 50",
+        "state": "above",
+        "tone": "pos"
+      },
+      {
+        "ma": "SMA 100",
+        "state": "above",
+        "tone": "pos"
+      },
+      {
+        "ma": "SMA 200",
+        "state": "above",
+        "tone": "pos"
+      }
+    ],
+    "momentum": [
+      {
+        "name": "RSI(14)",
+        "value": "49",
+        "sub": "near neutral; momentum repaired, but not decisively",
+        "tone": "neutral"
+      },
+      {
+        "name": "MACD",
+        "value": "bearish, stabilizing",
+        "sub": "still below signal, but downside momentum stopped accelerating",
+        "tone": "neg"
+      },
+      {
+        "name": "ROC(20)",
+        "value": "-0.21%",
+        "sub": "20-session rate of change improved, but remains just below zero",
+        "tone": "neg"
+      },
+      {
+        "name": "StochRSI",
+        "value": "turning up",
+        "sub": "tactical bounce still intact into the weekend",
+        "tone": "pos"
+      }
+    ]
+  },
+  "inputs": {
+    "ma": "above50",
+    "breadth": "mixed",
+    "vol": "cooling",
+    "credit": "ok",
+    "lead": "growth"
+  },
+  "decision": {
+    "bias": "constructive-cautious",
+    "stance": "Add only selectively; broad tape improved, but wait for better breadth confirmation before pressing risk",
+    "keyLevels": "SPX support sits around 7,360-7,400, with resistance around 7,450-7,520. Holding above the 50-day zone keeps the rebound constructive.",
+    "invalidation": "A renewed break below 7,360 with VIX back above 20-22, yields rising further, and credit softening would turn this back into correction defense.",
+    "watching": [
+      "Can breadth get back above 50% of S&P 500 members over the 50-day?",
+      "Do 2Y and 10Y yields stop rising from the June 12 close?",
+      "Does oil stay under the mid-$80s to high-$80s zone, or rebuild a risk premium?",
+      "Do semis and growth hold leadership without the move narrowing again?",
+      "Does small-cap leadership keep broadening the tape next week?"
+    ]
+  },
+  "agentCommentary": "June 12 closed with risk appetite improving rather than accelerating. The S&P 500, Dow, Nasdaq, and Russell 2000 all finished higher, helped by a sharp drop in crude and a better preliminary University of Michigan sentiment reading, but the move still lacks full internal repair because only 46.5% of S&P 500 members sit above their 50-day average. Treasury yields stayed restrictive with the 2Y near 4.08% and the 10Y near 4.49%, so the tape remains constructive-cautious rather than clean risk-on. Credit is still calm, energy stress cooled materially, and the next test is whether next week's FOMC and post-oil price action let breadth catch up to price."
+}

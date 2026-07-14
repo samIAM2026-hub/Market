@@ -1,0 +1,54 @@
+{
+  "source": "https://stockcharts.com/panels/?cmd=show&listNum=14&viewType=e",
+  "listName": "[Market Sum] 240 - SENTIMENT",
+  "charts": [
+    {
+      "index": 1,
+      "title": "000 - Positioning & Exposure (Put/Call, NAAIM, Rydex)",
+      "imagePath": "../Image/stockcharts-sentiment-listnum14-01-000-positioning-exposure-put-call-naaim-rydex.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24CPCE&p=D&yr=2&mn=0&dy=0&id=p72461021851&a=2304797530&r=342",
+      "symbol": "$CPCE",
+      "chartId": "2304797530"
+    },
+    {
+      "index": 2,
+      "title": "001 - $VIX - Volatility Index",
+      "imagePath": "../Image/stockcharts-sentiment-listnum14-02-001-vix-volatility-index.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24VIX&p=D&yr=1&mn=0&dy=0&id=p83984460391&a=2304797529&r=477",
+      "symbol": "$VIX",
+      "chartId": "2304797529"
+    },
+    {
+      "index": 3,
+      "title": "002 - $CPC - Put/Call Ratio - Total (EOD)",
+      "imagePath": "../Image/stockcharts-sentiment-listnum14-03-002-cpc-put-call-ratio-total-eod.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24CPC&p=D&yr=2&mn=0&dy=0&id=p48114122482&a=2304797528&r=730",
+      "symbol": "$CPC",
+      "chartId": "2304797528"
+    },
+    {
+      "index": 4,
+      "title": "003 - $CPCE - Put/Call Ratio - Equity Only (EOD)",
+      "imagePath": "../Image/stockcharts-sentiment-listnum14-04-003-cpce-put-call-ratio-equity-only-eod.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24CPCE&p=D&yr=2&mn=0&dy=0&id=p98001043540&a=2304797525&r=457",
+      "symbol": "$CPCE",
+      "chartId": "2304797525"
+    },
+    {
+      "index": 5,
+      "title": "004 - $CPCI - Put/Call Ratio - Index Only (EOD)",
+      "imagePath": "../Image/stockcharts-sentiment-listnum14-05-004-cpci-put-call-ratio-index-only-eod.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24CPCI&p=D&yr=2&mn=0&dy=0&id=p36990998326&a=2304797526&r=805",
+      "symbol": "$CPCI",
+      "chartId": "2304797526"
+    },
+    {
+      "index": 6,
+      "title": "005 - AAII Bulls - Bears",
+      "imagePath": "../Image/stockcharts-sentiment-listnum14-06-005-aaii-bulls-bears.png",
+      "chartUrl": "https://stockcharts.com/c-sc/sc?s=%24SPX&p=W&yr=3&mn=0&dy=0&id=p47135128178&a=2304797527&r=149",
+      "symbol": "$SPX",
+      "chartId": "2304797527"
+    }
+  ]
+}
