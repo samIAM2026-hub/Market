@@ -15,10 +15,22 @@ China Market/
     ├── thematic/AI就业冲击_三图解读.html            # 主题研究
     ├── macro/沃什货币政策哲学_投资者手册.html        # 宏观 / 政策手册
     ├── company/SpaceX深度投资分析_2026-06.html      # 单公司深度
-    └── archive/a_share_2025_research.html         # 2025-vintage 存档，不要覆盖
+    ├── archive/a_share_2025_research.html         # 2025-vintage 存档，不要覆盖
+    └── Daily Report/A股每日综合日报_YYYY-MM-DD.html  # 每日综合日报（自动化任务，按日期存档，不要覆盖旧文件）
 ```
 
-新页面按主题归入 `pages/` 下已有的五个子目录之一。**存档页只增不改** —— 保留旧版本作时序对照。
+新页面按主题归入 `pages/` 下已有的子目录之一。**存档页只增不改** —— 保留旧版本作时序对照。
+
+### 每日综合日报（`pages/Daily Report/`）
+
+每日复盘与业绩跟踪已**合并为单个 HTML 文件**，用顶层 Tab 切换两类内容，不再产出两个独立文件：
+
+- 顶栏下方是**报告类型 Tab**（`.report-tabs` / `.report-tab`，深蓝底，金色下划线高亮）：「📈 每日复盘」「💰 业绩跟踪」。
+- 每个 Tab 对应一个 `.report-panel`（`#panel-recap` / `#panel-earnings`），内部各自保留原有的章节 sticky 导航（`nav.chapters`）与章节 `section.chapter`。
+- 两个面板的章节 `id` 必须加前缀避免冲突：复盘用 `r-ch1`…`r-ch9`，业绩跟踪用 `e-ch1`…`e-ch7`，`chapter-tab` 的 `data-target` 相应匹配。
+- 页面骨架、配色、CSS class 与下方规范完全一致，两个面板共用同一份 `<style>`（业绩跟踪多出的 `.sub-h` 类保留）。
+- 只有一个 `<footer>`，文案同时标注复盘与业绩两个数据口径。
+- 新增一天的报告时，整份文件按日期存档到 `pages/Daily Report/A股每日综合日报_YYYY-MM-DD.html`，不覆盖旧文件。
 
 ## 2. 页面骨架
 
