@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A股每日市场复盘报告 · 2026-07-15</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F4ED;
+    --paper:#FFFFFF;
+    --ink:#1A1A1A;
+    --ink-2:#3D3D3D;
+    --ink-3:#6B6B6B;
+    --line:#E4DED1;
+    --line-strong:#C8BFAE;
+    --navy:#0E2A47;
+    --navy-2:#143E66;
+    --gold:#B08842;
+    --gold-light:#D4B271;
+    --up:#D7263D;
+    --up-soft:#FBE9EC;
+    --up-deep:#9E1A2D;
+    --down:#1F8A47;
+    --down-soft:#E7F5EC;
+    --down-deep:#125F30;
+    --flat:#8A8A8A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Noto Serif SC',serif}
+
+  header.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0E2A47 0%,#143E66 100%);color:#fff;border-bottom:3px solid var(--gold)}
+  .topbar-inner{max-width:1380px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-seal{width:42px;height:42px;background:var(--up);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC';font-weight:900;font-size:22px;border:2px solid var(--gold-light);box-shadow:0 0 0 1px rgba(255,255,255,.15);flex-shrink:0}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .brand-title{font-family:'Noto Serif SC';font-weight:700;font-size:18px;letter-spacing:1px}
+  .brand-sub{font-size:11.5px;color:#C9D6E3;letter-spacing:2px}
+  .topbar-meta{display:flex;gap:22px;font-size:12px;color:#C9D6E3;flex-wrap:wrap}
+  .topbar-meta span b{color:#fff;font-weight:500;margin-left:4px}
+
+  .backlink{max-width:1380px;margin:0 auto;padding:10px 28px 0}
+  .backlink a{font-size:12px;color:var(--ink-3);text-decoration:none;border-bottom:1px dotted var(--line-strong)}
+  .backlink a:hover{color:var(--up);border-bottom-color:var(--up)}
+
+  nav.chapters{position:sticky;top:71px;z-index:40;background:#FAF8F2;border-bottom:1px solid var(--line)}
+  .chapters-inner{max-width:1380px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+  .chapter-tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--ink-3);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;text-decoration:none}
+  .chapter-tab:hover{color:var(--navy)}
+  .chapter-tab.active{color:var(--up);border-bottom-color:var(--up);font-weight:700}
+  .chapter-tab .num{font-family:'Noto Serif SC';margin-right:6px;color:var(--gold)}
+
+  main{max-width:1380px;margin:0 auto;padding:32px 28px 80px}
+
+  section.chapter{background:var(--paper);border:1px solid var(--line);padding:36px 40px;margin-bottom:28px;box-shadow:0 1px 3px rgba(14,42,71,0.04);scroll-margin-top:130px}
+  .ch-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:24px;gap:24px;flex-wrap:wrap}
+  .ch-title{font-family:'Noto Serif SC';font-weight:900;font-size:26px;color:var(--navy);display:flex;align-items:baseline;gap:14px}
+  .ch-num{color:var(--up);font-size:36px;line-height:1;border-right:2px solid var(--gold);padding-right:14px}
+  .ch-en{font-size:12px;color:var(--ink-3);letter-spacing:3px;text-transform:uppercase;font-family:'Noto Sans SC'}
+
+  .tldr{background:linear-gradient(90deg,#FFF7E0 0%, #FAF8F2 100%);border-left:4px solid var(--gold);padding:14px 18px;margin-bottom:24px;font-size:14px;color:var(--ink-2)}
+  .tldr b{color:var(--navy);font-weight:700}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:28px}
+  .kpi{background:var(--paper);padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px}
+  .kpi-label{font-size:11.5px;color:var(--ink-3);letter-spacing:1px}
+  .kpi-value{font-family:'Noto Serif SC';font-weight:700;font-size:26px;line-height:1.1}
+  .kpi-value.up{color:var(--up)}.kpi-value.down{color:var(--down)}.kpi-value.flat{color:var(--flat)}
+  .kpi-sub{font-size:11.5px;color:var(--ink-3)}
+
+  table.research{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper)}
+  table.research th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:500;font-size:12.5px;letter-spacing:1px;border-right:1px solid #1F4A72}
+  table.research td{padding:11px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  table.research tr:hover td{background:#FAF8F2}
+  table.research .perf-up{color:var(--up);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-down{color:var(--down);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-flat{color:var(--flat);font-weight:700;font-family:'Noto Serif SC'}
+
+  .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start}
+  @media(max-width:960px){.two-col{grid-template-columns:1fr}}
+  .prose p{margin:0 0 12px;color:var(--ink-2)}
+  .prose strong{color:var(--up-deep);font-weight:700}
+  .prose .quote{border-left:3px solid var(--up);padding:6px 14px;margin:14px 0;background:var(--up-soft);color:var(--up-deep);font-size:14px}
+
+  .bar-row{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;font-size:13px;margin-bottom:8px}
+  .bar-name{color:var(--ink-2);font-weight:500}
+  .bar-name small{display:block;font-size:11px;color:var(--ink-3);font-weight:400;margin-top:1px}
+  .bar-track{position:relative;height:22px;background:#F2EDDF;border:1px solid var(--line)}
+  .bar-fill{height:100%;transition:width .6s ease-out}
+  .bar-fill.up{background:linear-gradient(90deg,var(--up) 0%,#F25C70 100%)}
+  .bar-fill.down{background:linear-gradient(90deg,#F25C70 0%,var(--down) 100%)}
+  .bar-val{font-family:'Noto Serif SC';font-weight:700;font-size:13px;text-align:right}
+  .bar-val.up{color:var(--up)}.bar-val.down{color:var(--down)}
+
+  .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .theme-card{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);padding:16px 18px;transition:all .18s;position:relative}
+  .theme-card:hover{border-top-color:var(--up);transform:translateY(-2px);box-shadow:0 6px 14px rgba(14,42,71,.08)}
+  .theme-card.hot{border-top-color:var(--up)}
+  .theme-card.warm{border-top-color:#E27A3F}
+  .theme-card.cold{border-top-color:var(--down)}
+  .theme-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .theme-name{font-family:'Noto Serif SC';font-weight:700;font-size:15.5px;color:var(--navy)}
+  .theme-tag{font-size:10.5px;padding:2px 8px;letter-spacing:1px}
+  .theme-tag.hot{background:var(--up-soft);color:var(--up-deep)}
+  .theme-tag.warm{background:#FFE8C5;color:#9C5E14}
+  .theme-tag.cold{background:var(--down-soft);color:var(--down-deep)}
+  .theme-perf{font-family:'Noto Serif SC';font-weight:700;font-size:15px;margin-bottom:6px}
+  .theme-perf.up{color:var(--up)}.theme-perf.down{color:var(--down)}
+  .theme-desc{font-size:13px;color:var(--ink-2);line-height:1.6}
+
+  .catalyst-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);padding:20px 24px;margin-bottom:16px;position:relative}
+  .catalyst-head{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;border-bottom:1px dashed var(--line-strong);padding-bottom:10px}
+  .catalyst-num{font-family:'Noto Serif SC';font-weight:900;font-size:30px;color:var(--gold);line-height:1}
+  .catalyst-title{font-family:'Noto Serif SC';font-weight:700;font-size:17px;color:var(--navy)}
+  .catalyst-card p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .catalyst-card p:last-child{margin-bottom:0}
+  .catalyst-card p b{color:var(--navy);font-weight:700;margin-right:4px}
+  .catalyst-card p.verify{background:#FAF8F2;padding:8px 12px;border-left:2px solid var(--line-strong);font-size:12.5px;color:var(--ink-3)}
+
+  .stance-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .stance-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .stance-card.official{border-top:3px solid var(--navy)}
+  .stance-card.pricing{border-top:3px solid var(--gold)}
+  .stance-card.institution{border-top:3px solid var(--up)}
+  .stance-card.contra{border-top:3px solid var(--down)}
+  .stance-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .stance-card p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.65}
+
+  .signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .signal-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .signal-h{font-family:'Noto Serif SC';font-weight:700;font-size:15px;color:var(--navy);margin-bottom:4px}
+  .signal-watch{font-size:12px;color:var(--ink-3);margin-bottom:10px}
+  .signal-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .signal-box.good{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .signal-box.bad{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .signal-box:last-child{margin-bottom:0}
+
+  .risk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .risk-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px;position:relative}
+  .risk-card .risk-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:var(--up)}
+  .risk-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin:8px 0 10px}
+  .risk-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .risk-box.trigger{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .risk-box.falsify{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .risk-box:last-child{margin-bottom:0}
+
+  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:14px 0}
+  .fund-item{background:var(--paper);padding:14px 16px}
+  .fund-item .flabel{font-size:11px;color:var(--ink-3);letter-spacing:1px;margin-bottom:4px}
+  .fund-item .fvalue{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--up)}
+  .fund-item .fvalue.down{color:var(--down)}
+
+  .seal{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border:2.5px solid var(--up);color:var(--up);font-family:'Noto Serif SC';font-weight:900;font-size:14px;text-align:center;line-height:1.2;padding:6px;transform:rotate(-6deg);background:rgba(215,38,61,0.05)}
+
+  .sources{font-size:12px;color:var(--ink-3);line-height:2;padding-left:0;list-style:none;margin:0}
+  .sources li{border-bottom:1px dashed var(--line);padding:6px 0}
+  .sources b{color:var(--ink-2);font-weight:500}
+  .sources a{color:var(--gold);text-decoration:none}
+  .sources a:hover{color:var(--up);text-decoration:underline}
+
+  .disclaimer{background:#FAF8F2;border:1px dashed var(--line-strong);padding:14px 18px;font-size:12px;color:var(--ink-3);line-height:1.7;margin-top:20px}
+
+  footer{text-align:center;font-size:12px;color:var(--ink-3);padding:24px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-seal">复</div>
+      <div class="brand-text">
+        <span class="brand-title">A股每日市场复盘报告</span>
+        <span class="brand-sub">DAILY A-SHARE MARKET RECAP</span>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span>报告日期：<b>2026年7月15日（周三）</b></span>
+      <span>市场范围：<b>沪深+创业板+科创板+北交所</b></span>
+      <span>数据口径：<b>当日收盘数据</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="backlink"><a href="../../index.html">← 返回 China Market 主页</a></div>
+
+<nav class="chapters">
+  <div class="chapters-inner" id="chapter-nav">
+    <a class="chapter-tab active" data-target="ch1"><span class="num">壹</span>核心结论</a>
+    <a class="chapter-tab" data-target="ch2"><span class="num">贰</span>宽基指数</a>
+    <a class="chapter-tab" data-target="ch3"><span class="num">叁</span>行业板块</a>
+    <a class="chapter-tab" data-target="ch4"><span class="num">肆</span>关键催化</a>
+    <a class="chapter-tab" data-target="ch5"><span class="num">伍</span>传导机制</a>
+    <a class="chapter-tab" data-target="ch6"><span class="num">陆</span>资金面</a>
+    <a class="chapter-tab" data-target="ch7"><span class="num">柒</span>多空分歧</a>
+    <a class="chapter-tab" data-target="ch8"><span class="num">捌</span>信号与风险</a>
+    <a class="chapter-tab" data-target="ch9"><span class="num">玖</span>信息来源</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 壹 核心结论 -->
+<section class="chapter" id="ch1">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">壹</span><span>核心结论</span></div>
+    <div class="ch-en">CHAPTER · CORE TAKEAWAY</div>
+  </div>
+
+  <div class="tldr">
+    <b>核心判断：</b>极致高低切换行情上演，科技高位获利了结，医药消费接棒领涨，央行投放中长期流动性托底市场，结构性行情延续但整体缩量调整。
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">上证指数（收盘）</span><span class="kpi-value down">-0.29%</span><span class="kpi-sub">3955.58 点 · 权重护盘</span></div>
+    <div class="kpi"><span class="kpi-label">深证成指（收盘）</span><span class="kpi-value down">-0.97%</span><span class="kpi-sub">14779.40 点</span></div>
+    <div class="kpi"><span class="kpi-label">创业板指（收盘）</span><span class="kpi-value down">-1.21%</span><span class="kpi-sub">3804.70 点 · 新能源+医药分化</span></div>
+    <div class="kpi"><span class="kpi-label">两市成交额</span><span class="kpi-value flat">2.57万亿</span><span class="kpi-sub">缩量 1321 亿元</span></div>
+    <div class="kpi"><span class="kpi-label">北向资金</span><span class="kpi-value down">净流出16.32亿</span><span class="kpi-sub">尾盘抛售科技龙头</span></div>
+    <div class="kpi"><span class="kpi-label">上涨/下跌家数</span><span class="kpi-value up">3351 / 2098</span><span class="kpi-sub">指数跌、个股涨分化</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="prose">
+      <p><strong>市场概览：</strong>7月15日A股三大指数集体收跌，科创50领跌超4%，但全市场超3300只个股上涨，呈现典型的"指数跌、个股涨"分化格局。两市成交额2.57万亿元，较前一日缩量约1321亿元。医药、消费、传媒板块强势领涨，电子、有色、通信等科技赛道深度回调，资金高低切换特征极致演绎。</p>
+      <p><strong>核心观点：</strong>本次调整属于<strong>科技板块交易拥挤后的获利了结+风格再平衡</strong>，并非系统性风险。央行单日投放1.4万亿中长期流动性提供底部支撑，市场从单边科技行情转向多轮动结构。若医药消费持续性得到验证、科技企稳回升，则市场进入健康轮动阶段；若缩量持续、主线涣散，则可能进入震荡磨底期。</p>
+      <p><strong>为什么现在重要：</strong>当前市场正处于科技主线行情的阶段性拐点+风格再平衡的关键节点。连续两个多月的算力硬件单边行情首次出现大规模获利了结，资金开始向低位的医药、消费板块扩散。这一位置的调整性质，将决定后市是进入健康的多主线轮动，还是科技行情终结后的全面调整。</p>
+      <p>从预期差角度看，市场对创新药政策转向的认知尚不充分。过去几年医药板块长期被集采压制，投资者形成了"医药就是控费降价"的思维定式。但基药目录纳创新药、集采豁免、价格保护等政策组合拳，实质上已经将创新药从"被打压对象"转变为"政策扶持对象"，这一预期差的修复可能带来持续的估值修复行情。</p>
+    </div>
+    <div class="prose">
+      <div class="quote">科技板块方面，分歧在于调整性质。多头认为这只是交易拥挤后的正常回调，AI算力需求的产业逻辑未变，调整后仍是加仓机会；空头则认为累计涨幅过大、两融资金持续撤离，科技行情可能进入中期调整。两融余额连续多日下降，杠杆资金撤离是值得警惕的信号。</div>
+      <div class="quote">流动性层面，央行大手笔投放中长期流动性，叠加7月政治局会议临近，政策预期升温，为市场提供了底部支撑。但增量资金入场意愿不足，两市成交额持续萎缩，存量博弈特征明显，制约了指数上行空间。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 贰 宽基指数全景 -->
+<section class="chapter" id="ch2">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">贰</span><span>宽基指数全景</span></div>
+    <div class="ch-en">CHAPTER · BROAD INDICES</div>
+  </div>
+
+  <div class="tldr">八大宽基指数涨跌分化显著，科创50单日暴跌4.25%成为重灾区，创业板指、深证成指跟随调整，上证指数因权重消费、金融护盘跌幅相对较小。北证50跌1.8%延续调整。市场风格从科技成长单边占优切向消费防御，指数层面呈现结构性分化而非普跌。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:160px">指数名称</th><th style="width:140px">收盘点位</th><th style="width:110px">涨跌幅</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td><b>上证指数</b></td><td>3955.58</td><td class="perf-down">-0.29%</td><td>权重护盘，跌幅最浅</td></tr>
+      <tr><td><b>深证成指</b></td><td>14779.40</td><td class="perf-down">-0.97%</td><td>成长股拖累</td></tr>
+      <tr><td><b>创业板指</b></td><td>3804.70</td><td class="perf-down">-1.21%</td><td>新能源+医药分化</td></tr>
+      <tr><td><b>科创50</b></td><td>—</td><td class="perf-down">-4.25%</td><td>半导体暴跌，全市场领跌</td></tr>
+      <tr><td><b>沪深300</b></td><td>4786.78</td><td class="perf-down">-0.20%</td><td>大盘蓝筹相对抗跌</td></tr>
+      <tr><td><b>中证500</b></td><td>—</td><td class="perf-down">-约0.5%</td><td>中盘股调整幅度较小</td></tr>
+      <tr><td><b>中证1000</b></td><td>—</td><td class="perf-down">-约0.8%</td><td>小盘成长股承压</td></tr>
+      <tr><td><b>北证50</b></td><td>—</td><td class="perf-down">-1.80%</td><td>延续调整态势</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 叁 行业与板块表现 -->
+<section class="chapter" id="ch3">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">叁</span><span>行业与板块表现</span></div>
+    <div class="ch-en">CHAPTER · SECTORS &amp; THEMES</div>
+  </div>
+
+  <div class="tldr">申万一级行业呈现极端分化格局，美容护理、传媒、食品饮料领涨，电子、有色、通信领跌，首尾涨幅差超8个百分点。创新药/CXO成为全天最强主线，医药生物板块获百亿级资金净流入；电子板块单日净流出超340亿元，半导体、光模块等高景气赛道集体回调。资金从高位科技向低位消费医药切换的特征极为明显。</div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--up);padding-left:10px">申万一级行业 · 领涨前5</h3>
+  <div style="margin-bottom:22px">
+    <div class="bar-row"><span class="bar-name">美容护理<small>消费修复+医美概念反弹</small></span><div class="bar-track"><div class="bar-fill up" style="width:100%"></div></div><span class="bar-val up">+4.08%</span></div>
+    <div class="bar-row"><span class="bar-name">传媒<small>暑期档票房预期+AI游戏落地</small></span><div class="bar-track"><div class="bar-fill up" style="width:91%"></div></div><span class="bar-val up">+3.70%</span></div>
+    <div class="bar-row"><span class="bar-name">食品饮料<small>低位消费估值修复，白酒领涨</small></span><div class="bar-track"><div class="bar-fill up" style="width:84%"></div></div><span class="bar-val up">+3.43%</span></div>
+    <div class="bar-row"><span class="bar-name">医药生物<small>创新药政策利好+中报业绩兑现</small></span><div class="bar-track"><div class="bar-fill up" style="width:62%"></div></div><span class="bar-val up">+2.52%</span></div>
+    <div class="bar-row"><span class="bar-name">非银金融<small>央行投放流动性利好券商</small></span><div class="bar-track"><div class="bar-fill up" style="width:37%"></div></div><span class="bar-val up">+约1.5%</span></div>
+  </div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--down);padding-left:10px">申万一级行业 · 领跌前5</h3>
+  <div style="margin-bottom:26px">
+    <div class="bar-row"><span class="bar-name">电子<small>半导体、光模块获利了结，交易拥挤</small></span><div class="bar-track"><div class="bar-fill down" style="width:100%"></div></div><span class="bar-val down">-4.60%</span></div>
+    <div class="bar-row"><span class="bar-name">有色金属<small>工业金属价格回调，资金从周期撤离</small></span><div class="bar-track"><div class="bar-fill down" style="width:47%"></div></div><span class="bar-val down">-2.14%</span></div>
+    <div class="bar-row"><span class="bar-name">通信<small>光模块、CPO概念深度调整</small></span><div class="bar-track"><div class="bar-fill down" style="width:43%"></div></div><span class="bar-val down">-1.96%</span></div>
+    <div class="bar-row"><span class="bar-name">国防军工<small>连续调整后延续弱势</small></span><div class="bar-track"><div class="bar-fill down" style="width:33%"></div></div><span class="bar-val down">-约1.5%</span></div>
+    <div class="bar-row"><span class="bar-name">计算机<small>AI应用、信创板块回调</small></span><div class="bar-track"><div class="bar-fill down" style="width:26%"></div></div><span class="bar-val down">-约1.2%</span></div>
+  </div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">核心热点概念板块</h3>
+  <div class="theme-grid">
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">创新药 / CXO</span><span class="theme-tag hot">政策驱动</span></div>
+      <div class="theme-perf up">+4.5%</div>
+      <div class="theme-desc">全天最强主线。《国民健康"十五五"规划》落地，叠加基药目录首次纳入创新药、集采豁免、8年价格保护等政策利好。哈药股份4连板，迪哲医药20cm两连板，博瑞医药、睿智医药等20cm涨停，昭衍新药、凯莱英封板。疫苗ETF、创新药ETF均涨超4.3%。</div>
+    </div>
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">院线 / 影视传媒</span><span class="theme-tag hot">事件驱动</span></div>
+      <div class="theme-perf up">+7.88%</div>
+      <div class="theme-desc">暑期档票房预期催化，叠加AI内容生产降本逻辑。幸福蓝海、光线传媒、万达电影等走强，传媒游戏板块净流入28.09亿元，巨人网络、三七互娱涨停。资金博弈暑期游戏流水及票房超预期。</div>
+    </div>
+    <div class="theme-card warm">
+      <div class="theme-h"><span class="theme-name">白酒 / 食品饮料</span><span class="theme-tag warm">防御配置</span></div>
+      <div class="theme-perf up">中证白酒 +5.36%</div>
+      <div class="theme-desc">低位消费估值修复，资金高低切换避险。金种子酒涨停，茅台、五粮液、泸州老窖稳步拉升，啤酒、零食同步走强。食品饮料板块净流入15.71亿元，防御属性获资金青睐。</div>
+    </div>
+    <div class="theme-card cold">
+      <div class="theme-h"><span class="theme-name">半导体 / 光模块 / CPO</span><span class="theme-tag cold">获利了结</span></div>
+      <div class="theme-perf down">-5%~-8%</div>
+      <div class="theme-desc">深度调整重灾区。电子板块主力净流出超340亿元，存储芯片、先进封装、GPU、半导体硅片等概念集体回调。华天科技跌停，机构+北向合计净卖出超12亿元。源于短期涨幅过大、交易拥挤后的获利了结，产业逻辑未变。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 肆 关键增量信息 -->
+<section class="chapter" id="ch4">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">肆</span><span>关键增量信息</span></div>
+    <div class="ch-en">CHAPTER · KEY CATALYSTS</div>
+  </div>
+
+  <div class="tldr">当日市场核心驱动来自三方面：一是创新药政策密集落地引爆医药板块，二是央行投放1.4万亿中长期流动性托底市场，三是科技赛道交易拥挤触发获利了结。政策利好+流动性支撑构成市场底部缓冲，高低切换是存量博弈下的正常轮动，而非趋势反转信号。</div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">01</span><span class="catalyst-title">创新药政策红利集中释放，医药板块迎估值重塑</span></div>
+    <p><b>事实：</b>《国民健康"十五五"规划》正式发布，明确支持创新药研发；基药目录首次纳入创新药品种，创新药集采豁免、8年价格保护期等政策落地。医药板块从"控费逻辑"转向"扶优逻辑"，产业生态发生根本性变化。</p>
+    <p><b>机制：</b>过去医药板块长期受集采降价压制，估值持续承压。政策转向后，创新药企盈利预期显著改善，研发投入回报确定性提升，触发估值体系重构。叠加中报季创新药企业业绩密集兑现，形成政策+业绩双击。</p>
+    <p><b>市场反应：</b>医药生物板块单日净流入超100亿元，创新药ETF全线大涨4%以上，CXO龙头批量涨停。这不是短期题材炒作，而是产业逻辑拐点级别的估值修复，持续性有望强于普通主题行情。</p>
+    <p class="verify"><b>后续验证：</b>关注创新药纳入医保谈判的实际降价幅度、后续配套细则落地进度，以及中报季药企业绩兑现情况。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">02</span><span class="catalyst-title">央行单日投放1.4万亿中长期流动性，资金面宽松托底</span></div>
+    <p><b>事实：</b>7月15日央行开展14000亿元6个月买断式逆回购操作，同时开展4265亿7天期逆回购，单日净投放规模巨大。中长期流动性充裕，市场资金利率维持低位。</p>
+    <p><b>机制：</b>买断式逆回购属于中长期流动性投放工具，相当于定向降准的替代效应，能够稳定银行体系中长期资金供给。流动性宽松环境下，股市估值底部有支撑，券商、非银金融直接受益。</p>
+    <p><b>市场反应：</b>非银金融板块早盘异动拉升，东方财富、中信证券获大额资金布局。但市场整体并未因流动性投放而普涨，说明当前核心矛盾不在资金总量，而在结构和信心。</p>
+    <p class="verify"><b>后续验证：</b>观察后续MLF、LPR利率是否下调，以及7月政治局会议的货币政策定调。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">03</span><span class="catalyst-title">科技板块交易拥挤触发获利了结，高低切换极致演绎</span></div>
+    <p><b>事实：</b>电子板块单日主力资金净流出超340亿元，半导体、光模块、CPO、先进封装等前期强势赛道集体回调。科创50指数单日暴跌4.25%，成为全市场重灾区。</p>
+    <p><b>机制：</b>算力硬件板块经过连续上涨后，交易拥挤度达到历史高位，获利盘丰厚。在缺乏新增催化的背景下，部分资金选择止盈离场，转向低位的医药、消费等防御板块，形成典型的高低切换。</p>
+    <p><b>市场反应：</b>指数层面调整明显，但全市场3300多只个股上涨，说明是结构性调仓而非系统性抛售。华天科技等高位标的跌停，但低位消费医药批量涨停，市场赚钱效应并未消失，只是主线发生切换。</p>
+    <p class="verify"><b>后续验证：</b>跟踪科技板块调整幅度及企稳时间，若3-5日内快速缩量企稳，则属于健康调整；若持续放量下跌，则需警惕趋势反转。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">04</span><span class="catalyst-title">暑期档票房预期升温，传媒院线板块爆发</span></div>
+    <p><b>事实：</b>2026年暑期档进入关键期，多部重点影片陆续上映，票房预期持续上调。叠加AI内容生产降本增效逻辑，传媒游戏板块同步走强。</p>
+    <p><b>机制：</b>暑期档是影视院线全年最重要的档期，票房表现直接影响相关公司全年业绩。AI技术在游戏、影视内容生产中的应用持续落地，提升行业盈利预期。</p>
+    <p><b>市场反应：</b>院线板块单日大涨7.88%，游戏板块巨人网络、三七互娱涨停，传媒行业整体净流入28.09亿元。属于事件驱动+业绩预期的共振，持续性取决于实际票房数据。</p>
+    <p class="verify"><b>后续验证：</b>跟踪暑期档实际票房数据，以及游戏行业中报业绩。</p>
+  </div>
+</section>
+
+<!-- 伍 传导机制分析 -->
+<section class="chapter" id="ch5">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">伍</span><span>传导机制分析</span></div>
+    <div class="ch-en">CHAPTER · TRANSMISSION CHAIN</div>
+  </div>
+
+  <div class="tldr">当日市场遵循"政策催化→流动性托底→资金高低切换→风格再平衡"的传导链条。创新药政策打破医药板块长期压制逻辑，央行投放提供流动性安全垫，共同推动资金从高位科技向低位医药消费迁移。但缩量环境下，新主线能否持续吸引增量资金是关键。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:110px">环节</th><th style="width:260px">变化</th><th style="width:260px">传导机制</th><th>市场含义</th></tr></thead>
+    <tbody>
+      <tr><td><b>政策事件层</b></td><td>创新药政策转向+央行1.4万亿投放</td><td>产业政策重塑医药估值，货币政策托底市场流动性</td><td>底部支撑明确，结构性机会扩散</td></tr>
+      <tr><td><b>资金面</b></td><td>主力净流出498亿，电子单行业流出340亿</td><td>科技获利了结资金流向医药消费，总量收缩但结构轮动</td><td>存量博弈下的高低切换</td></tr>
+      <tr><td><b>风格层面</b></td><td>消费医药跑赢科技成长，科创50跌4.25%</td><td>防御风格占优，成长风格阶段性退潮</td><td>风格再平衡，非趋势反转</td></tr>
+      <tr><td><b>板块层面</b></td><td>医药消费传媒领涨，电子有色通信领跌</td><td>创新药政策催化+暑期档事件驱动+科技获利了结</td><td>极致分化，多主线轮动雏形</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 陆 资金面深度分析 -->
+<section class="chapter" id="ch6">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">陆</span><span>资金面深度分析</span></div>
+    <div class="ch-en">CHAPTER · CAPITAL FLOWS</div>
+  </div>
+
+  <div class="tldr">当日资金面呈现"总量收缩、结构剧烈分化"的特征。主力资金大幅净流出近500亿，主要集中在电子板块；北向资金小幅净流出，尾盘抛售科技龙头；两融余额继续下降，杠杆资金持续撤离。但医药、消费、传媒等板块获得明显资金流入，说明并非全面看空，而是大规模调仓换股。</div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.1 北向资金</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">北向资金净流出</div><div class="fvalue down">16.32亿</div></div>
+    <div class="fund-item"><div class="flabel">华天科技北向净卖出</div><div class="fvalue down">7.11亿</div></div>
+  </div>
+  <div class="prose"><p>7月15日北向资金小幅净流出16.32亿元。早盘曾小幅抄底医药板块，但尾盘大额抛售存储芯片、光模块龙头。沪股通、深股通均呈现净流出态势，整体流出幅度不大，未出现恐慌性撤离。成交活跃股方面，科技龙头仍是北向交易重点，但方向以卖出为主。华天科技龙虎榜显示北向资金净卖出7.11亿元，反映外资对高位半导体标的的获利了结意愿。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.2 主力资金</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">电子板块主力净流出</div><div class="fvalue down">340.38亿</div></div>
+    <div class="fund-item"><div class="flabel">有色金属净流出</div><div class="fvalue down">56.72亿</div></div>
+    <div class="fund-item"><div class="flabel">通信净流出</div><div class="fvalue down">42.15亿</div></div>
+    <div class="fund-item"><div class="flabel">医药生物净流入</div><div class="fvalue">102.57亿</div></div>
+    <div class="fund-item"><div class="flabel">传媒净流入</div><div class="fvalue">28.09亿</div></div>
+    <div class="fund-item"><div class="flabel">食品饮料净流入</div><div class="fvalue">15.71亿</div></div>
+  </div>
+  <div class="prose"><p>两市主力资金合计净流出497.94亿元。行业层面分化极端：电子板块净流出340.38亿元，占全市场净流出的近七成；有色金属净流出56.72亿元，通信净流出42.15亿元。资金撤离高度集中于科技成长赛道。流入方面，医药生物板块净流入102.57亿元居首，传媒净流入28.09亿元，食品饮料净流入15.71亿元，非银金融净流入12.34亿元。资金从科技向医药消费转移的路径清晰。龙虎榜显示，机构净卖出华天科技5.52亿元，叠加北向卖出7.11亿元，机构资金在半导体封测环节分歧加大，部分机构选择高位兑现。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.3 两融数据</h3>
+  <div class="prose"><p>截至7月15日，两市融资余额28576.12亿元，较前一交易日减少116.66亿元。其中上交所融资余额减少72.31亿元，深交所减少44.35亿元。两融余额持续下降，杠杆资金风险偏好低迷。创业板两融余额已<strong>连续十个交易日减少</strong>，累计减少333.97亿元。科技成长股是融资偿还的主力方向，反映杠杆资金对高位科技股的谨慎态度，这也是制约科技板块反弹高度的重要因素。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.4 成交量与市场情绪</h3>
+  <div class="prose"><p>沪深两市成交额25712亿元，较上一交易日缩量1321亿元，连续第二日缩量。缩量调整说明抛压并未完全释放，但也没有恐慌性抛售，更多是观望情绪升温。个股层面，3351只上涨、2098只下跌，涨跌比约1.6:1，赚钱效应尚可。虽然指数下跌，但个股涨多跌少，说明市场情绪并未恶化，只是主线切换。医药、消费板块批量上涨，有效对冲了科技板块的下跌影响。央行大额投放中长期流动性，资金面保持宽松，为市场提供了底部安全垫。但增量资金迟迟不愿入场，存量博弈格局延续，制约了整体行情的高度。</p></div>
+</section>
+
+<!-- 柒 各方观点与分歧 -->
+<section class="chapter" id="ch7">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">柒</span><span>各方观点与分歧</span></div>
+    <div class="ch-en">CHAPTER · BULL VS BEAR</div>
+  </div>
+
+  <div class="tldr">当前市场核心分歧在于科技调整的性质以及新主线的可持续性。多方认为高低切换是健康轮动，科技调整后仍有新高；空方担忧科技行情终结、缩量阴跌开始。医药板块的政策拐点则获得相对一致的认可，成为新的共识方向。</div>
+
+  <div class="stance-grid">
+    <div class="stance-card official">
+      <div class="stance-h">📋 官方事实</div>
+      <p>央行开展14000亿元6个月买断式逆回购，中长期流动性充裕；《国民健康"十五五"规划》发布，创新药政策转向；7月政治局会议临近，政策预期升温。</p>
+    </div>
+    <div class="stance-card pricing">
+      <div class="stance-h">📊 市场定价</div>
+      <p>科创50暴跌4.25%但全市场3300+个股上涨，说明是结构性调仓而非系统性风险。医药消费放量上涨、科技缩量回调，资金从高位向低位切换的意图明确。缩量环境下新主线能否持续吸引增量资金存疑。</p>
+    </div>
+    <div class="stance-card institution">
+      <div class="stance-h">🏦 机构观点</div>
+      <p>主流机构普遍认为，科技板块短期交易拥挤，存在调整压力，但产业逻辑未破，调整后仍是布局机会。医药板块政策拐点明确，建议关注创新药、CXO等高景气细分。消费板块处于估值底部，具备防御价值。整体判断市场结构性行情延续，建议均衡配置。</p>
+    </div>
+    <div class="stance-card contra">
+      <div class="stance-h">🔄 反向证据</div>
+      <p>一是两融余额持续下降，杠杆资金撤离；二是成交额连续缩量，增量资金不足；三是北向资金持续小幅流出，外资态度谨慎；四是科技板块调整幅度较大，若形成趋势性下跌可能拖累市场情绪。这些因素都可能使调整时间和幅度超预期。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 捌 信号与风险 -->
+<section class="chapter" id="ch8">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">捌</span><span>后续观察信号与风险提示</span></div>
+    <div class="ch-en">CHAPTER · SIGNALS &amp; RISKS</div>
+  </div>
+
+  <div class="tldr">接下来重点跟踪四大信号判断市场方向：科技板块能否企稳、医药主线持续性、成交量变化、政治局会议政策定调。每个信号都有明确量化阈值，用于验证调整性质及新主线强度。</div>
+
+  <div class="signal-grid" style="margin-bottom:30px">
+    <div class="signal-card">
+      <div class="signal-h">信号一 · 科技板块企稳情况</div>
+      <div class="signal-watch">👀 盯：科创50指数走势、电子板块主力资金流向</div>
+      <div class="signal-box good">✅ 改善：科创50指数3日内收复2000点，电子板块主力资金由净流出转为净流入，说明调整结束，科技板块重拾升势</div>
+      <div class="signal-box bad">❌ 恶化：科创50跌破1900点，电子板块连续3日净流出超百亿，说明科技行情进入中期调整，市场风险偏好下降</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号二 · 医药主线持续性</div>
+      <div class="signal-watch">👀 盯：医药生物板块成交额、主力资金净流入额、创新药ETF走势</div>
+      <div class="signal-box good">✅ 改善：医药生物板块连续3日净流入超50亿元，创新药ETF持续放量上涨，说明医药主线获得资金共识，成为新的持续性方向</div>
+      <div class="signal-box bad">❌ 恶化：医药板块次日即出现资金净流出，创新药龙头冲高回落，说明只是一日游行情，新主线无法确立</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号三 · 成交量能变化</div>
+      <div class="signal-watch">👀 盯：沪深两市单日成交额</div>
+      <div class="signal-box good">✅ 改善：成交额回升至2.8万亿以上，且伴随主线明确放量，说明增量资金入场，行情有持续性</div>
+      <div class="signal-box bad">❌ 恶化：成交额萎缩至2.3万亿以下，连续缩量阴跌，说明市场交投清淡，进入磨底阶段</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号四 · 政治局会议政策定调</div>
+      <div class="signal-watch">👀 盯：7月政治局会议关于资本市场、货币政策、地产政策的表述</div>
+      <div class="signal-box good">✅ 改善：释放超预期宽松信号，提及活跃资本市场、加大逆周期调节力度，政策面超预期利好</div>
+      <div class="signal-box bad">❌ 恶化：政策表述偏谨慎，低于市场宽松预期，则短期反弹可能终结，市场重回震荡</div>
+    </div>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险一：科技板块调整超预期引发连锁反应</div>
+      <div class="risk-box trigger">🔴 触发：半导体、光模块等科技龙头持续放量下跌，引发融资盘强制平仓，形成负反馈。两融余额加速下降，杠杆资金踩踏离场，带动全市场风险偏好下行。</div>
+      <div class="risk-box falsify">🟢 证伪：科技板块3日内缩量企稳，龙头股止跌回升，融资余额停止下降，说明调整温和，不构成系统性风险。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险二：新主线无法接力，市场陷入主线涣散</div>
+      <div class="risk-box trigger">🔴 触发：医药消费行情昙花一现，无法持续吸引增量资金，科技调整后也没有新的主线接棒，市场陷入无量震荡，个股赚钱效应持续恶化。</div>
+      <div class="risk-box falsify">🟢 证伪：医药板块持续放量走强，形成新的市场共识主线，同时科技逐步企稳，市场进入多主线轮动的健康格局。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险三：成交额持续萎缩，进入阴跌格局</div>
+      <div class="risk-box trigger">🔴 触发：两市成交额连续3日低于2.4万亿元，市场缺乏增量资金，存量博弈下指数阴跌，个股普跌。两融余额继续下降，杠杆资金加速撤离。</div>
+      <div class="risk-box falsify">🟢 证伪：成交额稳定在2.6万亿以上，交投保持活跃，结构性机会持续存在。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险四：海外市场再度出现波动</div>
+      <div class="risk-box trigger">🔴 触发：美联储加息预期再度升温，美债收益率上行，美股科技股调整，带动全球风险资产下跌。韩国股市再度出现大幅波动，亚太市场情绪承压。</div>
+      <div class="risk-box falsify">🟢 证伪：海外市场保持稳定，美债收益率回落，外资回流A股，北向资金转为持续净流入。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 玖 信息来源 -->
+<section class="chapter" id="ch9">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">玖</span><span>信息来源</span></div>
+    <div class="ch-en">CHAPTER · SOURCES</div>
+  </div>
+
+  <ol class="sources">
+    <li>[1] 今日头条·小河008 · 2026-07-15 · 2026年07月15日 收盘汇总 · <a href="http://m.toutiao.com/group/7662650817157300777/" target="_blank" rel="noopener">链接</a></li>
+    <li>[2] 今日头条·智慧生活报 · 2026-07-15 · 盘后重磅突袭!今天A股，真意外! · <a href="http://m.toutiao.com/group/7662671975961215526/" target="_blank" rel="noopener">链接</a></li>
+    <li>[3] 今日头条·浪淘沙 · 2026-07-15 · 2026年7月15日A股收盘深度分析报告 · <a href="http://m.toutiao.com/group/7662725194741514790/" target="_blank" rel="noopener">链接</a></li>
+    <li>[4] 粤开证券 · 2026-07-15 · 粤开市场日报-20260715 · <a href="http://www.lxzq.com.cn/products/download-new/rpt/2026/07/15/a64a297757334d7aabe51a074d0ca496.pdf" target="_blank" rel="noopener">链接</a></li>
+    <li>[5] 抖音·零渡 · 2026-07-15 · 7月15日A股涨跌家数统计 · <a href="https://www.iesdouyin.com/share/video/7662659789771550171" target="_blank" rel="noopener">链接</a></li>
+    <li>[6] China.org.cn（新华社） · 2026-07-15 · Chinese shares close lower Wednesday · <a href="http://www.china.org.cn/china/Off_the_Wire/2026-07/15/content_118600634.shtml" target="_blank" rel="noopener">链接</a></li>
+    <li>[7] 乐咕乐股网 · 2026-07-15 · 申万行业涨幅中位数排名 · <a href="https://legulegu.com/stockdata/sw-industry-daily-stats" target="_blank" rel="noopener">链接</a></li>
+    <li>[8] 今日头条·踏浪归来2018 · 2026-07-15 · 2026年7月15日热门板块和龙头股及大涨逻辑 · <a href="http://m.toutiao.com/group/7662713978581467671/" target="_blank" rel="noopener">链接</a></li>
+    <li>[9] 凤凰网 · 2026-07-15 · 7月15日盘后播报：医药板块强势上攻 · <a href="https://news.ifeng.com/c/8ummJTMOpx6" target="_blank" rel="noopener">链接</a></li>
+    <li>[10] 今日头条·米饭在锅 · 2026-07-15 · 2026年07月15日A股涨跌主线解析 · <a href="http://m.toutiao.com/group/7662654561047347758/" target="_blank" rel="noopener">链接</a></li>
+    <li>[11] 今日头条·证券之星 · 2026-07-15 · 7月15日华天科技龙虎榜数据 · <a href="http://m.toutiao.com/group/7662684910029521414/" target="_blank" rel="noopener">链接</a></li>
+    <li>[12] 上海国际货币经纪 · 2026-07-15 · 国债、金融债日报 · <a href="https://www.cfets-nex.com.cn/Cms_Data/Contents/Site2019/Folders/Daily/~contents/URG2DX88UKB7N3XH/0715bond.pdf" target="_blank" rel="noopener">链接</a></li>
+    <li>[13] 证券时报 · 2026-07-16 · 杠杆资金连续十日减仓创业板股 · <a href="http://m.toutiao.com/group/7662935467515527707/" target="_blank" rel="noopener">链接</a></li>
+    <li>[14] 36氪 · 2026-07-16 · 两市融资余额减少116.66亿元 · <a href="https://36kr.com/newsflashes/3897604334307207" target="_blank" rel="noopener">链接</a></li>
+    <li>[15] 36氪 · 2026-07-15 · A股三大指数集体收跌，白酒股走强 · <a href="https://36kr.com/newsflashes/3896556228380551" target="_blank" rel="noopener">链接</a></li>
+  </ol>
+
+  <div class="disclaimer">⚠️ <b>风险提示与免责声明：</b>本报告基于AI生成，仅用于信息参考与研究辅助，不构成任何投资建议。股市有风险，投资需谨慎，请结合自身风险承受能力独立决策。报告中引用的数据和信息均来自公开渠道，其准确性和完整性请以官方发布为准。</div>
+
+  <div style="text-align:center;margin-top:26px"><span class="seal">每日<br/>复盘</span></div>
+</section>
+
+</main>
+
+<footer>
+  · A股每日市场复盘报告 · 数据区间：2026-07-15 收盘 · 更新于：2026-07-15 · 仅供参考，不构成投资建议 ·
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.chapter-tab');
+  const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = document.getElementById(tab.dataset.target);
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  function setActive() {
+    let currentIndex = 0;
+    const scrollPos = window.scrollY + 150;
+    sections.forEach((sec, i) => {
+      if (sec && sec.offsetTop <= scrollPos) currentIndex = i;
+    });
+    tabs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+  }
+  window.addEventListener('scroll', setActive);
+  setActive();
+</script>
+
+</body>
+</html>
