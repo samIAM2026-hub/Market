@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>US Sector Analysis Daily — July 15, 2026</title>
+  <style>
+    :root{--navy:#0d2744;--navy2:#173b61;--ink:#172536;--muted:#5e6d7d;--line:#d7e0e8;--paper:#fff;--wash:#f3f6f8;--green:#137a50;--greenbg:#eaf6f0;--red:#b33a3a;--redbg:#fbeeee;--amber:#956000;--amberbg:#fff7df;--blue:#245f93}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#e9eef2;color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}a:hover{color:var(--navy)}.page{max-width:1180px;margin:0 auto;background:var(--paper);min-height:100vh;box-shadow:0 0 30px rgba(13,39,68,.08)}
+    header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:30px 42px 26px}.eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#bfe0cf;margin-bottom:7px}h1{font-size:34px;line-height:1.12;margin:0 0 14px;letter-spacing:-.02em}.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;color:#dce8f2}.meta b{color:#fff}.toplinks{margin-top:16px;display:flex;gap:16px;flex-wrap:wrap}.toplinks a{color:#fff;font-weight:650}.disclaimer{margin-top:18px;border-left:3px solid #75be94;padding-left:12px;color:#dce8f2;font-size:13px}
+    main{padding:30px 42px 46px}nav.toc{background:var(--wash);border:1px solid var(--line);border-radius:10px;padding:15px 18px;margin:0 0 26px}.toc a{display:inline-block;margin:3px 14px 3px 0;font-size:13px;font-weight:650}
+    section{margin:0 0 34px;scroll-margin-top:12px}h2{font-size:24px;line-height:1.25;color:var(--navy);margin:0 0 14px;padding-bottom:8px;border-bottom:2px solid var(--navy)}h3{font-size:18px;color:var(--navy);margin:0 0 8px}.lede{font-size:17px;color:#304458;margin-top:0}.takeaways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;padding:0;list-style:none}.takeaways li{border-left:3px solid var(--blue);padding:5px 0 5px 12px}.callout{border:1px solid var(--line);border-left:5px solid var(--blue);background:#f8fafb;padding:16px 18px;border-radius:8px;margin:14px 0}.callout.warn{border-left-color:var(--amber);background:var(--amberbg)}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{border:1px solid var(--line);border-radius:10px;padding:15px 16px;background:#fff}.card p:last-child{margin-bottom:0}.kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.big{font-size:25px;font-weight:800;color:var(--navy);line-height:1.15}.small{font-size:13px;color:var(--muted)}
+    .up{color:var(--green);font-weight:750}.down{color:var(--red);font-weight:750}.flat{color:var(--muted);font-weight:750}.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:800;letter-spacing:.04em}.leading{background:var(--greenbg);color:var(--green)}.improving{background:#eaf2fb;color:#235b8c}.weakening{background:var(--amberbg);color:var(--amber)}.lagging{background:var(--redbg);color:var(--red)}
+    .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px}table{border-collapse:collapse;width:100%;font-size:13px;min-width:840px}caption{text-align:left;padding:11px 13px;background:#f7f9fb;font-weight:700;color:var(--navy)}th{background:var(--navy);color:#fff;text-align:left;padding:10px 9px;white-space:nowrap}td{padding:9px;border-bottom:1px solid var(--line);vertical-align:top}tbody tr:nth-child(even){background:#f8fafb}tbody tr:last-child td{border-bottom:0}.num{text-align:right;font-variant-numeric:tabular-nums}.note{font-size:12px;color:var(--muted);margin-top:8px}
+    .sector{border-top:4px solid var(--navy2);padding-top:13px}.sector .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}.stat{background:var(--wash);border-radius:6px;padding:7px;text-align:center}.stat b{display:block;font-variant-numeric:tabular-nums}.sector dl{display:grid;grid-template-columns:118px 1fr;gap:5px 10px;margin:10px 0}.sector dt{font-weight:750;color:var(--navy)}.sector dd{margin:0}.source-list li{margin-bottom:7px}.footer-note{border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:12px}
+    @media(max-width:850px){header,main{padding-left:22px;padding-right:22px}.grid{grid-template-columns:1fr 1fr}.takeaways{grid-template-columns:1fr}.sector .stats{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){h1{font-size:28px}.grid{grid-template-columns:1fr}.sector dl{grid-template-columns:1fr}.sector dd{margin-bottom:6px}}
+    @media print{body{background:#fff}.page{box-shadow:none;max-width:none}header{background:#fff!important;color:var(--ink);border-bottom:3px solid var(--navy)}header h1,.meta b{color:var(--navy)}.meta,.disclaimer{color:var(--muted)}.toplinks{display:none}main{padding:22px}section{break-inside:auto}.card,.table-wrap{break-inside:avoid}a{color:inherit;text-decoration:none}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="eyebrow">Latest report</div>
+    <h1>US Sector Analysis Daily</h1>
+    <div class="meta">
+      <span><b>Effective date:</b> July 15, 2026</span>
+      <span><b>Vancouver run time:</b> July 15, 2026, 11:32:51 p.m. PDT</span>
+      <span><b>Information cutoff:</b> July 15, 2026, 4:00 p.m. ET for U.S. ETF/index closes</span>
+      <span><b>Session status:</b> U.S. regular session closed</span>
+      <span><b>Price basis:</b> regular-session close; no after-hours prices used</span>
+    </div>
+    <div class="toplinks"><a href="us-sector-analysis-daily-archive.html">Archive</a><a href="../../index.html">U.S. Market</a></div>
+    <div class="disclaimer">Market commentary for research and educational purposes only; not personalized financial advice.</div>
+  </header>
+  <main>
+    <nav class="toc" aria-label="Report sections">
+      <a href="#summary">Executive Summary</a><a href="#regime">Market Regime</a><a href="#dashboard">Cross-Market Dashboard</a><a href="#ranking">Sector Ranking</a><a href="#rotation">Rotation Map</a><a href="#strongest">Strongest</a><a href="#weakest">Highest Risk</a><a href="#reviews">Sector Reviews</a><a href="#signals">Signal Board</a><a href="#watchlist">Watchlist</a><a href="#catalysts">Catalysts</a><a href="#plan">Game Plan</a><a href="#sources">Sources</a>
+    </nav>
+
+    <section id="summary">
+      <h2>1. Executive Summary</h2>
+      <p class="lede"><strong>Bottom line:</strong> the tape is constructive but not uniformly risk-on. Softer producer inflation and lower Treasury yields supported the index, while bank earnings and a sharp communication-services rebound broadened leadership away from the year-to-date technology and energy winners.</p>
+      <ul class="takeaways">
+        <li><strong>The S&amp;P 500 closed 0.4% higher at 7,572.40,</strong> within 0.5% of its record, while Nasdaq gained 0.6% and Russell 2000 gained 0.4%.</li>
+        <li><strong>Communication Services led the 11 sectors at +1.73%;</strong> Technology lagged at −1.11%, showing a notable one-day handoff inside growth.</li>
+        <li><strong>Financials are the cleanest near-term leader:</strong> +0.68% daily, +2.89% weekly and +6.04% monthly, all ahead of SPY.</li>
+        <li><strong>Long-horizon leadership remains concentrated:</strong> Energy (+26.37% YTD) and Technology (+26.12%) are far ahead of SPY (+10.69%), but both lost ground on the day.</li>
+        <li><strong>Breadth is mixed, not broken:</strong> the latest verified sector technical snapshot had 7 of 11 ETFs above their 50-day averages and 9 above their 200-day averages, but only 45% above 20-day averages.</li>
+        <li><strong>Inflation relief mattered:</strong> June final-demand PPI fell 0.3% month over month; the 10-year yield eased to about 4.55% and DXY finished near 100.51.</li>
+        <li><strong>Oil remains the main macro complication:</strong> WTI settled near $79.80 and Brent at $84.95 amid the U.S.–Iran conflict, sustaining an inflationary tail risk even as June inflation data cooled.</li>
+        <li><strong>Dominant rotation theme:</strong> tactical rotation from semiconductors/long-duration technology toward financials and communication services, with consumer discretionary attempting a recovery while defensives failed to lead.</li>
+      </ul>
+    </section>
+
+    <section id="regime">
+      <h2>2. Market Regime</h2>
+      <div class="callout"><strong>Classification: Mixed, with a risk-on tilt and an inflationary geopolitical overlay.</strong> Equity indexes advanced, volatility was normal in the latest verified reading, small caps participated, and yields/dollar eased after PPI. Against that, only five sectors rose, technology sold off, one-year leadership breadth remained narrow, and oil near $80 kept the inflation shock alive.</div>
+      <p><strong>Evidence:</strong> SPY +0.40%, Nasdaq +0.6%, Russell 2000 +0.4%, normal-zone VIX of 16.50 on July 14, and a 4.55% 10-year yield argue against risk-off. Yet sector participation is uneven: only two sectors were outperforming SPY over the trailing year in the latest relative-strength snapshot, and just 45% of sector ETFs were above their 20-day averages. This is a selective, earnings-sensitive advance rather than a fully synchronized cyclical surge.</p>
+    </section>
+
+    <section id="dashboard">
+      <h2>3. Cross-Market Dashboard</h2>
+      <div class="grid">
+        <div class="card"><div class="kicker">S&amp;P 500</div><div class="big">7,572.40</div><div class="up">+0.4% regular close</div><div class="small">SPY $754.81, +0.40%; SPY YTD +10.69%</div></div>
+        <div class="card"><div class="kicker">Nasdaq Composite</div><div class="big">26,269.23</div><div class="up">+0.6%</div><div class="small">YTD +13.0%; chipmakers lagged the broad tape.</div></div>
+        <div class="card"><div class="kicker">Russell 2000</div><div class="big">2,976.26</div><div class="up">+0.4%</div><div class="small">YTD +19.9%; confirms some breadth beyond mega-caps.</div></div>
+        <div class="card"><div class="kicker">VIX</div><div class="big">16.50</div><div class="flat">Normal zone</div><div class="small">Latest verified close is July 14, not July 15; July 15 close not verified.</div></div>
+        <div class="card"><div class="kicker">Treasury yields</div><div class="big">10Y 4.55%</div><div class="up">Down from 4.58%</div><div class="small">2Y: Not verified at the common cutoff. Short-dated Treasuries reportedly outperformed.</div></div>
+        <div class="card"><div class="kicker">Dollar</div><div class="big">DXY ~100.51</div><div class="down">−0.4% reported</div><div class="small">Softer dollar modestly supports multinationals, materials and gold.</div></div>
+        <div class="card"><div class="kicker">WTI crude</div><div class="big">~$79.80</div><div class="up">+0.6% reported</div><div class="small">EIA draw and Middle East risk supported prices; Brent settled $84.95.</div></div>
+        <div class="card"><div class="kicker">Gold</div><div class="big">$4,052.59</div><div class="up">+1.28%</div><div class="small">Safe-haven demand and dollar weakness offset the risk-on close.</div></div>
+        <div class="card"><div class="kicker">Primary drivers</div><div class="big">PPI + earnings</div><div class="small">Cooler wholesale inflation, easing yields, strong financial earnings and oil/geopolitical risk set sector leadership.</div></div>
+      </div>
+    </section>
+
+    <section id="ranking">
+      <h2>4. All-Sector Ranking Table</h2>
+      <p>The ranking blends verified daily/weekly/monthly/YTD ETF returns, relative performance versus SPY, and the latest verified 50-/200-day trend state. Relative strength shown is the sector return minus SPY over the stated window.</p>
+      <div class="table-wrap"><table>
+        <caption>All 11 Select Sector SPDR ETFs — July 15 regular-session performance; trend snapshot through July 14</caption>
+        <thead><tr><th>Rank</th><th>Sector</th><th>ETF</th><th class="num">Daily</th><th class="num">Weekly</th><th>Relative strength vs SPY</th><th>Trend</th><th>Rotation</th><th>Technical rating</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Financials</td><td>XLF</td><td class="num up">+0.68%</td><td class="num up">+2.89%</td><td>1W +1.63pp; 1M +4.28pp</td><td>Above 50d / 200d</td><td><span class="pill leading">Leading</span></td><td>A−</td></tr>
+          <tr><td>2</td><td>Industrials</td><td>XLI</td><td class="num down">−0.22%</td><td class="num down">−0.20%</td><td>1M +0.44pp; YTD +5.39pp</td><td>Above 50d / 200d</td><td><span class="pill leading">Leading</span></td><td>B+</td></tr>
+          <tr><td>3</td><td>Technology</td><td>XLK</td><td class="num down">−1.11%</td><td class="num up">+0.10%</td><td>YTD +15.43pp; 1M −3.50pp</td><td>Testing 50d; far above 200d</td><td><span class="pill weakening">Weakening</span></td><td>B+</td></tr>
+          <tr><td>4</td><td>Energy</td><td>XLE</td><td class="num down">−0.79%</td><td class="num up">+1.62%</td><td>YTD +15.68pp; 1M −3.58pp</td><td>Testing 50d; above 200d</td><td><span class="pill weakening">Weakening</span></td><td>B</td></tr>
+          <tr><td>5</td><td>Communication Services</td><td>XLC</td><td class="num up">+1.73%</td><td class="num up">+3.58%</td><td>1W +2.32pp; YTD −14.38pp</td><td>Reclaim attempt; below 200d</td><td><span class="pill improving">Improving</span></td><td>B−</td></tr>
+          <tr><td>6</td><td>Health Care</td><td>XLV</td><td class="num flat">0.00%</td><td class="num down">−2.47%</td><td>1M +1.15pp; 1W −3.73pp</td><td>Above 50d / 200d</td><td><span class="pill weakening">Weakening</span></td><td>B−</td></tr>
+          <tr><td>7</td><td>Consumer Discretionary</td><td>XLY</td><td class="num up">+0.95%</td><td class="num up">+1.47%</td><td>1W +0.21pp; YTD −12.71pp</td><td>Testing 50d / 200d from below</td><td><span class="pill improving">Improving</span></td><td>C+</td></tr>
+          <tr><td>8</td><td>Real Estate</td><td>XLRE</td><td class="num up">+0.18%</td><td class="num up">+0.93%</td><td>1M −3.52pp; YTD −0.26pp</td><td>Near 50d; above 200d</td><td><span class="pill improving">Improving</span></td><td>C+</td></tr>
+          <tr><td>9</td><td>Utilities</td><td>XLU</td><td class="num down">−1.03%</td><td class="num down">−0.31%</td><td>1W −1.57pp; YTD −4.76pp</td><td>Above 50d / 200d, thin cushion</td><td><span class="pill weakening">Weakening</span></td><td>C</td></tr>
+          <tr><td>10</td><td>Materials</td><td>XLB</td><td class="num down">−0.28%</td><td class="num up">+0.68%</td><td>1M −4.98pp; YTD +0.67pp</td><td>Below 50d; above 200d</td><td><span class="pill lagging">Lagging</span></td><td>C</td></tr>
+          <tr><td>11</td><td>Consumer Staples</td><td>XLP</td><td class="num up">+0.06%</td><td class="num down">−1.09%</td><td>1W −2.35pp; 1M −4.50pp</td><td>Below 50d; above 200d</td><td><span class="pill lagging">Lagging</span></td><td>C−</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Observed returns are price returns from the cited ETF dataset. Trend states are based on July 14 closes; July 15 price action is overlaid explicitly. Ratings and rotation labels are analyst interpretation, not source classifications.</p>
+    </section>
+
+    <section id="rotation">
+      <h2>5. Sector Rotation Map</h2>
+      <div class="grid">
+        <div class="card"><h3>Into: Financials</h3><p>Price, 1-week and 1-month relative strength all confirm. Strong bank and asset-manager earnings add fundamental validation. This looks <strong>established near-term</strong>, not merely a one-day bounce.</p></div>
+        <div class="card"><h3>Into: Communication Services</h3><p>XLC led the day and week and likely reclaimed its 50-day zone, but remains below its 200-day zone and deeply behind SPY YTD. This is an <strong>early recovery</strong> awaiting Netflix and sustained breadth.</p></div>
+        <div class="card"><h3>Attempting: Discretionary / REITs</h3><p>XLY and XLRE rose, but both are clustered around major moving-average pivots and still lag SPY over the month. This is <strong>tentative</strong>, consistent with lower yields but not yet confirmed.</p></div>
+        <div class="card"><h3>Out of: Technology at the margin</h3><p>XLK was the daily laggard and has negative 1-month relative strength, even though it remains a dominant YTD leader. This is a <strong>mature-leader consolidation</strong>, not a verified long-term breakdown.</p></div>
+        <div class="card"><h3>Out of: Defensives</h3><p>Utilities fell 1.03%, Staples lagged on the week/month, and Health Care was held back by Elevance. Falling yields did not produce defensive leadership, a modestly risk-positive tell.</p></div>
+        <div class="card"><h3>Confirmation quality</h3><p><strong>Price and relative strength:</strong> confirmed for XLF and short-term XLC. <strong>Volume and constituent breadth:</strong> not verified at the July 15 cutoff. The broad sector breadth snapshot is one session stale.</p></div>
+      </div>
+    </section>
+
+    <section id="strongest">
+      <h2>6. Three Strongest Sectors</h2>
+      <div class="grid">
+        <div class="card"><h3>1 — Financials (XLF)</h3><p><strong>Fundamental:</strong> JPM, GS and BAC beat July 14 estimates; BlackRock and BNY Mellon rose 6.6% and 5.1% after strong results on July 15. <strong>Technical:</strong> XLF was about 6.3% above its 50-day and 6.7% above its 200-day on July 14, then added 0.68%. <strong>RS:</strong> beat SPY by 1.63pp over one week and 4.28pp over one month. <strong>Risk:</strong> a sharp yield-curve flattening, credit deterioration, or failed earnings follow-through.</p></div>
+        <div class="card"><h3>2 — Industrials (XLI)</h3><p><strong>Fundamental:</strong> infrastructure, defense and AI-capex supply chains remain supportive; Cintas gained 4.4% after better profit. <strong>Technical:</strong> strong above 50d/200d in the latest snapshot, with +16.08% YTD and +19.24% over one year. <strong>RS:</strong> +5.39pp versus SPY YTD. <strong>Risk:</strong> −0.20% weekly momentum and tariff/input-cost pressure; the trend needs to hold the calculated $176.57 50-day zone.</p></div>
+        <div class="card"><h3>3 — Technology (XLK)</h3><p><strong>Fundamental:</strong> AI infrastructure remains the major earnings/capex engine; TSMC’s July 16 outlook is the next test. <strong>Technical:</strong> +26.12% YTD and +42.06% over one year; approximately 19.9% above the 200-day on July 14. <strong>RS:</strong> +15.43pp YTD versus SPY. <strong>Risk:</strong> daily −1.11%, monthly −1.74%, and a close just below the calculated 50-day zone indicate weakening short-term momentum.</p></div>
+      </div>
+      <p class="note">Sector-level constituent breadth and ETF volume confirmation were not verified for July 15; selections therefore lean on price, relative strength, moving-average structure and reported earnings catalysts.</p>
+    </section>
+
+    <section id="weakest">
+      <h2>7. Three Weakest or Highest-Risk Sectors</h2>
+      <div class="grid">
+        <div class="card"><h3>Consumer Staples (XLP)</h3><p>Negative weekly and monthly returns, below the 50-day in the latest snapshot, and −4.50pp monthly relative strength make this the weakest composite setup. Improvement requires a close above the calculated $84.09 50-day zone and renewed outperformance; failure of roughly $81.86 (200-day) would confirm structural damage.</p></div>
+        <div class="card"><h3>Materials (XLB)</h3><p>Monthly −3.22% and −4.98pp relative to SPY, with price below the 50-day, show capital leaving despite a weaker dollar and higher gold. Improvement requires reclaiming about $51.15; the calculated $48.51 200-day zone is the major invalidation level.</p></div>
+        <div class="card"><h3>Utilities (XLU)</h3><p>The sector dropped 1.03% even as the 10-year yield eased, an adverse cross-asset divergence. Its moving-average cushion was thin on July 14. A hold above the $44.79–$44.93 calculated 200-/50-day band is required; sustained closes below it would move the sector toward lagging.</p></div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <h2>8. Individual Sector Reviews</h2>
+      <div class="callout warn"><strong>Indicator integrity note:</strong> Exact sector RSI, MACD, ETF volume anomalies, sector-specific realized volatility, constituent advance/decline breadth and 20-day position were not verified at the common July 15 cutoff. They are labeled “Not verified” below. Calculated moving-average zones use July 14 close and the verified percentage distance from the 50-/200-day averages; rounding can create small differences from a charting platform.</div>
+      <div class="grid">
+        <article class="card sector"><h3>Communication Services — XLC</h3><div class="stats"><div class="stat">1D<b class="up">+1.73%</b></div><div class="stat">1W<b class="up">+3.58%</b></div><div class="stat">1M<b class="up">+1.55%</b></div><div class="stat">YTD<b class="down">−3.69%</b></div></div><dl><dt>Trend / RS</dt><dd>Early recovery. Best daily/weekly sector, but YTD lags SPY by 14.38pp; July 14 state was below 50d/200d.</dd><dt>Technicals</dt><dd>July 15 close $113.38 likely reclaimed calculated 50d ~$112.69; 200d ~$114.78 is resistance. RSI/MACD/volume/volatility/breadth: Not verified.</dd><dt>Constituents</dt><dd>Meta, Alphabet and Netflix dominate the signal; Netflix’s July 16 report is the immediate catalyst.</dd><dt>Bias</dt><dd>Improving. Confirm above ~$114.78 with continued RS; invalidate below ~$112.69.</dd></dl></article>
+        <article class="card sector"><h3>Consumer Discretionary — XLY</h3><div class="stats"><div class="stat">1D<b class="up">+0.95%</b></div><div class="stat">1W<b class="up">+1.47%</b></div><div class="stat">1M<b class="up">+0.34%</b></div><div class="stat">YTD<b class="down">−2.02%</b></div></div><dl><dt>Trend / RS</dt><dd>Improving short term but still lagging SPY by 12.71pp YTD; July 14 state was below both major averages.</dd><dt>Technicals</dt><dd>Close $117.00 is just below calculated 50d ~$117.31 and 200d ~$117.43: a clear breakout gate. RSI/MACD/volume/volatility/breadth: Not verified.</dd><dt>Constituents</dt><dd>Amazon, Tesla, Home Depot and McDonald’s are the key demand/rate read-throughs.</dd><dt>Bias</dt><dd>Neutral-improving above $117.43; invalidate on renewed rejection below ~$115.90 prior-close area.</dd></dl></article>
+        <article class="card sector"><h3>Consumer Staples — XLP</h3><div class="stats"><div class="stat">1D<b class="up">+0.06%</b></div><div class="stat">1W<b class="down">−1.09%</b></div><div class="stat">1M<b class="down">−2.74%</b></div><div class="stat">YTD<b class="up">+7.45%</b></div></div><dl><dt>Trend / RS</dt><dd>Lagging; below 50d but above 200d on July 14. Monthly RS versus SPY is −4.50pp.</dd><dt>Technicals</dt><dd>Resistance calculated near $84.09; structural support near $81.86. RSI/MACD/volume/volatility/breadth: Not verified.</dd><dt>Constituents</dt><dd>Walmart, Costco, Procter &amp; Gamble and Coca-Cola frame pricing power and consumer trade-down.</dd><dt>Bias</dt><dd>Underweight/avoid tactically until $84.09 is reclaimed; invalidate bearish bias on sustained RS improvement.</dd></dl></article>
+        <article class="card sector"><h3>Energy — XLE</h3><div class="stats"><div class="stat">1D<b class="down">−0.79%</b></div><div class="stat">1W<b class="up">+1.62%</b></div><div class="stat">1M<b class="down">−1.82%</b></div><div class="stat">YTD<b class="up">+26.37%</b></div></div><dl><dt>Trend / RS</dt><dd>Long-term leader, short-term weakening. YTD RS +15.68pp; monthly RS −3.58pp.</dd><dt>Technicals</dt><dd>Close $56.50 slipped just under calculated 50d ~$56.67; 200d support ~$51.73. RSI/MACD/volume/sector breadth: Not verified; commodity volatility remains high.</dd><dt>Constituents</dt><dd>Exxon, Chevron and ConocoPhillips remain key; refiners MPC, DINO and VLO ranked strongly in the July 10 momentum scan.</dd><dt>Bias</dt><dd>Favor only above $56.67–$56.95 with oil confirmation; invalidate tactical long bias below the 50d.</dd></dl></article>
+        <article class="card sector"><h3>Financials — XLF</h3><div class="stats"><div class="stat">1D<b class="up">+0.68%</b></div><div class="stat">1W<b class="up">+2.89%</b></div><div class="stat">1M<b class="up">+6.04%</b></div><div class="stat">YTD<b class="up">+3.27%</b></div></div><dl><dt>Trend / RS</dt><dd>Leading near term; above 50d/200d. Weekly and monthly RS are +1.63pp and +4.28pp.</dd><dt>Technicals</dt><dd>Calculated 50d/200d support ~$52.85/$52.65; continuation pivot $56.56. RSI/MACD/ETF volume/sector breadth: Not verified.</dd><dt>Constituents</dt><dd>Berkshire, JPMorgan, Visa and Mastercard are key. JPM/GS/BAC beats plus BlackRock and BNY Mellon strength validate earnings breadth.</dd><dt>Bias</dt><dd>Favor on holds above $56.18–$56.56; invalidate leadership if RS rolls over and $52.65–$52.85 fails.</dd></dl></article>
+        <article class="card sector"><h3>Health Care — XLV</h3><div class="stats"><div class="stat">1D<b class="flat">0.00%</b></div><div class="stat">1W<b class="down">−2.47%</b></div><div class="stat">1M<b class="up">+2.91%</b></div><div class="stat">YTD<b class="up">+2.25%</b></div></div><dl><dt>Trend / RS</dt><dd>Above 50d/200d but weakening fast; weekly RS −3.73pp despite monthly RS +1.15pp.</dd><dt>Technicals</dt><dd>Support calculated ~$151.91/$151.04; close $158.29. RSI/MACD/volume/volatility/breadth: Not verified.</dd><dt>Constituents</dt><dd>Eli Lilly, J&amp;J, AbbVie and UnitedHealth matter most. Elevance fell 8.5% after results; UNH/ABT/ISRG reports are near-term tests.</dd><dt>Bias</dt><dd>Neutral. Confirm renewed leadership with positive weekly RS; invalidate bullish trend below ~$151.</dd></dl></article>
+        <article class="card sector"><h3>Industrials — XLI</h3><div class="stats"><div class="stat">1D<b class="down">−0.22%</b></div><div class="stat">1W<b class="down">−0.20%</b></div><div class="stat">1M<b class="up">+2.20%</b></div><div class="stat">YTD<b class="up">+16.08%</b></div></div><dl><dt>Trend / RS</dt><dd>Leading long term; above 50d/200d. YTD RS +5.39pp, though weekly RS −1.46pp.</dd><dt>Technicals</dt><dd>Support calculated ~$176.57 then $165.56; $180.46 prior close is near resistance. RSI/MACD/volume/volatility/breadth: Not verified.</dd><dt>Constituents</dt><dd>GE Aerospace, Caterpillar, RTX and Union Pacific frame capex/defense/freight. Cintas gained 4.4% after earnings.</dd><dt>Bias</dt><dd>Favor above ~$176.57; require positive weekly RS for confirmation; invalidate below 50d.</dd></dl></article>
+        <article class="card sector"><h3>Materials — XLB</h3><div class="stats"><div class="stat">1D<b class="down">−0.28%</b></div><div class="stat">1W<b class="up">+0.68%</b></div><div class="stat">1M<b class="down">−3.22%</b></div><div class="stat">YTD<b class="up">+11.36%</b></div></div><dl><dt>Trend / RS</dt><dd>Lagging tactically; below 50d, above 200d. Monthly RS −4.98pp.</dd><dt>Technicals</dt><dd>50d resistance calculated ~$51.15; 200d support ~$48.51. RSI/MACD/ETF volume/sector breadth: Not verified; commodity volatility elevated.</dd><dt>Constituents</dt><dd>Linde, Newmont, Sherwin-Williams and Freeport-McMoRan tie the sector to industrial demand, gold and copper.</dd><dt>Bias</dt><dd>Avoid until $51.15 reclaim; improve with DXY weakness plus copper confirmation; invalidate bearish view above 50d.</dd></dl></article>
+        <article class="card sector"><h3>Real Estate — XLRE</h3><div class="stats"><div class="stat">1D<b class="up">+0.18%</b></div><div class="stat">1W<b class="up">+0.93%</b></div><div class="stat">1M<b class="down">−1.76%</b></div><div class="stat">YTD<b class="up">+10.43%</b></div></div><dl><dt>Trend / RS</dt><dd>Improving but not leading; near 50d and above 200d. Monthly RS −3.52pp.</dd><dt>Technicals</dt><dd>Calculated 50d ~$44.39 and 200d ~$42.40; close $44.56. RSI/MACD/volume/sector breadth: Not verified; rate sensitivity remains high.</dd><dt>Constituents</dt><dd>Prologis, American Tower, Equinix and Welltower are the central property/data-center/rate signals.</dd><dt>Bias</dt><dd>Neutral-positive above $44.39 with falling yields; invalidate below that level, then watch $42.40.</dd></dl></article>
+        <article class="card sector"><h3>Technology — XLK</h3><div class="stats"><div class="stat">1D<b class="down">−1.11%</b></div><div class="stat">1W<b class="up">+0.10%</b></div><div class="stat">1M<b class="down">−1.74%</b></div><div class="stat">YTD<b class="up">+26.12%</b></div></div><dl><dt>Trend / RS</dt><dd>Long-term leader, short-term weakening. YTD RS +15.43pp; monthly RS −3.50pp.</dd><dt>Technicals</dt><dd>Close $181.58 is slightly below calculated 50d ~$181.98; 200d ~$153.14. RSI/MACD/ETF volume/sector breadth: Not verified; daily chip weakness is observed.</dd><dt>Constituents</dt><dd>Nvidia, Microsoft, Apple and Broadcom dominate. AMD, ANET and AMAT were strong in the July 10 momentum scan; TSMC guidance is the next catalyst.</dd><dt>Bias</dt><dd>Favor selectively only on reclaim of $181.98–$183.62; invalidate tactical strength below 50d, long-term trend below 200d.</dd></dl></article>
+        <article class="card sector"><h3>Utilities — XLU</h3><div class="stats"><div class="stat">1D<b class="down">−1.03%</b></div><div class="stat">1W<b class="down">−0.31%</b></div><div class="stat">1M<b class="up">+1.55%</b></div><div class="stat">YTD<b class="up">+5.93%</b></div></div><dl><dt>Trend / RS</dt><dd>Weakening despite still being above 50d/200d in the latest snapshot; weekly RS −1.57pp.</dd><dt>Technicals</dt><dd>Thin support band calculated ~$44.93/$44.79; close $45.22. RSI/MACD/volume/volatility/breadth: Not verified.</dd><dt>Constituents</dt><dd>NextEra, Southern, Duke Energy and Constellation are key; power-demand optimism competes with financing-cost sensitivity.</dd><dt>Bias</dt><dd>Avoid/underweight tactically after adverse yield divergence; improve on hold above $44.79–$44.93 and renewed RS.</dd></dl></article>
+      </div>
+    </section>
+
+    <section id="signals">
+      <h2>9. Technical Signal Board</h2>
+      <div class="table-wrap"><table><caption>Meaningful verified or calculated setups</caption><thead><tr><th>Signal</th><th>Sector / ETF</th><th>Evidence</th><th>Confirmation / invalidation</th></tr></thead><tbody>
+        <tr><td>50-day reclaim attempt</td><td>XLC</td><td>+1.73% close at $113.38 versus calculated 50d ~$112.69.</td><td>Confirm above ~$114.78 200d; fail below ~$112.69.</td></tr>
+        <tr><td>Major MA breakout test</td><td>XLY</td><td>$117.00 close just below calculated 50d/200d cluster ~$117.31–$117.43.</td><td>Close above cluster with positive RS; rejection below ~$115.90 invalidates.</td></tr>
+        <tr><td>Momentum rollover</td><td>XLK</td><td>Daily −1.11%, monthly −1.74%; close slightly below calculated 50d.</td><td>Reclaim ~$181.98–$183.62; deeper failure keeps rotation away from semis.</td></tr>
+        <tr><td>50-day loss / oil divergence</td><td>XLE</td><td>ETF −0.79% while WTI rose; close $56.50 versus calculated 50d ~$56.67.</td><td>Recover $56.67–$56.95; otherwise watch 200d ~$51.73.</td></tr>
+        <tr><td>Relative-strength breakout</td><td>XLF</td><td>Positive 1D, 1W and 1M RS with strong earnings follow-through.</td><td>Hold $56.18–$56.56; loss of calculated MA band ~$52.65–$52.85 invalidates.</td></tr>
+        <tr><td>Failed defensive bid</td><td>XLU / XLP</td><td>Utilities fell despite lower 10Y; Staples remains below 50d and lags over 1W/1M.</td><td>Reclaim $44.93 XLU and $84.09 XLP with improving RS.</td></tr>
+        <tr><td>Volume / MACD / RSI divergences</td><td>All sectors</td><td>Not verified at the common cutoff.</td><td>Do not infer confirmation from price alone; check a synchronized OHLCV feed before acting.</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="watchlist">
+      <h2>10. Leadership Watchlist</h2>
+      <p><strong>Observed facts:</strong> XLF leads the verified short-horizon return stack; XLI and XLK retain strong longer-horizon structures; the July 10 momentum scan identified the stocks below as technically strong and liquid. <strong>Analyst interpretation:</strong> these are monitoring candidates, not personalized recommendations.</p>
+      <div class="table-wrap"><table><caption>Favored sector ETFs and liquid stock monitors</caption><thead><tr><th>Sector ETF</th><th>Stocks to monitor</th><th>Observed signal</th><th>What would confirm</th></tr></thead><tbody>
+        <tr><td>XLF — Financials</td><td>JPM, STT, IBKR</td><td>JPM beat; STT and IBKR ranked in the July 10 momentum scan; XLF leads 1M.</td><td>Post-earnings gaps hold and XLF remains above $56.18.</td></tr>
+        <tr><td>XLI — Industrials</td><td>GE, CAT, RTX</td><td>XLI +16.08% YTD and above major averages; Cintas earnings supported the group.</td><td>XLI regains positive weekly RS and holds ~$176.57.</td></tr>
+        <tr><td>XLK — Technology</td><td>AMD, ANET, AMAT</td><td>All three scored strongly in the July 10 momentum scan; XLK remains +26.12% YTD.</td><td>TSMC guidance supports AI capex and XLK reclaims $181.98–$183.62.</td></tr>
+        <tr><td>XLE — Energy</td><td>MPC, DINO, VLO</td><td>All three refiners ranked strongly in the July 10 momentum scan; XLE leads YTD.</td><td>WTI holds near/above $80 and XLE reclaims ~$56.67.</td></tr>
+        <tr><td>XLC — Communication Services</td><td>META, GOOGL, NFLX</td><td>XLC led the day and week; NFLX reports July 16.</td><td>Positive Netflix read-through and XLC closes above ~$114.78.</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="catalysts">
+      <h2>11. U.S. Catalysts and Risks</h2>
+      <div class="grid">
+        <div class="card"><h3>July 16 — 5:30 a.m. Vancouver / 8:30 a.m. ET</h3><p><strong>June retail sales</strong> from the Census Bureau. Key for XLY, XLP, banks and the growth/rate path. A strong control-group print could lift cyclicals but re-pressure yields.</p></div>
+        <div class="card"><h3>July 16 — premarket / 2:00 a.m. ET</h3><p><strong>TSMC Q2 results</strong> and outlook. This is the most direct near-term test for semiconductor demand, AI capex and XLK’s 50-day support.</p></div>
+        <div class="card"><h3>July 16 — after close / about 1:01 p.m. PT, 4:01 p.m. ET</h3><p><strong>Netflix Q2 results</strong> followed by a video interview. This can confirm or reject XLC’s early recovery and 200-day challenge.</p></div>
+        <div class="card"><h3>Fed and inflation</h3><p>June PPI fell 0.3% m/m but remained +5.5% y/y. The July Beige Book described slight-to-moderate activity and moderate price increases. Markets cut near-term hike odds, but the July FOMC path remains data-dependent.</p></div>
+        <div class="card"><h3>Treasury yields</h3><p>The 10-year eased to about 4.55%. Lower yields support REITs and long-duration growth, but today’s weak utility response shows the relationship is not mechanical. The exact 2-year close was not verified.</p></div>
+        <div class="card"><h3>Commodities / geopolitics / trade</h3><p>WTI near $79.80 and Brent $84.95 reflect the U.S.–Iran conflict and Strait of Hormuz risk. A fresh oil spike is the single clearest threat to the disinflation narrative, consumer margins and duration-sensitive assets.</p></div>
+      </div>
+    </section>
+
+    <section id="plan">
+      <h2>12. Daily U.S. Sector Game Plan</h2>
+      <div class="callout"><strong>Favor:</strong> Financials first; Industrials on support; selective Technology only after a 50-day reclaim; tactical XLC if it clears the 200-day zone. <strong>Avoid / underweight:</strong> Staples, Materials and Utilities until their relative-strength and 50-day signals improve.</div>
+      <ul>
+        <li><strong>Confirmation signals:</strong> XLF holds $56.18–$56.56; XLC clears ~$114.78; XLK regains ~$181.98–$183.62; XLY closes above ~$117.43; 10-year stays near/below 4.55% without an oil spike.</li>
+        <li><strong>Key supports:</strong> XLI ~$176.57, XLK ~$181.98 then ~$153.14, XLE ~$56.67 then ~$51.73, XLU $44.79–$44.93, XLP ~$81.86, XLB ~$48.51.</li>
+        <li><strong>Single most important risk:</strong> renewed Middle East escalation that drives crude and inflation expectations higher, reverses the Treasury rally and compresses equity valuation multiples.</li>
+        <li><strong>What changed since July 14:</strong> XLC surged from laggard to daily leader and likely crossed its 50-day zone; XLK reversed from a July 14 strong-state transition to the daily laggard; XLF extended earnings-led leadership; XLE and XLU weakened despite supportive oil/lower-yield narratives, respectively.</li>
+      </ul>
+    </section>
+
+    <section id="sources">
+      <h2>13. Sources and Data Limitations</h2>
+      <p><strong>Basis:</strong> ETF/index returns are verified regular-session closes through July 15. Moving-average distances and sector breadth are from a July 14 close snapshot and are not presented as July 15 official values. Cross-asset prices use their own market settlements/reported close windows, which can differ from the 4:00 p.m. ET equity cutoff.</p>
+      <ul class="source-list">
+        <li><a href="https://www.thetrading.tools/sector-performance">The Trading Tools — all-sector ETF performance</a> (July 15 close; daily, weekly, monthly, YTD and 1Y returns).</li>
+        <li><a href="https://www.thetrading.tools/sector-health">The Trading Tools — sector health</a> (July 14 close; 20-/50-/200-day breadth, per-sector MA distances and regimes).</li>
+        <li><a href="https://www.thetrading.tools/sector-relative-strength">The Trading Tools — sector relative strength</a> (July 14 close; sector/SPY methodology and one-year breadth).</li>
+        <li><a href="https://apnews.com/article/wall-street-stocks-dow-nasdaq-a4f50a9a19d14802cb94b51db7bafba1">Associated Press — July 15 index closes</a> and <a href="https://apnews.com/article/stock-markets-iran-inflation-oil-3544bd70e0f767404d2de91fd116d68e">market drivers, yields and earnings</a>.</li>
+        <li><a href="https://www.bls.gov/ppi/home.htm">U.S. Bureau of Labor Statistics — June 2026 PPI</a>.</li>
+        <li><a href="https://www.federalreserve.gov/monetarypolicy/beigebook202607-summary.htm">Federal Reserve — July 2026 Beige Book</a>.</li>
+        <li><a href="https://www.census.gov/retail/release_schedule.html">U.S. Census Bureau — retail sales release schedule</a>.</li>
+        <li><a href="https://investor.tsmc.com/english/financial-calendar">TSMC investor calendar</a> and <a href="https://ir.netflix.net/investor-news-and-events/financial-releases/press-release-details/2026/Netflix-to-Announce-Second-Quarter-2026-Financial-Results/default.aspx">Netflix investor relations</a>.</li>
+        <li><a href="https://www.babypips.com/news/financial-forex-market-recap-2026-07-15">BabyPips — July 15 cross-asset recap</a>; <a href="https://goldprice.org/gold-price-today/2026-07-15">GoldPrice.org — July 15 gold close</a>.</li>
+        <li><a href="https://www.ssga.com/us/en/individual/etfs/state-street-spdr-sp-500-etf-trust-spy">State Street — SPY fund materials</a> and <a href="https://www.ssga.com/us/en/individual/insights/sector-market-perspectives-q3-2026">Q3 2026 sector perspectives</a>.</li>
+      </ul>
+      <div class="callout warn"><strong>Material limitations:</strong> Exact July 15 sector RSI, MACD, ETF volume anomalies, sector realized volatility, advance/decline breadth, individual 20-day moving-average positions and the 2-year Treasury close were not verified. Exact current constituent weights and same-day price signals for every largest constituent were also not uniformly verified. No figures were estimated to fill these gaps. Calculated MA price zones are transparent arithmetic from verified July 14 distances and closes, rounded to cents.</div>
+      <p class="footer-note">Verified facts are linked near the relevant claims. Relative-strength spreads and implied moving-average price zones are calculations from cited data. Rotation labels, rankings, ratings, biases and game-plan language are analyst interpretation. This report is general market research and not personalized financial advice.</p>
+    </section>
+  </main>
+</div>
+</body>
+</html>
