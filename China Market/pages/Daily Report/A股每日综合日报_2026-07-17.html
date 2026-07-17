@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A股每日综合日报 · 每日复盘 + 业绩跟踪 · 2026-07-17</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F4ED;
+    --paper:#FFFFFF;
+    --ink:#1A1A1A;
+    --ink-2:#3D3D3D;
+    --ink-3:#6B6B6B;
+    --line:#E4DED1;
+    --line-strong:#C8BFAE;
+    --navy:#0E2A47;
+    --navy-2:#143E66;
+    --gold:#B08842;
+    --gold-light:#D4B271;
+    --up:#D7263D;
+    --up-soft:#FBE9EC;
+    --up-deep:#9E1A2D;
+    --down:#1F8A47;
+    --down-soft:#E7F5EC;
+    --down-deep:#125F30;
+    --flat:#8A8A8A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Noto Serif SC',serif}
+
+  header.topbar{position:sticky;top:0;z-index:52;background:linear-gradient(180deg,#0E2A47 0%,#143E66 100%);color:#fff;border-bottom:3px solid var(--gold)}
+  .topbar-inner{max-width:1380px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-seal{width:42px;height:42px;background:var(--up);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC';font-weight:900;font-size:22px;border:2px solid var(--gold-light);box-shadow:0 0 0 1px rgba(255,255,255,.15);flex-shrink:0}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .brand-title{font-family:'Noto Serif SC';font-weight:700;font-size:18px;letter-spacing:1px}
+  .brand-sub{font-size:11.5px;color:#C9D6E3;letter-spacing:2px}
+  .topbar-meta{display:flex;gap:22px;font-size:12px;color:#C9D6E3;flex-wrap:wrap}
+  .topbar-meta span b{color:#fff;font-weight:500;margin-left:4px}
+
+  .backlink{max-width:1380px;margin:0 auto;padding:10px 28px 0}
+  .backlink a{font-size:12px;color:var(--ink-3);text-decoration:none;border-bottom:1px dotted var(--line-strong)}
+  .backlink a:hover{color:var(--up);border-bottom-color:var(--up)}
+
+  nav.report-tabs{position:sticky;top:71px;z-index:51;background:var(--navy);border-bottom:1px solid var(--gold)}
+  .report-tabs-inner{max-width:1380px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+  .report-tab{padding:14px 26px;font-size:14px;font-weight:700;color:#AEC0D3;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;font-family:'Noto Serif SC';letter-spacing:1px;background:none;user-select:none}
+  .report-tab:hover{color:#fff}
+  .report-tab.active{color:#fff;border-bottom-color:var(--gold);background:rgba(255,255,255,0.06)}
+  .report-tab .icon{margin-right:8px}
+
+  nav.chapters{position:sticky;top:119px;z-index:40;background:#FAF8F2;border-bottom:1px solid var(--line)}
+  .chapters-inner{max-width:1380px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+  .chapter-tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--ink-3);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;text-decoration:none}
+  .chapter-tab:hover{color:var(--navy)}
+  .chapter-tab.active{color:var(--up);border-bottom-color:var(--up);font-weight:700}
+  .chapter-tab .num{font-family:'Noto Serif SC';margin-right:6px;color:var(--gold)}
+
+  main{max-width:1380px;margin:0 auto;padding:32px 28px 60px}
+
+  section.chapter{background:var(--paper);border:1px solid var(--line);padding:36px 40px;margin-bottom:28px;box-shadow:0 1px 3px rgba(14,42,71,0.04);scroll-margin-top:178px}
+  .ch-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:24px;gap:24px;flex-wrap:wrap}
+  .ch-title{font-family:'Noto Serif SC';font-weight:900;font-size:26px;color:var(--navy);display:flex;align-items:baseline;gap:14px}
+  .ch-num{color:var(--up);font-size:36px;line-height:1;border-right:2px solid var(--gold);padding-right:14px}
+  .ch-en{font-size:12px;color:var(--ink-3);letter-spacing:3px;text-transform:uppercase;font-family:'Noto Sans SC'}
+
+  .tldr{background:linear-gradient(90deg,#FFF7E0 0%, #FAF8F2 100%);border-left:4px solid var(--gold);padding:14px 18px;margin-bottom:24px;font-size:14px;color:var(--ink-2)}
+  .tldr b{color:var(--navy);font-weight:700}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:28px}
+  .kpi{background:var(--paper);padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px}
+  .kpi-label{font-size:11.5px;color:var(--ink-3);letter-spacing:1px}
+  .kpi-value{font-family:'Noto Serif SC';font-weight:700;font-size:26px;line-height:1.1}
+  .kpi-value.up{color:var(--up)}.kpi-value.down{color:var(--down)}.kpi-value.flat{color:var(--flat)}
+  .kpi-sub{font-size:11.5px;color:var(--ink-3)}
+
+  table.research{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper)}
+  table.research th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:500;font-size:12.5px;letter-spacing:1px;border-right:1px solid #1F4A72}
+  table.research td{padding:11px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  table.research tr:hover td{background:#FAF8F2}
+  table.research .perf-up{color:var(--up);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-down{color:var(--down);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-flat{color:var(--flat);font-weight:700;font-family:'Noto Serif SC'}
+
+  .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start}
+  @media(max-width:960px){.two-col{grid-template-columns:1fr}}
+  .prose p{margin:0 0 12px;color:var(--ink-2)}
+  .prose strong{color:var(--up-deep);font-weight:700}
+  .prose .quote{border-left:3px solid var(--up);padding:6px 14px;margin:14px 0;background:var(--up-soft);color:var(--up-deep);font-size:14px}
+
+  .bar-row{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;font-size:13px;margin-bottom:8px}
+  .bar-name{color:var(--ink-2);font-weight:500}
+  .bar-name small{display:block;font-size:11px;color:var(--ink-3);font-weight:400;margin-top:1px}
+  .bar-track{position:relative;height:22px;background:#F2EDDF;border:1px solid var(--line)}
+  .bar-fill{height:100%;transition:width .6s ease-out}
+  .bar-fill.up{background:linear-gradient(90deg,var(--up) 0%,#F25C70 100%)}
+  .bar-fill.down{background:linear-gradient(90deg,#F25C70 0%,var(--down) 100%)}
+  .bar-val{font-family:'Noto Serif SC';font-weight:700;font-size:13px;text-align:right}
+  .bar-val.up{color:var(--up)}.bar-val.down{color:var(--down)}
+
+  .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .theme-card{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);padding:16px 18px;transition:all .18s;position:relative}
+  .theme-card:hover{border-top-color:var(--up);transform:translateY(-2px);box-shadow:0 6px 14px rgba(14,42,71,.08)}
+  .theme-card.hot{border-top-color:var(--up)}
+  .theme-card.warm{border-top-color:#E27A3F}
+  .theme-card.cold{border-top-color:var(--down)}
+  .theme-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .theme-name{font-family:'Noto Serif SC';font-weight:700;font-size:15.5px;color:var(--navy)}
+  .theme-tag{font-size:10.5px;padding:2px 8px;letter-spacing:1px}
+  .theme-tag.hot{background:var(--up-soft);color:var(--up-deep)}
+  .theme-tag.warm{background:#FFE8C5;color:#9C5E14}
+  .theme-tag.cold{background:var(--down-soft);color:var(--down-deep)}
+  .theme-perf{font-family:'Noto Serif SC';font-weight:700;font-size:15px;margin-bottom:6px}
+  .theme-perf.up{color:var(--up)}.theme-perf.down{color:var(--down)}
+  .theme-desc{font-size:13px;color:var(--ink-2);line-height:1.6}
+
+  .catalyst-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);padding:20px 24px;margin-bottom:16px;position:relative}
+  .catalyst-head{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;border-bottom:1px dashed var(--line-strong);padding-bottom:10px}
+  .catalyst-num{font-family:'Noto Serif SC';font-weight:900;font-size:30px;color:var(--gold);line-height:1}
+  .catalyst-title{font-family:'Noto Serif SC';font-weight:700;font-size:17px;color:var(--navy)}
+  .catalyst-card p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .catalyst-card p:last-child{margin-bottom:0}
+  .catalyst-card p b{color:var(--navy);font-weight:700;margin-right:4px}
+  .catalyst-card p.verify{background:#FAF8F2;padding:8px 12px;border-left:2px solid var(--line-strong);font-size:12.5px;color:var(--ink-3)}
+
+  .stance-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .stance-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .stance-card.official{border-top:3px solid var(--navy)}
+  .stance-card.pricing{border-top:3px solid var(--gold)}
+  .stance-card.institution{border-top:3px solid var(--up)}
+  .stance-card.contra{border-top:3px solid var(--down)}
+  .stance-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .stance-card p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.65}
+
+  .signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .signal-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .signal-h{font-family:'Noto Serif SC';font-weight:700;font-size:15px;color:var(--navy);margin-bottom:4px}
+  .signal-watch{font-size:12px;color:var(--ink-3);margin-bottom:10px}
+  .signal-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .signal-box.good{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .signal-box.bad{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .signal-box:last-child{margin-bottom:0}
+
+  .risk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .risk-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px;position:relative}
+  .risk-card .risk-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:var(--up)}
+  .risk-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin:8px 0 10px}
+  .risk-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .risk-box.trigger{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .risk-box.falsify{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .risk-box:last-child{margin-bottom:0}
+
+  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:14px 0}
+  .fund-item{background:var(--paper);padding:14px 16px}
+  .fund-item .flabel{font-size:11px;color:var(--ink-3);letter-spacing:1px;margin-bottom:4px}
+  .fund-item .fvalue{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--up)}
+  .fund-item .fvalue.down{color:var(--down)}
+
+  .seal{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border:2.5px solid var(--up);color:var(--up);font-family:'Noto Serif SC';font-weight:900;font-size:14px;text-align:center;line-height:1.2;padding:6px;transform:rotate(-6deg);background:rgba(215,38,61,0.05)}
+
+  .sources{font-size:12px;color:var(--ink-3);line-height:2;padding-left:0;list-style:none;margin:0}
+  .sources li{border-bottom:1px dashed var(--line);padding:6px 0}
+  .sources b{color:var(--ink-2);font-weight:500}
+  .sources a{color:var(--gold);text-decoration:none}
+  .sources a:hover{color:var(--up);text-decoration:underline}
+
+  .disclaimer{background:#FAF8F2;border:1px dashed var(--line-strong);padding:14px 18px;font-size:12px;color:var(--ink-3);line-height:1.7;margin-top:20px}
+
+  .carry-note{background:var(--up-soft);border:1px dashed var(--up);color:var(--up-deep);padding:12px 18px;margin-bottom:22px;font-size:13px;line-height:1.6}
+  .carry-note b{color:var(--up-deep);font-weight:700}
+
+  .sub-h{font-family:'Noto Serif SC';color:var(--navy);margin:26px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px}
+  .sub-h:first-child{margin-top:0}
+  .sub-h.up{border-left-color:var(--up)}
+  .sub-h.down{border-left-color:var(--down)}
+
+  footer{text-align:center;font-size:12px;color:var(--ink-3);padding:24px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-seal">日</div>
+      <div class="brand-text">
+        <span class="brand-title">A股每日综合日报</span>
+        <span class="brand-sub">DAILY RECAP + EARNINGS TRACKER</span>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span>报告日期：<b>2026年7月17日（周五）</b></span>
+      <span>覆盖内容：<b>市场复盘 · 行业与龙头业绩跟踪</b></span>
+      <span>数据口径：<b>复盘·当日收盘(7-17) / 业绩·中报预告(沿用7-16披露)</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="backlink"><a href="../../index.html">← 返回 China Market 主页</a></div>
+
+<nav class="report-tabs">
+  <div class="report-tabs-inner" id="report-nav">
+    <div class="report-tab active" data-report="recap"><span class="icon">📈</span>每日复盘 Daily Recap</div>
+    <div class="report-tab" data-report="earnings"><span class="icon">💰</span>业绩跟踪 Earnings Tracker</div>
+  </div>
+</nav>
+
+<!-- ============ 每日复盘 PANEL ============ -->
+<div class="report-panel" id="panel-recap" style="display:block">
+
+<nav class="chapters">
+  <div class="chapters-inner" data-panel="recap">
+    <a class="chapter-tab active" data-target="r-ch1"><span class="num">壹</span>核心结论</a>
+    <a class="chapter-tab" data-target="r-ch2"><span class="num">贰</span>宽基指数</a>
+    <a class="chapter-tab" data-target="r-ch3"><span class="num">叁</span>行业板块</a>
+    <a class="chapter-tab" data-target="r-ch4"><span class="num">肆</span>关键催化</a>
+    <a class="chapter-tab" data-target="r-ch5"><span class="num">伍</span>传导机制</a>
+    <a class="chapter-tab" data-target="r-ch6"><span class="num">陆</span>资金面</a>
+    <a class="chapter-tab" data-target="r-ch7"><span class="num">柒</span>多空分歧</a>
+    <a class="chapter-tab" data-target="r-ch8"><span class="num">捌</span>信号与风险</a>
+    <a class="chapter-tab" data-target="r-ch9"><span class="num">玖</span>信息来源</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 壹 核心结论 -->
+<section class="chapter" id="r-ch1">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">壹</span><span>核心结论</span></div>
+    <div class="ch-en">CHAPTER · CORE TAKEAWAY</div>
+  </div>
+
+  <div class="tldr">
+    <b>核心判断：</b>A股遭遇"黑色星期五"，科技成长板块集中崩盘式杀跌，市场进入恐慌性去杠杆阶段，防御性板块逆势走强，风格极致切换。本次下跌是多重利空共振下的集中风险释放，核心是前期高估值科技赛道的去杠杆与拥挤交易踩踏，并非系统性金融危机。
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">上证指数（收盘）</span><span class="kpi-value down">-3.05%</span><span class="kpi-sub">3764.15 点 · 失守3800点</span></div>
+    <div class="kpi"><span class="kpi-label">深证成指（收盘）</span><span class="kpi-value down">-5.40%</span><span class="kpi-sub">13706.88 点</span></div>
+    <div class="kpi"><span class="kpi-label">创业板指（收盘）</span><span class="kpi-value down">-7.15%</span><span class="kpi-sub">3428.63 点 · 年内最大单日跌幅</span></div>
+    <div class="kpi"><span class="kpi-label">科创50（收盘）</span><span class="kpi-value down">-7.12%</span><span class="kpi-sub">1715.40 点 · 半导体算力重挫</span></div>
+    <div class="kpi"><span class="kpi-label">两市成交额</span><span class="kpi-value flat">2.65万亿</span><span class="kpi-sub">放量2514亿（+10.5%）</span></div>
+    <div class="kpi"><span class="kpi-label">北向资金</span><span class="kpi-value down">净流出88.8亿</span><span class="kpi-sub">沪股通-45.4 / 深股通-43.4亿</span></div>
+    <div class="kpi"><span class="kpi-label">上涨/下跌家数</span><span class="kpi-value down">482 / 5001</span><span class="kpi-sub">跌停近200家，涨跌比约1:10</span></div>
+    <div class="kpi"><span class="kpi-label">沪深300</span><span class="kpi-value down">-3.60%</span><span class="kpi-sub">4529.10 点 · 蓝筹相对抗跌</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="prose">
+      <p><strong>市场概览：</strong>今日A股三大指数集体放量暴跌，上证指数失守3800点整数关口收跌3.05%报3764.15点，创业板指重挫7.15%创年内最大单日跌幅，科创50暴跌7.12%。全市场成交额2.65万亿元放量10.5%，超5000只个股下跌，跌停个股近200家，市场赚钱效应极度低迷。</p>
+      <p><strong>核心观点：</strong>本次下跌为<strong>多重利空共振下的集中风险释放</strong>，核心是前期高估值科技赛道的去杠杆与拥挤交易踩踏，并非系统性金融危机。若下周初北向资金回流、成交额萎缩至2万亿以下、科技板块止跌企稳，则确认短期恐慌底，进入震荡修复阶段；若沪指跌破3700点、北向持续单日百亿级流出、两融余额加速下行，则调整空间进一步打开，需警惕流动性螺旋风险。</p>
+      <p><strong>为什么现在重要：</strong>当前市场正处于风格切换的关键节点，前期主导市场半年的AI科技成长主线遭遇集中清算，资金向低估值高股息防御板块大规模迁移。上证指数从年内高点回调幅度已超10%，创业板指回调幅度超20%进入技术性熊市区域；沪深300市盈率回落至合理区间，但创业板、科创板估值仍处于历史中高位。这不仅是短期调整，更可能是中期市场主线重构的开端。</p>
+    </div>
+    <div class="prose">
+      <div class="quote"><b>预期差 · 共识与分歧：</b>市场普遍认同短期调整压力仍在、科技板块去泡沫过程尚未结束（共识）；分歧在于本次调整是牛市中的正常回调还是熊市开端——多方认为经济基本面平稳、政策托底预期仍在，调整后是黄金坑；空方认为全球流动性收紧、科技泡沫破裂，市场将进入中期调整。</div>
+      <div class="quote"><b>后续焦点：</b>核心预期差在于对AI产业周期持续性的判断，以及国内政策对冲力度的预期差异。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 贰 宽基指数全景 -->
+<section class="chapter" id="r-ch2">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">贰</span><span>宽基指数全景</span></div>
+    <div class="ch-en">CHAPTER · BROAD INDICES</div>
+  </div>
+
+  <div class="tldr">八大核心指数全线收跌，呈现明显的"成长跌得多、价值跌得少"分化格局，北证50因低估值属性跌幅最小，创业板指与科创50因科技成长属性跌幅最大，风格切换特征极为显著。市场整体赚钱效应极差：全市场上涨个股仅482家（占比8.8%），下跌个股5001家（占比90.5%），跌停约198家。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:130px">指数名称</th><th style="width:120px">收盘点位</th><th style="width:100px">涨跌幅</th><th style="width:120px">成交额</th><th>市场特征</th></tr></thead>
+    <tbody>
+      <tr><td><b>上证指数</b></td><td>3,764.15</td><td class="perf-down">-3.05%</td><td>12,464.45亿</td><td>权重护盘，银行电力勉强支撑</td></tr>
+      <tr><td><b>深证成指</b></td><td>13,706.88</td><td class="perf-down">-5.40%</td><td>—</td><td>成长赛道集中抛压</td></tr>
+      <tr><td><b>创业板指</b></td><td>3,428.63</td><td class="perf-down">-7.15%</td><td>—</td><td>创年内新低，新能源+医药双杀</td></tr>
+      <tr><td><b>科创50</b></td><td>1,715.40</td><td class="perf-down">-7.12%</td><td>—</td><td>半导体算力全线重挫</td></tr>
+      <tr><td><b>沪深300</b></td><td>4,529.10</td><td class="perf-down">-3.60%</td><td>9,208.22亿</td><td>大盘蓝筹相对抗跌</td></tr>
+      <tr><td><b>中证500</b></td><td>7,513.76</td><td class="perf-down">-5.55%</td><td>—</td><td>中盘成长股深度调整</td></tr>
+      <tr><td><b>中证1000</b></td><td>7,168.00</td><td class="perf-down">-6.08%</td><td>—</td><td>小盘股流动性踩踏</td></tr>
+      <tr><td><b>北证50</b></td><td>1,076.38</td><td class="perf-down">-2.31%</td><td>169.06亿</td><td>低估值防御属性，跌幅最小</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><p>普跌格局下结构性机会极度稀缺，大涨超9%个股仅77家。风格切换极致演绎——成长赛道（创业板、科创、中证1000）跌幅普遍超6%，而价值防御属性的北证50、沪深300相对抗跌，资金从高风险偏好板块向低估值高股息防御板块大规模迁移。</p></div>
+</section>
+
+<!-- 叁 行业与板块表现 -->
+<section class="chapter" id="r-ch3">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">叁</span><span>行业与板块表现</span></div>
+    <div class="ch-en">CHAPTER · SECTORS &amp; THEMES</div>
+  </div>
+
+  <div class="tldr">申万一级行业呈现极致分化，仅银行、石油石化、公用事业三个防御性板块勉强红盘；通信、电子、机械设备领跌，跌幅均超6%，科技成长赛道成为杀跌重灾区，资金从高风险偏好板块向低估值高股息防御板块大规模迁移。</div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--up);padding-left:10px">申万一级行业 · 领涨前5（防御红盘）</h3>
+  <div style="margin-bottom:22px">
+    <div class="bar-row"><span class="bar-name">银行<small>低估值高股息防御，避险资金抱团</small></span><div class="bar-track"><div class="bar-fill up" style="width:100%"></div></div><span class="bar-val up">+0.90%</span></div>
+    <div class="bar-row"><span class="bar-name">石油石化<small>油价上涨+高股息防御</small></span><div class="bar-track"><div class="bar-fill up" style="width:45%"></div></div><span class="bar-val up">+0.40%</span></div>
+    <div class="bar-row"><span class="bar-name">公用事业<small>高温用电高峰催化+防御属性</small></span><div class="bar-track"><div class="bar-fill up" style="width:14%"></div></div><span class="bar-val up">+0.11%</span></div>
+    <div class="bar-row"><span class="bar-name">交通运输<small>高股息公路港口相对抗跌</small></span><div class="bar-track"><div class="bar-fill down" style="width:8%"></div></div><span class="bar-val down">微跌</span></div>
+    <div class="bar-row"><span class="bar-name">煤炭<small>能源安全+高股息逻辑</small></span><div class="bar-track"><div class="bar-fill down" style="width:8%"></div></div><span class="bar-val down">微跌</span></div>
+  </div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--down);padding-left:10px">申万一级行业 · 领跌前5（科技重灾区）</h3>
+  <div style="margin-bottom:26px">
+    <div class="bar-row"><span class="bar-name">通信<small>CPO光模块概念崩盘，通信ETF近跌停</small></span><div class="bar-track"><div class="bar-fill down" style="width:100%"></div></div><span class="bar-val down">-9.84%</span></div>
+    <div class="bar-row"><span class="bar-name">电子<small>半导体存储芯片全线重挫，外围传导</small></span><div class="bar-track"><div class="bar-fill down" style="width:83%"></div></div><span class="bar-val down">-8.19%</span></div>
+    <div class="bar-row"><span class="bar-name">机械设备<small>半导体设备、光伏设备同步走弱</small></span><div class="bar-track"><div class="bar-fill down" style="width:67%"></div></div><span class="bar-val down">-6.61%</span></div>
+    <div class="bar-row"><span class="bar-name">医药生物<small>CRO指数跌超10%，创新药集体跌停</small></span><div class="bar-track"><div class="bar-fill down" style="width:66%"></div></div><span class="bar-val down">-6.50%</span></div>
+    <div class="bar-row"><span class="bar-name">计算机<small>AI算力硬件链条崩塌，应用端跟随</small></span><div class="bar-track"><div class="bar-fill down" style="width:63%"></div></div><span class="bar-val down">-6.20%</span></div>
+  </div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 14px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">核心热点概念板块</h3>
+  <div class="theme-grid">
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">电力 / 公用事业</span><span class="theme-tag hot">全场最强主线</span></div>
+      <div class="theme-perf up">+2.38%</div>
+      <div class="theme-desc">桂冠电力、深南电A、杭州热电、湖南发展等9只个股涨停。高温天气全国用电负荷持续创新高（6月全社会用电量同比+3.7%，充换电用电增速达57.1%），叠加高股息避险属性。主力资金净流入超40亿元。持续性判断：⭐⭐⭐ 短期高温催化仍在，属避险型配置而非进攻型主线，绝对收益空间有限。</div>
+    </div>
+    <div class="theme-card warm">
+      <div class="theme-h"><span class="theme-name">银行</span><span class="theme-tag warm">避险抱团</span></div>
+      <div class="theme-perf up">板块红盘 +0.90%</div>
+      <div class="theme-desc">建设银行、中国银行、工商银行等涨超3%，青岛银行、兰州银行等城商行跟随。估值处于历史低位，股息率普遍超5%，为全市场唯一大幅净流入行业（主力净流入34.44亿元）。持续性判断：⭐⭐⭐ 防御属性明确但缺乏向上弹性，更多是调整期相对收益品种，难成独立行情。</div>
+    </div>
+    <div class="theme-card cold">
+      <div class="theme-h"><span class="theme-name">CPO / 光模块 · 存储芯片</span><span class="theme-tag cold">崩盘式杀跌</span></div>
+      <div class="theme-perf down">-12% / -10%</div>
+      <div class="theme-desc">CPO/光模块板块跌超12%，多只龙头跌停，前期涨幅过大后集中兑现；存储芯片跌超10%（美光、三星等海外存储回调传导）；半导体设备跌超9%（美国拟对存储芯片设备启动337调查担忧）；CRO/创新药CRO指数跌逾10%，药康生物等多股跌停。后续风险：若海外科技股继续调整，光模块板块仍有下行空间，需警惕中报业绩不及预期的戴维斯双杀。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 肆 关键增量信息 -->
+<section class="chapter" id="r-ch4">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">肆</span><span>关键增量信息</span></div>
+    <div class="ch-en">CHAPTER · KEY CATALYSTS</div>
+  </div>
+
+  <div class="tldr">今日市场大跌由多重利空共振触发：外围科技股调整、流动性收紧预期、巨型IPO抽血、期指交割日效应、地缘政治升温五大因素叠加，共同引爆了前期高估值科技板块的集中去杠杆过程。</div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">01</span><span class="catalyst-title">外围科技股集体暴跌，全球风险偏好骤降</span></div>
+    <p><b>事实：</b>隔夜美股纳斯达克指数下跌1.4%，半导体板块领跌；当日韩国KOSPI指数跌超6%，台湾加权指数大幅下挫，亚太科技股全线重挫。</p>
+    <p><b>机制：</b>全球AI科技产业链高度联动，海外科技股估值调整直接传导至A股科技成长板块，外资减持引发内资跟风抛售。</p>
+    <p><b>市场反应：</b>A股半导体、光模块、算力硬件等科技成长板块成为杀跌重灾区，通信ETF接近跌停。</p>
+    <p class="verify"><b>后续验证：</b>关注下周一美股科技股表现，若止跌企稳则A股科技板块有望迎来喘息。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">02</span><span class="catalyst-title">美联储官员偏鹰表态，全球流动性预期收紧</span></div>
+    <p><b>事实：</b>多位美联储官员发表偏鹰言论，市场对降息预期再度降温，美元指数和美债收益率阶段性回升。</p>
+    <p><b>机制：</b>美债收益率上行压制全球高估值成长资产估值，美元走强导致新兴市场资金外流，北向资金流出压力加大。</p>
+    <p><b>市场反应：</b>北向资金全天净卖出88.8亿元，高估值成长股估值承压明显。</p>
+    <p class="verify"><b>后续验证：</b>关注美联储7月议息会议点阵图变化及美债收益率走势。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">03</span><span class="catalyst-title">巨型IPO启动申购，场内流动性大幅承压</span></div>
+    <p><b>事实：</b>本周长电科技等巨型IPO启动申购，冻结资金规模巨大，单日抽血效应显著。</p>
+    <p><b>机制：</b>万亿级资金被IPO申购冻结，场内流动性收紧，叠加市场调整形成流动性负反馈。</p>
+    <p><b>市场反应：</b>两市成交额虽放量但更多是恐慌性抛盘，中小盘股流动性踩踏严重，中证1000跌6.08%。</p>
+    <p class="verify"><b>后续验证：</b>下周IPO资金解冻后流动性压力将有所缓解，关注资金回流方向。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">04</span><span class="catalyst-title">周五股指期货交割日，量化止损加剧波动</span></div>
+    <p><b>事实：</b>7月17日为股指期货交割日，量化策略集中平仓与止损。</p>
+    <p><b>机制：</b>指数跌破关键点位后触发量化程序自动止损，形成"下跌→止损→更下跌"的负反馈螺旋，放大了当日跌幅。</p>
+    <p><b>市场反应：</b>午后跌势骤然放大，成交量急剧攀升，呈现典型的程序化交易踩踏特征。</p>
+    <p class="verify"><b>后续验证：</b>交割日效应过后，下周一市场波动有望回归常态，关注是否出现超跌反弹。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">05</span><span class="catalyst-title">美伊冲突再度升温，地缘政治不确定性加剧</span></div>
+    <p><b>事实：</b>中东局势再度紧张，美伊冲突升级担忧升温，国际油价波动加大。</p>
+    <p><b>机制：</b>地缘风险上升推升避险情绪，全球风险资产承压，能源价格上涨加剧通胀担忧。</p>
+    <p><b>市场反应：</b>石油石化板块相对抗跌，市场整体风险偏好进一步下降。</p>
+    <p class="verify"><b>后续验证：</b>关注中东局势发展，若冲突升级可能对全球市场形成持续扰动。</p>
+  </div>
+</section>
+
+<!-- 伍 传导机制分析 -->
+<section class="chapter" id="r-ch5">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">伍</span><span>传导机制分析</span></div>
+    <div class="ch-en">CHAPTER · TRANSMISSION CHAIN</div>
+  </div>
+
+  <div class="tldr">本次市场调整遵循"政策/事件层→资金面→风格层面→板块层面"的完整传导链条，从外围流动性收紧触发外资流出，到市场风格切换，最终引发科技板块集中崩盘，传导路径清晰且各环节相互强化。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:110px">环节</th><th style="width:280px">变化</th><th style="width:280px">传导机制</th><th>市场含义</th></tr></thead>
+    <tbody>
+      <tr><td><b>政策事件层</b></td><td>美联储鹰派表态 + 美伊冲突 + IPO抽血</td><td>全球流动性预期收紧 + 地缘风险上升 + 场内流动性分流</td><td>风险资产整体承压，流动性敏感资产首当其冲</td></tr>
+      <tr><td><b>资金面</b></td><td>北向净流出88.8亿 + 主力净流出超1460亿</td><td>外资减持科技龙头 → 内资跟风抛售 → 止损盘涌出 → 负反馈</td><td>资金从高估值成长股大规模撤离，防御板块获资金流入</td></tr>
+      <tr><td><b>风格层面</b></td><td>成长价值极致分化，价值风格显著跑赢</td><td>风险偏好急剧下降 → 资金寻求确定性 → 高股息低估值受追捧</td><td>市场风格从"成长进攻"转向"价值防御"，中期风格切换信号</td></tr>
+      <tr><td><b>板块层面</b></td><td>通信-9.84%、电子-8.19% vs 银行+0.9%</td><td>科技成长估值压缩 → 拥挤交易踩踏 → 板块崩盘式下跌</td><td>前期主线板块集中清算，新主线尚在酝酿，处过渡混沌期</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 陆 资金面深度分析 -->
+<section class="chapter" id="r-ch6">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">陆</span><span>资金面深度分析</span></div>
+    <div class="ch-en">CHAPTER · CAPITAL FLOWS</div>
+  </div>
+
+  <div class="tldr">今日资金面呈现全面流出态势，北向资金、主力资金同步大幅撤离，两融资金面临平仓压力，市场流动性从"充裕"转向"紧张"，资金从高估值成长板块向低估值防御板块迁移的趋势极为明确。</div>
+
+  <h3 class="serif" style="color:var(--navy);margin:0 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.1 北向资金</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">北向资金当日净额</div><div class="fvalue down">-88.8亿</div></div>
+    <div class="fund-item"><div class="flabel">沪股通 / 深股通净额</div><div class="fvalue down">-45.41亿 / -43.4亿</div></div>
+    <div class="fund-item"><div class="flabel">北向成交额占比</div><div class="fvalue">14.82%（3935亿）</div></div>
+  </div>
+  <div class="prose"><p>全天净卖出88.8亿元。重点减持通信、半导体、家电等前期重仓的科技成长与消费板块；小幅增持银行、公用事业等防御性板块。寒武纪、兆易创新、中微公司位列沪股通成交前三，成交活跃但以卖出为主。北向资金已连续多日净流出，若美债收益率继续上行，外资流出压力可能持续。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.2 主力资金</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">两市主力净流出</div><div class="fvalue down">超1460亿</div></div>
+    <div class="fund-item"><div class="flabel">通信板块净流出</div><div class="fvalue down">超180亿</div></div>
+    <div class="fund-item"><div class="flabel">电子板块净流出</div><div class="fvalue down">超146亿</div></div>
+  </div>
+  <div class="prose"><p>全市场主力资金净流出超1460亿元，超大单、大单持续出逃，散户资金被动接盘。<b>流入方向：</b>公用事业+40.67亿、银行+34.44亿、石油石化小幅净流入。<b>流出方向：</b>通信超180亿、电子超146亿、医药生物超百亿、计算机超百亿、电力设备超80亿。资金在科技与防御之间快速切换，呈典型存量博弈跷跷板行情。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.3 两融数据</h3>
+  <div class="prose"><p>随市场大跌预计两融余额显著下降，融资盘平仓压力加大。市场恐慌期融资买入意愿下降，占比预计回落。若市场继续下跌，两融强制平仓可能形成新的抛压，需警惕流动性螺旋风险。</p></div>
+
+  <h3 class="serif" style="color:var(--navy);margin:22px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px">6.4 成交量与市场情绪</h3>
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">两市成交额</div><div class="fvalue">2.65万亿（+10.5%）</div></div>
+    <div class="fund-item"><div class="flabel">沪深300 VIX</div><div class="fvalue">+8.08%</div></div>
+    <div class="fund-item"><div class="flabel">上涨个股占比</div><div class="fvalue down">不足9%</div></div>
+  </div>
+  <div class="prose"><p>两市成交额2.65万亿元，较上一交易日放量2514亿元（+10.5%）。放量下跌属于恐慌性抛盘特征，而非健康的放量上涨。市场赚钱效应极度低迷，上涨个股占比不足9%，跌停个股近200家。沪深300 VIX飙升8.08%，市场恐慌情绪集中释放，投资者情绪指数降至近期低点。</p></div>
+</section>
+
+<!-- 柒 各方观点与分歧 -->
+<section class="chapter" id="r-ch7">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">柒</span><span>各方观点与分歧</span></div>
+    <div class="ch-en">CHAPTER · BULL VS BEAR</div>
+  </div>
+
+  <div class="tldr">官方层面保持政策定力，市场定价层面已反映较强悲观预期，机构观点分化明显，多空分歧加大，反向信号提示短期或存在超跌反弹机会。</div>
+
+  <div class="stance-grid">
+    <div class="stance-card official">
+      <div class="stance-h">📋 官方事实</div>
+      <p>监管层未就市场大跌发布特别声明，保持常规政策节奏；国家能源局发布6月用电数据，经济运行总体平稳；世界人工智能大会在上海如期开幕，产业政策支持方向未变。</p>
+    </div>
+    <div class="stance-card pricing">
+      <div class="stance-h">📊 市场定价</div>
+      <p>盘面隐含预期：市场已price in较强悲观预期，科技板块估值快速压缩，防御板块获得溢价；美债收益率上行，美元走强，人民币汇率承压；沪深300 VIX飙升8.08%，市场恐慌程度急剧上升。</p>
+    </div>
+    <div class="stance-card institution">
+      <div class="stance-h">🏦 机构观点</div>
+      <p><b>国泰君安：</b>外部扰动增多，沪指失守3800点，短期调整压力仍在，但中长期估值吸引力逐步显现。<b>粤开证券：</b>主要指数悉数收跌，科技成长领跌，建议短期防御为主，关注高股息板块。<b>偏多机构：</b>认为是牛市中正常回调，调整后是布局良机，AI产业长期逻辑未变。<b>偏空机构：</b>认为科技泡沫破裂，市场进入中期调整，建议降低仓位防御为主。</p>
+    </div>
+    <div class="stance-card contra">
+      <div class="stance-h">🔄 反向证据</div>
+      <p>单日超5000只个股下跌属极端情况，历史上类似极端普跌后往往伴随短期反弹；银行、电力等防御板块逆势上涨，说明资金并未完全离场，只是风格切换；放量下跌意味着有承接盘，并非无量空跌；周五交割日放大波动，交割后波动有望回归常态。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 捌 信号与风险 -->
+<section class="chapter" id="r-ch8">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">捌</span><span>后续观察信号与风险提示</span></div>
+    <div class="ch-en">CHAPTER · SIGNALS &amp; RISKS</div>
+  </div>
+
+  <div class="tldr">下周需重点关注四大验证指标，判断市场是进入震荡修复还是继续下探，核心观察北向资金流向、成交额变化、科技板块能否止跌、政策面是否有对冲动作。同时关注五类风险，尤其是流动性螺旋风险与全球科技股估值重构风险最为紧迫。</div>
+
+  <div class="signal-grid" style="margin-bottom:30px">
+    <div class="signal-card">
+      <div class="signal-h">信号一 · 北向资金流向</div>
+      <div class="signal-watch">👀 盯：北向资金单日净买入/卖出金额，连续3日累计净额</div>
+      <div class="signal-box good">✅ 改善：若北向转为单日净流入超30亿元，或连续两日净流入，说明外资情绪修复，市场企稳概率大</div>
+      <div class="signal-box bad">❌ 恶化：若北向继续单日净流出超50亿元，或连续5日净流出累计超200亿元，说明外资持续撤离，调整空间进一步打开</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号二 · 两市成交额变化</div>
+      <div class="signal-watch">👀 盯：沪深两市单日成交额，萎缩幅度</div>
+      <div class="signal-box good">✅ 改善：若成交额快速萎缩至2万亿元以下，说明恐慌性抛盘基本释放完毕，卖压衰竭，有望企稳</div>
+      <div class="signal-box bad">❌ 恶化：若成交额持续维持在2.5万亿以上且指数继续下跌，说明抛压仍未释放完毕，下跌动能仍强</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号三 · 科技板块止跌信号</div>
+      <div class="signal-watch">👀 盯：半导体、光模块等前期领跌板块的单日涨跌幅，以及龙头股表现</div>
+      <div class="signal-box good">✅ 改善：若通信、电子板块单日涨幅转正，或龙头股率先止跌企稳，说明主线板块杀跌动能衰竭</div>
+      <div class="signal-box bad">❌ 恶化：若科技板块继续单日跌幅超5%，龙头股持续跌停，说明去泡沫过程尚未结束</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">信号四 · 政策面对冲信号</div>
+      <div class="signal-watch">👀 盯：央行公开市场操作、证监会政策表态、重要会议政策信号</div>
+      <div class="signal-box good">✅ 改善：若出现降准、降息、呵护市场的政策表态，政策底确认后市场底将不远</div>
+      <div class="signal-box bad">❌ 恶化：若政策面持续静默无对冲动作，市场可能继续以空间换时间的方式自我调整</div>
+    </div>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险一：流动性螺旋风险</div>
+      <div class="risk-box trigger">🔴 触发：指数继续下跌 → 两融平仓 → 量化止损 → 北向持续流出 → 多杀多负反馈形成。</div>
+      <div class="risk-box falsify">🟢 证伪：成交额萎缩、北向回流、两融余额企稳，负反馈链条被打破。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险二：全球科技股估值重构风险</div>
+      <div class="risk-box trigger">🔴 触发：美联储持续鹰派、美债收益率持续上行、美股科技股进入中期调整。</div>
+      <div class="risk-box falsify">🟢 证伪：美联储释放鸽派信号、美债收益率回落、美股科技股止跌企稳。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险三：地缘政治升级风险</div>
+      <div class="risk-box trigger">🔴 触发：美伊冲突实质性升级、中东局势恶化、大国博弈加剧。</div>
+      <div class="risk-box falsify">🟢 证伪：局势缓和、外交斡旋取得进展、风险溢价回落。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险四：中报业绩不及预期风险</div>
+      <div class="risk-box trigger">🔴 触发：科技成长板块中报业绩无法支撑高估值，出现戴维斯双杀。</div>
+      <div class="risk-box falsify">🟢 证伪：龙头公司中报业绩超预期，验证产业逻辑，估值获得基本面支撑。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 风险五：IPO与再融资抽血风险</div>
+      <div class="risk-box trigger">🔴 触发：大型IPO密集发行、再融资规模扩大，持续分流场内资金。</div>
+      <div class="risk-box falsify">🟢 证伪：IPO节奏放缓、再融资政策收紧，市场流动性压力缓解。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 玖 信息来源 -->
+<section class="chapter" id="r-ch9">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">玖</span><span>信息来源</span></div>
+    <div class="ch-en">CHAPTER · SOURCES</div>
+  </div>
+
+  <ol class="sources">
+    <li>[1] 东方财富网 · 2026-07-17 · 7月17日北向资金最新动向 · <a href="https://finance.eastmoney.com/a/202607173811125969.html" target="_blank" rel="noopener">链接</a></li>
+    <li>[2] 新华财经 · 2026-07-17 · Chinese shares close lower Friday · <a href="http://www.china.org.cn/china/Off_the_Wire/2026-07/17/content_118604805.shtml" target="_blank" rel="noopener">链接</a></li>
+    <li>[3] 粤开证券 · 2026-07-17 · 粤开市场日报-20260717 · <a href="https://www.ykzq.com.cn/products/download-new/rpt/2026/07/17/9d782d773ea64f78b78956303460432d.pdf" target="_blank" rel="noopener">链接</a></li>
+    <li>[4] 澎湃新闻 · 2026-07-17 · 沪指跌3.05%，创指跌7.15%：电力、银行板块逆势走强 · <a href="https://m.thepaper.cn/newsDetail_forward_33605061" target="_blank" rel="noopener">链接</a></li>
+    <li>[5] 金融界 · 2026-07-17 · 7月17日A股宽基指数全线下跌 · <a href="https://m.jrj.com.cn/madapter/finance/2026/07/17151657834220.shtml" target="_blank" rel="noopener">链接</a></li>
+    <li>[6] 华夏时报 · 2026-07-17 · 收评：创业板指跌超7% 沪指失守3800点 · <a href="https://m.weibo.cn/detail/5321690942802677" target="_blank" rel="noopener">链接</a></li>
+    <li>[7] 博时基金 · 2026-07-17 · 盘后速递丨指数大幅下跌，通信、电子继续领跌</li>
+    <li>[8] 国泰君安 · 2026-07-17 · 外部扰动增多，沪指失守3800点</li>
+    <li>[9] 同花顺金融数据库 · 2026-07-17 · A股大盘行情、板块指数涨跌幅排名</li>
+    <li>[10] 中证指数有限公司 · 2026-07-17 · 各宽基指数每日行情</li>
+  </ol>
+
+  <div class="disclaimer">⚠️ <b>风险提示与免责声明：</b>本报告仅基于公开市场数据与资讯整理，不构成投资建议，不预测股价走势。投资有风险，入市需谨慎。报告中引用的数据和信息均来自公开渠道，其准确性和完整性请以官方发布为准。</div>
+
+  <div style="text-align:center;margin-top:26px"><span class="seal">每日<br/>复盘</span></div>
+</section>
+
+</main>
+</div>
+<!-- ============ /每日复盘 PANEL ============ -->
+
+<!-- ============ 业绩跟踪 PANEL ============ -->
+<div class="report-panel" id="panel-earnings" style="display:none">
+
+<nav class="chapters">
+  <div class="chapters-inner" data-panel="earnings">
+    <a class="chapter-tab active" data-target="e-ch1"><span class="num">壹</span>全市场总览</a>
+    <a class="chapter-tab" data-target="e-ch2"><span class="num">贰</span>行业跟踪</a>
+    <a class="chapter-tab" data-target="e-ch3"><span class="num">叁</span>龙头跟踪</a>
+    <a class="chapter-tab" data-target="e-ch4"><span class="num">肆</span>风险汇总</a>
+    <a class="chapter-tab" data-target="e-ch5"><span class="num">伍</span>配置观点</a>
+    <a class="chapter-tab" data-target="e-ch6"><span class="num">陆</span>深度解析</a>
+    <a class="chapter-tab" data-target="e-ch7"><span class="num">柒</span>数据来源</a>
+  </div>
+</nav>
+
+<main>
+
+<div class="carry-note">📌 <b>数据说明：</b>今日（2026-07-17）无新的行业龙头业绩跟踪日报发布，以下业绩跟踪内容<b>沿用自 2026-07-16 原始披露</b>（2026年中报业绩预告口径），随后续披露进度更新。复盘面板为 2026-07-17 当日最新数据。</div>
+
+<!-- 壹 全市场业绩总览 -->
+<section class="chapter" id="e-ch1">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">壹</span><span>全市场业绩总览</span></div>
+    <div class="ch-en">CHAPTER · MARKET-WIDE EARNINGS</div>
+  </div>
+
+  <div class="tldr">
+    <b>核心结论：</b>A股非金融企业盈利处于复苏通道，二季度增速较一季度继续抬升，工业企业利润持续改善驱动整体盈利上行。利润结构高度分化，科技成长与上游资源品贡献主要增量。
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">全A归母净利润增速</span><span class="kpi-value up">双位数增长</span><span class="kpi-sub">2026H1预告口径 · Q1为+6.9%</span></div>
+    <div class="kpi"><span class="kpi-label">非金融归母净利润增速</span><span class="kpi-value up">预计+17.8%</span><span class="kpi-sub">较Q1 +11.2% 持续抬升</span></div>
+    <div class="kpi"><span class="kpi-label">工业企业利润增速</span><span class="kpi-value up">+18.8%</span><span class="kpi-sub">1-5月 · 较1-3月+15.5%环比改善</span></div>
+    <div class="kpi"><span class="kpi-label">预增公司占比</span><span class="kpi-value up">42.7%</span><span class="kpi-sub">披露样本口径</span></div>
+    <div class="kpi"><span class="kpi-label">净利润翻倍公司</span><span class="kpi-value up">268家</span><span class="kpi-sub">下限超100%增长</span></div>
+    <div class="kpi"><span class="kpi-label">业绩改善/增长占比</span><span class="kpi-value up">约56%</span><span class="kpi-sub">939/近1700家已披露公司</span></div>
+  </div>
+
+  <h3 class="sub-h serif">四大板块业绩分化</h3>
+  <table class="research">
+    <thead><tr><th style="width:150px">板块</th><th style="width:150px">营收增速</th><th style="width:190px">净利润增速</th><th style="width:120px">毛利率趋势</th><th>核心特征</th></tr></thead>
+    <tbody>
+      <tr><td><b>成长（科技/高端制造）</b></td><td class="perf-up">高增（电子+30%+）</td><td class="perf-up">爆发式增长（存储扭亏、设备翻倍）</td><td>持续上行</td><td>AI算力驱动存储、光模块、半导体设备业绩爆发</td></tr>
+      <tr><td><b>周期（资源品/化工）</b></td><td class="perf-up">稳健增长</td><td class="perf-up">高增（有色+50%+、化工分化）</td><td>PPI上行修复</td><td>全球定价大宗品涨价+供需格局优化，利润向头部集中</td></tr>
+      <tr><td><b>消费（必选/可选）</b></td><td class="perf-flat">弱复苏（+3~5%）</td><td class="perf-down">仍承压（负增长收窄）</td><td>分化加剧</td><td>服务消费景气，实物消费疲软，白酒/家电去库存</td></tr>
+      <tr><td><b>金融（银行/券商/保险）</b></td><td class="perf-flat">小幅正增长</td><td class="perf-up">温和增长（+2%）</td><td>基本平稳</td><td>券商受益市场活跃度提升，银行区域行最优，保险弹性较高</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-h serif">资金业绩导向调仓偏好</h3>
+  <table class="research">
+    <thead><tr><th style="width:110px">资金类型</th><th>加仓方向（业绩驱动）</th><th>减仓方向</th><th>核心逻辑</th></tr></thead>
+    <tbody>
+      <tr><td><b>北向资金</b></td><td>电力设备、电子（设备端）、公用事业、非银金融、创新药</td><td>高位存储龙头、有色（短期兑现）</td><td>从高涨幅科技标的向低位业绩确定性板块切换</td></tr>
+      <tr><td><b>公募机构</b></td><td>电子（第一大重仓~25%）、通信、电力设备、机械设备</td><td>消费（配置降至标配附近）、传统周期</td><td>聚焦AI算力硬科技与高端制造，业绩兑现度优先</td></tr>
+      <tr><td><b>两融资金</b></td><td>电子（融资净买入领先）、计算机、公用事业、化工</td><td>通信、高位存储小票</td><td>杠杆资金偏好硬核制造细分，规避纯概念标的</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose" style="margin-top:18px"><p><strong>资金共识：</strong>高位纯题材AI小票降温，资金向有真实业绩支撑的科技制造龙头与低估值业绩改善板块集中。</p></div>
+</section>
+
+<!-- 贰 细分行业业绩跟踪 -->
+<section class="chapter" id="e-ch2">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">贰</span><span>细分行业业绩跟踪</span></div>
+    <div class="ch-en">CHAPTER · SECTOR TRACKER</div>
+  </div>
+
+  <div class="tldr">存储半导体、有色金属、光模块/算力基建高景气验证最强，预增占比与净利增速全行业领先；医药生物、消费、地产产业链仍处承压磨底期，盈利拐点尚未确认。</div>
+
+  <div class="theme-grid">
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">半导体</span><span class="theme-tag hot">高景气验证</span></div>
+      <div class="theme-perf up">预增占比 38.7%</div>
+      <div class="theme-desc">存储毛利率从负转正至40%+，设备维持35-40%。DRAM合约价Q2环比+58~63%，NAND+55~60%，全球十大晶圆厂稼动率达90%。驱动逻辑：AI算力需求+产能出清共振，HBM与企业级SSD为核心增长引擎。盈利拐点：存储已于2025Q4确认拐点，企业级/HBM景气延续至2027年，消费级预计2026Q4见顶。</div>
+    </div>
+    <div class="theme-card warm">
+      <div class="theme-h"><span class="theme-name">新能源</span><span class="theme-tag warm">分化显著</span></div>
+      <div class="theme-perf up">预增占比 28.3%</div>
+      <div class="theme-desc">头部电池企业翻倍，尾部产能出清；电池环节企稳回升，光伏主链仍承压。碳酸锂现货约16万元/吨，年初至今涨幅超30%；光伏终端装机同比-69.88%。驱动逻辑：储能+海外需求拉动锂电复苏。盈利拐点：锂电产业链拐点已现，逐季改善；光伏主链仍在底部磨底。</div>
+    </div>
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">有色金属</span><span class="theme-tag hot">全行业最高</span></div>
+      <div class="theme-perf up">预增占比 53.3%</div>
+      <div class="theme-desc">铜铝铅锌普遍+50%以上，资源品毛利率持续扩张。LME铜现货均价H1同比+38.7%，电解铝均价同比+18.7%，金价高位运行。驱动逻辑：流动性预期+新能源/AI新增需求+供给刚性三重支撑。盈利拐点：周期上行趋势明确，2026年全年高增长确定性强，需关注美联储政策转向节奏。</div>
+    </div>
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">TMT（通信/计算机）</span><span class="theme-tag hot">光模块爆发</span></div>
+      <div class="theme-perf up">光模块营收 +100%+</div>
+      <div class="theme-desc">通信预增占比34.1%，光模块净利润+200%+；软件/AI应用分化严重，多数仍未兑现业绩。800G持续满产，1.6T开始放量，算力PCB逆势走强。驱动逻辑：全球AI算力建设周期启动。盈利拐点：光模块2026-2027年持续高增长，AI应用端拐点尚未到来。</div>
+    </div>
+    <div class="theme-card cold">
+      <div class="theme-h"><span class="theme-name">医药生物</span><span class="theme-tag cold">73.4%承压</span></div>
+      <div class="theme-perf down">预亏/下滑占比 73.4%</div>
+      <div class="theme-desc">已披露64家中仅17家预增/高增；CXO维持高位，仿制药/IVD持续承压。CXO海外订单回暖，创新药BD出海授权金额创新高；28省IVD集采平均降幅52.62%。驱动逻辑：创新药出海与CXO海外订单是核心增长动力，医保控费为长期压制因素。盈利拐点：结构性机会集中在CXO、创新药龙头，普涨型拐点尚未出现。</div>
+    </div>
+    <div class="theme-card cold">
+      <div class="theme-h"><span class="theme-name">消费</span><span class="theme-tag cold">弱复苏</span></div>
+      <div class="theme-perf down">净利润增速仍未转正</div>
+      <div class="theme-desc">营收弱复苏+3~5%，负增长收窄但仍未转正；服务消费景气，实物消费疲软，白酒/家电去库存。驱动逻辑：居民消费信心恢复缓慢，消费分级趋势明显。盈利拐点：处于盈利底部区域，边际改善但弹性不足，全面复苏需观察居民收入预期变化。</div>
+    </div>
+    <div class="theme-card warm">
+      <div class="theme-h"><span class="theme-name">机械设备</span><span class="theme-tag warm">结构分化</span></div>
+      <div class="theme-perf up">预增占比 22.4%</div>
+      <div class="theme-desc">半导体设备、检测设备、叉车出口高景气；传统工程机械依赖出口。叉车6月销量同比+16.9%，出口+25.3%；半导体设备国产替代订单饱满。驱动逻辑：国产替代+出口升级+科技制造资本开支。盈利拐点：高端制造设备持续高景气，传统工程机械仍在底部。</div>
+    </div>
+    <div class="theme-card cold">
+      <div class="theme-h"><span class="theme-name">地产产业链</span><span class="theme-tag cold">持续承压</span></div>
+      <div class="theme-perf down">行业合计亏损</div>
+      <div class="theme-desc">家居/建材/装修普遍收缩，存货减值拖累利润；新房销售低迷，二手房相对活跃，新开工持续低位。驱动逻辑：行业处于深度调整期，政策托底但需求端恢复缓慢。盈利拐点：尚未确认，需观察销售端企稳与产能出清进度，2026年全年仍承压。</div>
+    </div>
+    <div class="theme-card hot">
+      <div class="theme-h"><span class="theme-name">金融</span><span class="theme-tag hot">非银领涨</span></div>
+      <div class="theme-perf up">非银预增占比 &gt;50%</div>
+      <div class="theme-desc">银行经营平稳，区域行利润增速行业最优；券商受益科创投资收益+市场活跃度提升；保险权益市场上行受益。长鑫科技等大额IPO推动投行业务。驱动逻辑：资本市场活跃度提升+科创投资收益兑现驱动券商业绩高增。盈利拐点：非银处于盈利上行期，银行盈利平稳，行业整体改善趋势明确。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 叁 重点龙头业绩跟踪 -->
+<section class="chapter" id="e-ch3">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">叁</span><span>重点龙头业绩跟踪</span></div>
+    <div class="ch-en">CHAPTER · LEADER TRACKER</div>
+  </div>
+
+  <div class="tldr">核心跟踪池覆盖25家各行业龙头，每期重点更新刚披露新财报/业绩预告的标的。本期新披露5家：紫金矿业、江波龙、佰维存储、亿纬锂能、福斯特，均录得高增或扭亏；高景气梯队集中在存储、光模块、有色与锂电。</div>
+
+  <h3 class="sub-h serif up">3.1 本期新披露重点（2026中报预告）</h3>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">01</span><span class="catalyst-title">紫金矿业（601899.SH）· 有色资源龙头</span></div>
+    <p><b>核心业绩：</b>归母净利润~391亿元，同比+68%；扣非净利润~379亿元，同比+75%；矿产金产量47吨(+15%)，当量碳酸锂4.3万吨(+514%)；中期分红111亿元，分红率约28%。</p>
+    <p><b>核心看点：</b>金铜涨价驱动主业，锂业务成第三增长极，马诺诺锂矿5月投产。</p>
+    <p class="verify"><b>简评：</b>价格弹性是利润主因（金均价+46%、铜+39%），毛利率从27.7%跃升至36.3%。Q2环比下滑5%主要受金价高位回落影响，暂判定为正常调整。低估值（PE 8倍）+高股息，周期上行期配置价值突出。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">02</span><span class="catalyst-title">江波龙（301308.SZ）· 存储模组龙头</span></div>
+    <p><b>核心业绩：</b>归母净利润92~110亿元，同比+62204%~+74394%，深度扭亏。</p>
+    <p><b>核心看点：</b>存储周期反转，DRAM/NAND价格Q1暴涨93-98%，锁定上游长单完整吃到涨价红利。</p>
+    <p class="verify"><b>简评：</b>企业级SSD受益智算中心采购，产品结构升级；需关注消费级存储Q4见顶风险。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">03</span><span class="catalyst-title">佰维存储（688525.SH）· 存储芯片龙头</span></div>
+    <p><b>核心业绩：</b>归母净利润70~75亿元，同比扭亏（+3200%~+3422%），去年同期为-2.26亿元。</p>
+    <p><b>核心看点：</b>AI存储需求爆发，价格持续上涨带动毛利率大幅修复。</p>
+    <p class="verify"><b>简评：</b>行业景气有望延续至2027年，国产替代加速。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">04</span><span class="catalyst-title">亿纬锂能（300014.SZ）· 锂电池龙头</span></div>
+    <p><b>核心业绩：</b>归母净利润31.30~33.71亿元，同比+95%~+110%；Q2单季净利~18.04亿元，同比+258%/环比+36%。</p>
+    <p><b>核心看点：</b>动力+储能双赛道爆发，产能释放+规模效应+锂价企稳三重驱动。</p>
+    <p class="verify"><b>简评：</b>Q2环比增速超预期，逐季加速改善；储能业务弹性大，下半年旺季排产增速有望40%以上。</p>
+  </div>
+
+  <div class="catalyst-card">
+    <div class="catalyst-head"><span class="catalyst-num">05</span><span class="catalyst-title">福斯特（603806.SH）· 光伏胶膜龙头</span></div>
+    <p><b>核心业绩：</b>归母净利润8.69亿元，同比+75.35%；扣非净利润7.52亿元，同比+68%。</p>
+    <p><b>核心看点：</b>量价齐升+第二曲线验证，感光干膜业务大幅增长。</p>
+    <p class="verify"><b>简评：</b>光伏胶膜全球龙头掌握定价权，树脂涨价推动单价提升；光伏主链仍承压，差异化环节率先复苏。</p>
+  </div>
+
+  <h3 class="sub-h serif">3.2 核心龙头池业绩速览（25家）</h3>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">半导体板块（6家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>江波龙</td><td>301308</td><td>2026H1预告</td><td>—</td><td>—</td><td>92~110亿</td><td class="perf-up">扭亏（数万%）</td><td>存储周期反转</td></tr>
+      <tr><td>佰维存储</td><td>688525</td><td>2026H1预告</td><td>—</td><td>—</td><td>70~75亿</td><td class="perf-up">扭亏（+3200%+）</td><td>AI存储爆发</td></tr>
+      <tr><td>中微公司</td><td>688012</td><td>2026Q1</td><td>29.15亿</td><td class="perf-up">高增</td><td>9.30亿</td><td class="perf-up">高增</td><td>刻蚀设备国产替代</td></tr>
+      <tr><td>北方华创</td><td>002371</td><td>2026Q1</td><td>103.23亿</td><td class="perf-up">+25.8%</td><td>16.35亿</td><td class="perf-up">+3.4%</td><td>增收不增利</td></tr>
+      <tr><td>晶方科技</td><td>603005</td><td>2026Q1</td><td>3.34亿</td><td class="perf-up">+14.9%</td><td>0.65亿</td><td class="perf-flat">+0.1%</td><td>基本持平</td></tr>
+      <tr><td>三安光电</td><td>600703</td><td>2026Q1</td><td>29.07亿</td><td class="perf-down">-32.6%</td><td>0.67亿</td><td class="perf-down">-68.2%</td><td>LED底部承压</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">算力/TMT板块（2家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>中际旭创</td><td>300308</td><td>2026Q1</td><td>194.96亿</td><td class="perf-up">+192.1%</td><td>57.35亿</td><td class="perf-up">+262.3%</td><td>800G量价齐升</td></tr>
+      <tr><td>新易盛</td><td>300502</td><td>2026Q1</td><td>83.38亿</td><td class="perf-up">+105.8%</td><td>27.80亿</td><td class="perf-up">+76.8%</td><td>光模块高景气</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">新能源/锂电板块（4家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>宁德时代</td><td>300750</td><td>2026Q1</td><td>1291.31亿</td><td class="perf-up">+52.5%</td><td>207.38亿</td><td class="perf-up">+48.5%</td><td>电池龙头稳健高增</td></tr>
+      <tr><td>亿纬锂能</td><td>300014</td><td>2026H1预告</td><td>—</td><td class="perf-up">~+60%</td><td>31.3~33.7亿</td><td class="perf-up">+95~110%</td><td>逐季加速改善</td></tr>
+      <tr><td>赣锋锂业</td><td>002460</td><td>2026Q1</td><td>91.96亿</td><td class="perf-up">+143.8%</td><td>18.37亿</td><td class="perf-up">+616.3%</td><td>锂价反转弹性大</td></tr>
+      <tr><td>福斯特</td><td>603806</td><td>2026H1</td><td>—</td><td>—</td><td>8.69亿</td><td class="perf-up">+75.4%</td><td>胶膜+感光双驱动</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">有色金属板块（4家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>紫金矿业</td><td>601899</td><td>2026H1预告</td><td>—</td><td>—</td><td>~391亿</td><td class="perf-up">+68%</td><td>金铜锂多金属齐升</td></tr>
+      <tr><td>洛阳钼业</td><td>603993</td><td>2026Q1</td><td>664.03亿</td><td class="perf-up">+44.3%</td><td>77.60亿</td><td class="perf-up">+96.7%</td><td>铜钴弹性大</td></tr>
+      <tr><td>中国铝业</td><td>601600</td><td>2026Q1</td><td>584.94亿</td><td class="perf-up">+4.9%</td><td>55.27亿</td><td class="perf-up">+56.4%</td><td>铝价上涨利润释放</td></tr>
+      <tr><td>江西铜业</td><td>600362</td><td>2026Q1</td><td>1391.24亿</td><td class="perf-up">+25.4%</td><td>28.18亿</td><td class="perf-up">+44.3%</td><td>铜价上涨受益</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">消费板块（3家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>贵州茅台</td><td>600519</td><td>2026Q1</td><td>547.03亿</td><td class="perf-flat">稳健</td><td>272.43亿</td><td class="perf-flat">稳健</td><td>高端白酒压舱石</td></tr>
+      <tr><td>五粮液</td><td>000858</td><td>2026Q1</td><td>228.38亿</td><td class="perf-up">+33.7%</td><td>80.63亿</td><td class="perf-up">+82.6%</td><td>次高端修复弹性</td></tr>
+      <tr><td>美的集团</td><td>000333</td><td>2026Q1</td><td>1315.81亿</td><td class="perf-up">+2.5%</td><td>126.75亿</td><td class="perf-up">+2.0%</td><td>家电龙头弱复苏</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">医药板块（2家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>药明康德</td><td>603259</td><td>2026Q1</td><td>124.36亿</td><td class="perf-up">+28.8%</td><td>46.52亿</td><td class="perf-up">+26.7%</td><td>CXO海外订单回暖</td></tr>
+      <tr><td>恒瑞医药</td><td>600276</td><td>2026Q1</td><td>81.41亿</td><td class="perf-up">+13.0%</td><td>22.82亿</td><td class="perf-up">+21.8%</td><td>创新药逐步兑现</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">机械设备板块（2家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>三一重工</td><td>600031</td><td>2026Q1</td><td>241.47亿</td><td class="perf-up">+14.0%</td><td>24.81亿</td><td class="perf-up">+0.5%</td><td>出口支撑增收不增利</td></tr>
+      <tr><td>杭叉集团</td><td>603298</td><td>2026Q1</td><td>49.17亿</td><td class="perf-up">+10.4%</td><td>4.72亿</td><td class="perf-up">+9.2%</td><td>叉车出口亮眼</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="serif" style="color:var(--ink-2);font-size:14px;margin:18px 0 6px">金融板块（2家）</h4>
+  <table class="research">
+    <thead><tr><th>公司</th><th style="width:80px">代码</th><th style="width:110px">报告期</th><th style="width:90px">营收</th><th style="width:90px">营收同比</th><th style="width:90px">归母净利</th><th style="width:110px">净利同比</th><th>景气标签</th></tr></thead>
+    <tbody>
+      <tr><td>中信证券</td><td>600030</td><td>2026Q1</td><td>231.55亿</td><td class="perf-up">+40.9%</td><td>102.16亿</td><td class="perf-up">+54.6%</td><td>券商龙头受益市场活跃</td></tr>
+      <tr><td>东方财富</td><td>300059</td><td>2026Q1</td><td>50.31亿</td><td class="perf-up">+44.3%</td><td>37.38亿</td><td class="perf-up">+37.7%</td><td>互联网券商弹性大</td></tr>
+    </tbody>
+  </table>
+
+  <div class="two-col" style="margin-top:22px">
+    <div class="prose">
+      <p><strong>龙头池整体扫描 · 高景气梯队（净利+50%以上）：</strong>存储（江波龙/佰维）、光模块（中际旭创）、锂矿（赣锋锂业）、有色（紫金/洛钼/中铝）、光伏胶膜（福斯特）、锂电（亿纬锂能）。</p>
+      <p><strong>稳健增长梯队（+10~50%）：</strong>宁德时代、药明康德、恒瑞医药、中信证券、东方财富、五粮液、江铜。</p>
+      <p><strong>承压梯队（个位数增长/下滑）：</strong>北方华创、晶方科技、三一重工、杭叉、美的、三安光电。</p>
+    </div>
+    <div class="prose">
+      <div class="quote"><b>下批预告重点关注：</b>中微公司中报、北方华创中报、宁德时代中报、药明康德中报——预计7月下旬进入中报密集披露期。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 肆 业绩风险汇总 -->
+<section class="chapter" id="e-ch4">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">肆</span><span>业绩风险汇总</span></div>
+    <div class="ch-en">CHAPTER · RISK SUMMARY</div>
+  </div>
+
+  <div class="tldr">行业共性风险集中在原材料涨价、终端需求疲软、产能过剩三方面；个股层面需警惕高商誉减值、大额存货、高应收账款等潜在业绩隐患，尤其是周期反转类标的的低基数效应消退风险。</div>
+
+  <h3 class="sub-h serif">4.1 行业共性业绩利空</h3>
+  <table class="research">
+    <thead><tr><th style="width:160px">风险类型</th><th style="width:260px">涉及行业</th><th>具体影响</th></tr></thead>
+    <tbody>
+      <tr><td><b>原材料涨价</b></td><td>中游制造、消费、地产链</td><td>成本端压力上行，挤压毛利率；议价能力弱的企业难以传导</td></tr>
+      <tr><td><b>终端需求疲软</b></td><td>消费、地产链、传统制造</td><td>订单不足，营收增长乏力，产能利用率下降</td></tr>
+      <tr><td><b>产能过剩</b></td><td>光伏主链、锂电中尾部、部分化工</td><td>价格战加剧，毛利率持续承压，行业洗牌加速</td></tr>
+      <tr><td><b>海外需求下滑</b></td><td>出口依赖型制造业、消费电子</td><td>外需疲软拖累出口订单，汇率波动增加不确定性</td></tr>
+      <tr><td><b>政策监管收紧</b></td><td>医药（集采）、互联网、地产</td><td>政策压制行业盈利空间，估值与业绩双杀</td></tr>
+      <tr><td><b>周期见顶回落</b></td><td>存储、部分资源品</td><td>价格周期反转后盈利大幅下滑，需警惕高位回落风险</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-h serif">4.2 个股潜在业绩隐患</h3>
+  <table class="research">
+    <thead><tr><th style="width:160px">风险类型</th><th style="width:260px">典型特征</th><th>重点关注领域</th></tr></thead>
+    <tbody>
+      <tr><td><b>高商誉减值</b></td><td>商誉占净资产比例高、并购标的业绩承诺到期</td><td>传媒、医药、计算机并购较多的行业</td></tr>
+      <tr><td><b>大额存货风险</b></td><td>存货高企+需求下行+价格下跌</td><td>电子（消费级存储）、地产链、服装家纺</td></tr>
+      <tr><td><b>高应收账款</b></td><td>回款周期长+客户信用风险上升</td><td>医药IVD、基建链、ToG业务占比高的公司</td></tr>
+      <tr><td><b>持续减值风险</b></td><td>资产减值连年计提、不良资产高</td><td>房企、传统制造业、海外并购较多的公司</td></tr>
+      <tr><td><b>订单萎缩风险</b></td><td>在手订单不足+产能利用率下滑</td><td>出口制造、消费电子、传统工程机械</td></tr>
+      <tr><td><b>低基数效应消退</b></td><td>2025年低基数带来的高增长不可持续</td><td>周期反转类标的，需关注2027年增速回落</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 伍 业绩景气配置观点 -->
+<section class="chapter" id="e-ch5">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">伍</span><span>业绩景气配置观点</span></div>
+    <div class="ch-en">CHAPTER · ALLOCATION VIEW</div>
+  </div>
+
+  <div class="tldr">存储半导体、光模块/算力基建业绩验证强度最高（★★★★★），可作为高确定性配置方向；地产全产业链、光伏主链压力评级最高，拐点尚未出现，配置需保持谨慎。</div>
+
+  <h3 class="sub-h serif up">5.1 高景气持续板块（盈利加速/高位维持）</h3>
+  <table class="research">
+    <thead><tr><th style="width:170px">板块</th><th style="width:100px">景气度评级</th><th style="width:280px">核心逻辑</th><th>业绩验证强度</th></tr></thead>
+    <tbody>
+      <tr><td><b>存储半导体</b></td><td class="perf-up">★★★★★</td><td>AI算力需求+产能出清，价格与盈利爆发式增长</td><td>强（多家公司扭亏，盈利翻倍甚至数十倍）</td></tr>
+      <tr><td><b>光模块/算力基建</b></td><td class="perf-up">★★★★★</td><td>全球AI资本开支高增，800G满产1.6T放量</td><td>强（龙头营收利润翻倍增长，订单能见度高）</td></tr>
+      <tr><td><b>半导体设备</b></td><td class="perf-up">★★★★☆</td><td>国产替代加速，晶圆厂扩产刚需</td><td>较强（设备龙头业绩高增，订单饱满）</td></tr>
+      <tr><td><b>有色金属（铜金）</b></td><td class="perf-up">★★★★☆</td><td>供需缺口+新能源新增需求，价格高位运行</td><td>强（行业预增占比53%，龙头盈利高增）</td></tr>
+      <tr><td><b>券商/非银金融</b></td><td class="perf-up">★★★★☆</td><td>市场活跃度提升+科创投资收益兑现</td><td>较强（行业预增覆盖面广，业绩弹性大）</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-h serif">5.2 业绩边际修复板块（底部改善/增速回升）</h3>
+  <table class="research">
+    <thead><tr><th style="width:170px">板块</th><th style="width:100px">景气度评级</th><th style="width:280px">核心逻辑</th><th>修复确定性</th></tr></thead>
+    <tbody>
+      <tr><td><b>锂电池产业链</b></td><td class="perf-flat">★★★☆☆</td><td>产能出清+储能需求拉动，盈利逐季修复</td><td>中等（龙头已验证，尾部仍承压）</td></tr>
+      <tr><td><b>光伏胶膜/差异化环节</b></td><td class="perf-flat">★★★☆☆</td><td>龙头定价权强，新材料业务贡献增量</td><td>中等（分化严重，仅头部与细分高增）</td></tr>
+      <tr><td><b>CXO/创新药龙头</b></td><td class="perf-flat">★★★☆☆</td><td>海外订单回暖+创新药出海突破</td><td>中等（结构性机会，行业整体仍承压）</td></tr>
+      <tr><td><b>高端制造设备</b></td><td class="perf-flat">★★★☆☆</td><td>国产替代+出口升级，细分赛道高景气</td><td>较强（半导体/检测设备高增，传统设备弱）</td></tr>
+      <tr><td><b>必选消费龙头</b></td><td class="perf-flat">★★☆☆☆</td><td>需求韧性强，业绩稳健，估值合理</td><td>较强（增长慢但确定性高，防御属性）</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-h serif down">5.3 盈利持续承压板块（底部未明/继续下行）</h3>
+  <table class="research">
+    <thead><tr><th style="width:170px">板块</th><th style="width:100px">压力评级</th><th style="width:280px">核心逻辑</th><th>拐点信号</th></tr></thead>
+    <tbody>
+      <tr><td><b>地产全产业链</b></td><td class="perf-down">★★★★★</td><td>新房需求疲软，存货减值，订单收缩</td><td>销售企稳、新开工回暖</td></tr>
+      <tr><td><b>光伏主链（硅料/组件）</b></td><td class="perf-down">★★★★☆</td><td>产能过剩，价格战持续，盈利能力承压</td><td>产能出清、价格企稳回升</td></tr>
+      <tr><td><b>传统可选消费</b></td><td class="perf-down">★★★☆☆</td><td>内需疲软，去库存进行中，动销平淡</td><td>社零数据回暖、居民收入预期改善</td></tr>
+      <tr><td><b>仿制药/普通IVD</b></td><td class="perf-down">★★★☆☆</td><td>集采降价压力持续，盈利空间收窄</td><td>集采落地、政策边际缓和</td></tr>
+      <tr><td><b>传统工程机械</b></td><td class="perf-down">★★★☆☆</td><td>国内需求低迷，依赖出口支撑</td><td>基建投资回暖、更新需求释放</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 陆 重点龙头深度财报分析 -->
+<section class="chapter" id="e-ch6">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">陆</span><span>重点龙头深度财报分析</span></div>
+    <div class="ch-en">CHAPTER · DEEP-DIVE APPENDIX</div>
+  </div>
+
+  <div class="tldr">中际旭创800G量价齐升推升毛利率至46%，收入利润双双翻倍；紫金矿业金铜价格上涨驱动利润高增，锂业务成第三增长极，Q2环比下滑更接近季节性调整而非见顶信号。</div>
+
+  <h3 class="sub-h serif">附录A · 中际旭创（300308.SZ）2026Q1深度分析</h3>
+  <div class="prose"><p><strong>核心结论：</strong>800G量价齐升推升毛利率至46%，收入利润双双翻倍增长；应收与存货同步扩张需关注营运质量。</p></div>
+  <table class="research">
+    <thead><tr><th style="width:170px">指标</th><th style="width:150px">2026Q1</th><th style="width:130px">同比</th><th>环比（推算）</th></tr></thead>
+    <tbody>
+      <tr><td>营业收入</td><td>194.96亿元</td><td class="perf-up">+192.12%</td><td>+47.3%</td></tr>
+      <tr><td>归母净利润</td><td>57.35亿元</td><td class="perf-up">+262.28%</td><td>+56.5%</td></tr>
+      <tr><td>销售毛利率</td><td>46.06%</td><td>—</td><td>较全年+4pct</td></tr>
+      <tr><td>经营现金流</td><td>33.68亿元</td><td>—</td><td>—</td></tr>
+      <tr><td>应收账款</td><td>95.36亿元</td><td>—</td><td>较年末+52%</td></tr>
+      <tr><td>存货</td><td>156.72亿元</td><td>—</td><td>较年末+24%</td></tr>
+    </tbody>
+  </table>
+  <div class="prose">
+    <p><strong>毛利率跳升4个百分点：</strong>产品结构升级（800G占比提升）+规模效应+长协锁价对冲成本上涨三重驱动。管理层有信心维持毛利率稳定，下半年物料供给边际改善。</p>
+    <p><strong>利润增速显著快于收入：</strong>归母净利+262% vs 收入+192%，差值约70pct，主要由毛利率扩张贡献，反映产品结构持续优化。</p>
+    <p><strong>应收存货大幅扩张：</strong>应收账款环比+52%、存货+24%，增速均快于收入环比增速（+47%）。经营现金流33.68亿尚属健康，合理推断为收入高增长的正常配套，但绝对规模近百亿需持续关注周转效率。</p>
+    <p><strong>1.6T需求验证：</strong>7月12-13日公司密集辟谣，称2027年1.6T整体需求未下滑，仅结构性调整（老客户减、新云厂商/AI大模型客户增）；800G需求增长超预期。</p>
+    <p><strong>市场预期分歧大：</strong>31家券商一致预期H1净利约138亿（Q2约81亿），高盛预测H1仅114-118亿（Q2约57-61亿），分歧核心在于Q2毛利率和出货节奏判断。</p>
+  </div>
+  <div class="catalyst-card" style="margin-top:6px">
+    <p class="verify"><b>后续关注清单：</b>中报毛利率能否维持46%高位；1.6T实际出货进度与客户结构验证；应收账款周转效率与坏账风险；800G价格走势与行业竞争格局。</p>
+  </div>
+
+  <h3 class="sub-h serif" style="margin-top:32px">附录B · 紫金矿业（601899.SH）2026中报预告深度分析</h3>
+  <div class="prose"><p><strong>核心结论：</strong>金铜价格上涨驱动利润高增（价格弹性是主因），黄金产量+15%、锂产量+514%提供增量；Q2环比下滑5%需关注周期节奏。中期分红111亿元，高股息属性突出。</p></div>
+  <table class="research">
+    <thead><tr><th style="width:150px">指标</th><th style="width:130px">2026H1（预告）</th><th style="width:80px">同比</th><th style="width:110px">2026Q1</th><th style="width:110px">Q2（推算）</th><th>环比</th></tr></thead>
+    <tbody>
+      <tr><td>归母净利润</td><td>~391亿元</td><td class="perf-up">+68%</td><td>200.79亿</td><td>~190.2亿</td><td class="perf-down">-5.3%</td></tr>
+      <tr><td>扣非净利润</td><td>~379亿元</td><td class="perf-up">+75%</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>综合毛利率（Q1）</td><td>36.33%（Q1）</td><td>—</td><td>36.33%</td><td>—</td><td>较全年+8.6pct</td></tr>
+      <tr><td>经营现金流（Q1）</td><td>—</td><td>—</td><td>278.32亿</td><td>—</td><td>—</td></tr>
+      <tr><td>矿产金产量</td><td>47吨</td><td class="perf-up">+15%</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>矿产铜产量</td><td>53.4万吨</td><td class="perf-down">-6%</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>当量碳酸锂</td><td>4.3万吨</td><td class="perf-up">+514%</td><td>—</td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="prose">
+    <p><strong>毛利率跃升8.6个百分点——周期上行直接验证：</strong>Q1毛利率从2025全年的27.73%跃升至36.33%。核心驱动是价格弹性（金均价同比+46%、铜均价+39%），叠加高毛利产品占比提升和规模效应。Q1可能是毛利率高点，Q2金价回落将压制利润率。</p>
+    <p><strong>利润增长归因：</strong>价格因素贡献约60-70%（主驱动），产量因素贡献约20-30%（黄金+15%、锂暴增5倍），成本与结构因素约10%。扣非增速（+75%）快于归母（+68%），主业增长质量更高。</p>
+    <p><strong>锂业务第三增长极雏形：</strong>当量碳酸锂4.3万吨同比+514%，马诺诺锂矿5月投产，"两湖两矿"相继建成。公司指引2028年锂产能目标27-32万吨，若锂价维持当前水平，2027-2028年有望成为继金、铜之后的第三大利润支柱。</p>
+    <p><strong>Q2环比下滑5%——正常调整还是见顶信号？</strong>Q2净利约190亿环比-5.3%，主要受金价从历史高位回落（1月5400→6月4000美元/盎司，跌约26%）影响。美银认为Q2逊于预期，中银国际认为基本符合。目前更像是金价高位回落的正常调整，而非周期全面见顶。</p>
+    <p><strong>现金流与分红质量优异：</strong>Q1经营现金流278亿高于净利润201亿，回款能力强。中期分红111亿元（分红率约28.4%），新管理层加大股东回报，高股息属性在周期下行期有防御价值。</p>
+  </div>
+  <div class="prose"><div class="quote"><b>机构估值共识：</b>24家机构一致预期2026年净利820.88亿，对应前瞻PE约8倍，普遍认为当前估值显著低于全球同业（铜企12倍、金企11倍）。花旗、美银、瑞银、中银国际均维持买入评级，目标价35-51元区间。</div></div>
+  <div class="catalyst-card" style="margin-top:6px">
+    <p class="verify"><b>后续关注清单：</b>金价铜价下半年走势（利润弹性核心变量）；Q3利润环比方向（确认Q2是季节性还是趋势性）；锂业务全年产量与利润贡献（第三增长极验证）；分红政策延续性与全年分红率。</p>
+  </div>
+</section>
+
+<!-- 柒 数据来源 -->
+<section class="chapter" id="e-ch7">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">柒</span><span>数据来源</span></div>
+    <div class="ch-en">CHAPTER · SOURCES</div>
+  </div>
+
+  <ol class="sources">
+    <li>[1] Wind 金融数据库 — 公司财务数据、行业业绩统计</li>
+    <li>[2] 公司公告 — 业绩预告、中报/一季报原始披露</li>
+    <li>[3] 开源证券 — 行业研究与产业链跟踪</li>
+    <li>[4] 中金公司 — 宏观与行业景气度分析</li>
+    <li>[5] 华泰证券 — 行业研究与个股深度报告</li>
+    <li>[6] 集邦咨询（TrendForce）— 存储价格与半导体产业链数据</li>
+    <li>[7] SMM（上海有色网）— 有色金属价格与供需数据</li>
+    <li>[8] 中国工程机械工业协会 — 机械设备行业销量数据</li>
+  </ol>
+
+  <div class="disclaimer">⚠️ <b>风险提示与免责声明：</b>本报告仅基于公开财报与产业数据整理，不构成投资建议，不预测股价走势。本业绩跟踪内容基于截至2026年7月16日已披露的业绩预告与公开产业数据整理（2026-07-17 无新业绩跟踪日报，沿用前值），后续随披露进度更新。深度分析附录基于财报分析技能框架撰写，覆盖收入归因、毛利率拆解、现金流质量、管理层信号、机构观点等多层深度。股市有风险，投资需谨慎，请结合自身风险承受能力独立决策。</div>
+
+  <div style="text-align:center;margin-top:26px"><span class="seal">业绩<br/>跟踪</span></div>
+</section>
+
+</main>
+</div>
+<!-- ============ /业绩跟踪 PANEL ============ -->
+
+<footer>
+  · A股每日综合日报 · 复盘数据：2026-07-17 收盘 · 业绩数据：2026年中报业绩预告（截至2026-07-16披露，7-17沿用前值） · 更新于：2026-07-17 · 仅供参考，不构成投资建议 ·
+</footer>
+
+<script>
+  // ---- 顶层报告类型切换 ----
+  const reportTabs = document.querySelectorAll('.report-tab');
+  const panels = {
+    recap: document.getElementById('panel-recap'),
+    earnings: document.getElementById('panel-earnings')
+  };
+  reportTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      reportTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      Object.values(panels).forEach(p => p.style.display = 'none');
+      panels[tab.dataset.report].style.display = 'block';
+      window.scrollTo({top: 0, behavior: 'auto'});
+    });
+  });
+
+  // ---- 各面板内部的章节导航 + 滚动高亮 ----
+  function wireChapterNav(navContainer) {
+    const tabs = navContainer.querySelectorAll('.chapter-tab');
+    const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document.getElementById(tab.dataset.target);
+        if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+      });
+    });
+
+    function setActive() {
+      const panel = navContainer.closest('.report-panel');
+      if (!panel || panel.style.display === 'none') return;
+      let currentIndex = 0;
+      const scrollPos = window.scrollY + 190;
+      sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollPos) currentIndex = i;
+      });
+      tabs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+    }
+    window.addEventListener('scroll', setActive);
+    setActive();
+  }
+
+  document.querySelectorAll('.chapters-inner').forEach(wireChapterNav);
+</script>
+
+</body>
+</html>

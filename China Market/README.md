@@ -29,7 +29,7 @@
 | 入口 | 内容 | 数据期 | 状态 |
 |------|------|--------|------|
 | **[index.html](index.html)** | A 股板块、行业回报与轮动分析（10 章 · 交互式） | **2025-05 → 2026-04** 滚动 12 个月 | **当前主版本** |
-| [pages/Daily Report/A股每日综合日报_2026-07-16.html](pages/Daily%20Report/A股每日综合日报_2026-07-16.html) | A股每日综合日报 · 单文件双 Tab（每日复盘 9 章 + 业绩跟踪 7 章，自动化任务每个交易日生成） | 2026-07-16 | 每日 |
+| [pages/Daily Report/A股每日综合日报_2026-07-17.html](pages/Daily%20Report/A股每日综合日报_2026-07-17.html) | A股每日综合日报 · 单文件双 Tab（每日复盘 9 章 + 业绩跟踪 7 章，自动化任务每个交易日生成） | 2026-07-17 | 每日 |
 | [pages/guides/index_guide.html](pages/guides/index_guide.html) | A股指数体系交互式指南 | — | 参考 |
 | [pages/guides/etf_allocation_guide.html](pages/guides/etf_allocation_guide.html) | A股核心指数高流动性 ETF 配置指南 | — | 参考 |
 | [pages/thematic/AI就业冲击_三图解读.html](pages/thematic/AI就业冲击_三图解读.html) | AI 的就业冲击 · 全图通俗解读 | — | 主题 |
