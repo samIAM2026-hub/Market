@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A股每日全市场日报 · 2026-07-18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F4ED;
+    --paper:#FFFFFF;
+    --ink:#1A1A1A;
+    --ink-2:#3D3D3D;
+    --ink-3:#6B6B6B;
+    --line:#E4DED1;
+    --line-strong:#C8BFAE;
+    --navy:#0E2A47;
+    --navy-2:#143E66;
+    --gold:#B08842;
+    --gold-light:#D4B271;
+    --up:#D7263D;
+    --up-soft:#FBE9EC;
+    --up-deep:#9E1A2D;
+    --down:#1F8A47;
+    --down-soft:#E7F5EC;
+    --down-deep:#125F30;
+    --flat:#8A8A8A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Noto Serif SC',serif}
+
+  header.topbar{position:sticky;top:0;z-index:52;background:linear-gradient(180deg,#0E2A47 0%,#143E66 100%);color:#fff;border-bottom:3px solid var(--gold)}
+  .topbar-inner{max-width:1380px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-seal{width:42px;height:42px;background:var(--up);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC';font-weight:900;font-size:22px;border:2px solid var(--gold-light);box-shadow:0 0 0 1px rgba(255,255,255,.15);flex-shrink:0}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15}
+  .brand-title{font-family:'Noto Serif SC';font-weight:700;font-size:18px;letter-spacing:1px}
+  .brand-sub{font-size:11.5px;color:#C9D6E3;letter-spacing:2px}
+  .topbar-meta{display:flex;gap:22px;font-size:12px;color:#C9D6E3;flex-wrap:wrap}
+  .topbar-meta span b{color:#fff;font-weight:500;margin-left:4px}
+
+  nav.chapters{position:sticky;top:71px;z-index:40;background:#FAF8F2;border-bottom:1px solid var(--line)}
+  .chapters-inner{max-width:1380px;margin:0 auto;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+  .chapter-tab{padding:12px 15px;font-size:13px;font-weight:500;color:var(--ink-3);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all .15s;text-decoration:none}
+  .chapter-tab:hover{color:var(--navy)}
+  .chapter-tab.active{color:var(--up);border-bottom-color:var(--up);font-weight:700}
+  .chapter-tab .num{font-family:'Noto Serif SC';margin-right:6px;color:var(--gold)}
+
+  main{max-width:1380px;margin:0 auto;padding:32px 28px 60px}
+
+  section.chapter{background:var(--paper);border:1px solid var(--line);padding:36px 40px;margin-bottom:28px;box-shadow:0 1px 3px rgba(14,42,71,0.04);scroll-margin-top:130px}
+  .ch-head{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:24px;gap:24px;flex-wrap:wrap}
+  .ch-title{font-family:'Noto Serif SC';font-weight:900;font-size:26px;color:var(--navy);display:flex;align-items:baseline;gap:14px}
+  .ch-num{color:var(--up);font-size:36px;line-height:1;border-right:2px solid var(--gold);padding-right:14px}
+  .ch-en{font-size:12px;color:var(--ink-3);letter-spacing:3px;text-transform:uppercase;font-family:'Noto Sans SC'}
+
+  .tldr{background:linear-gradient(90deg,#FFF7E0 0%, #FAF8F2 100%);border-left:4px solid var(--gold);padding:14px 18px;margin-bottom:24px;font-size:14px;color:var(--ink-2)}
+  .tldr b{color:var(--navy);font-weight:700}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:28px}
+  .kpi{background:var(--paper);padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px}
+  .kpi-label{font-size:11.5px;color:var(--ink-3);letter-spacing:1px}
+  .kpi-value{font-family:'Noto Serif SC';font-weight:700;font-size:24px;line-height:1.1}
+  .kpi-value.up{color:var(--up)}.kpi-value.down{color:var(--down)}.kpi-value.flat{color:var(--flat)}
+  .kpi-sub{font-size:11.5px;color:var(--ink-3)}
+
+  table.research{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;background:var(--paper)}
+  table.research th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:500;font-size:12.5px;letter-spacing:1px;border-right:1px solid #1F4A72}
+  table.research td{padding:11px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  table.research tr:hover td{background:#FAF8F2}
+  table.research .perf-up{color:var(--up);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-down{color:var(--down);font-weight:700;font-family:'Noto Serif SC'}
+  table.research .perf-flat{color:var(--flat);font-weight:700;font-family:'Noto Serif SC'}
+
+  .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start}
+  @media(max-width:960px){.two-col{grid-template-columns:1fr}}
+  .prose p{margin:0 0 12px;color:var(--ink-2)}
+  .prose strong{color:var(--up-deep);font-weight:700}
+  .prose .quote{border-left:3px solid var(--up);padding:6px 14px;margin:14px 0;background:var(--up-soft);color:var(--up-deep);font-size:14px}
+
+  .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .theme-card{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--gold);padding:16px 18px;transition:all .18s;position:relative}
+  .theme-card:hover{border-top-color:var(--up);transform:translateY(-2px);box-shadow:0 6px 14px rgba(14,42,71,.08)}
+  .theme-card.hot{border-top-color:var(--up)}
+  .theme-card.warm{border-top-color:#E27A3F}
+  .theme-card.cold{border-top-color:var(--down)}
+  .theme-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .theme-name{font-family:'Noto Serif SC';font-weight:700;font-size:15.5px;color:var(--navy)}
+  .theme-tag{font-size:10.5px;padding:2px 8px;letter-spacing:1px}
+  .theme-tag.hot{background:var(--up-soft);color:var(--up-deep)}
+  .theme-tag.warm{background:#FFE8C5;color:#9C5E14}
+  .theme-tag.cold{background:var(--down-soft);color:var(--down-deep)}
+  .theme-perf{font-family:'Noto Serif SC';font-weight:700;font-size:15px;margin-bottom:6px}
+  .theme-perf.up{color:var(--up)}.theme-perf.down{color:var(--down)}
+  .theme-desc{font-size:13px;color:var(--ink-2);line-height:1.6}
+
+  .catalyst-card{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);padding:20px 24px;margin-bottom:16px;position:relative}
+  .catalyst-head{display:flex;align-items:baseline;gap:14px;margin-bottom:12px;border-bottom:1px dashed var(--line-strong);padding-bottom:10px}
+  .catalyst-num{font-family:'Noto Serif SC';font-weight:900;font-size:30px;color:var(--gold);line-height:1}
+  .catalyst-title{font-family:'Noto Serif SC';font-weight:700;font-size:17px;color:var(--navy)}
+  .catalyst-card p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .catalyst-card p:last-child{margin-bottom:0}
+  .catalyst-card p b{color:var(--navy);font-weight:700;margin-right:4px}
+  .catalyst-card p.verify{background:#FAF8F2;padding:8px 12px;border-left:2px solid var(--line-strong);font-size:12.5px;color:var(--ink-3)}
+
+  .signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .signal-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px}
+  .signal-h{font-family:'Noto Serif SC';font-weight:700;font-size:15px;color:var(--navy);margin-bottom:4px}
+  .signal-watch{font-size:12px;color:var(--ink-3);margin-bottom:10px}
+  .signal-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .signal-box.good{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .signal-box.bad{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .signal-box:last-child{margin-bottom:0}
+
+  .risk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .risk-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px;position:relative}
+  .risk-card .risk-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:var(--up)}
+  .risk-h{font-family:'Noto Serif SC';font-weight:700;font-size:14.5px;color:var(--navy);margin:8px 0 10px}
+  .risk-box{padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:6px}
+  .risk-box.trigger{background:var(--up-soft);color:var(--up-deep);border-left:3px solid var(--up)}
+  .risk-box.falsify{background:var(--down-soft);color:var(--down-deep);border-left:3px solid var(--down)}
+  .risk-box:last-child{margin-bottom:0}
+
+  .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:14px 0}
+  .fund-item{background:var(--paper);padding:14px 16px}
+  .fund-item .flabel{font-size:11px;color:var(--ink-3);letter-spacing:1px;margin-bottom:4px}
+  .fund-item .fvalue{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--up)}
+  .fund-item .fvalue.down{color:var(--down)}
+  .fund-item .fvalue.flat{color:var(--flat)}
+
+  .seal{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border:2.5px solid var(--up);color:var(--up);font-family:'Noto Serif SC';font-weight:900;font-size:14px;text-align:center;line-height:1.2;padding:6px;transform:rotate(-6deg);background:rgba(215,38,61,0.05)}
+
+  .disclaimer{background:#FAF8F2;border:1px dashed var(--line-strong);padding:14px 18px;font-size:12px;color:var(--ink-3);line-height:1.7;margin-top:20px}
+
+  .sub-h{font-family:'Noto Serif SC';color:var(--navy);margin:26px 0 10px;font-size:16px;border-left:4px solid var(--gold);padding-left:10px}
+  .sub-h:first-child{margin-top:0}
+  .sub-h.up{border-left-color:var(--up)}
+  .sub-h.down{border-left-color:var(--down)}
+
+  .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:2px;margin:2px 4px 2px 0;font-weight:500}
+  .pill.good{background:var(--up-soft);color:var(--up-deep)}
+  .pill.warn{background:#FFE8C5;color:#9C5E14}
+  .pill.bad{background:var(--down-soft);color:var(--down-deep)}
+
+  footer{text-align:center;font-size:12px;color:var(--ink-3);padding:24px 0 40px;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-seal">市</div>
+      <div class="brand-text">
+        <span class="brand-title">A股每日全市场日报</span>
+        <span class="brand-sub">FULL-MARKET DAILY BRIEF</span>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span>报告日期：<b>2026年7月18日（周六）</b></span>
+      <span>覆盖内容：<b>盘前必读 · 昨日复盘 · 资金与估值 · 赛道景气</b></span>
+      <span>数据口径：<b>盘前·美东7-17收盘 / 复盘·A股7-17收盘</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="chapters">
+  <div class="chapters-inner">
+    <a class="chapter-tab active" data-target="ch1"><span class="num">壹</span>盘前必读</a>
+    <a class="chapter-tab" data-target="ch2"><span class="num">贰</span>宏观政策</a>
+    <a class="chapter-tab" data-target="ch3"><span class="num">叁</span>大盘复盘</a>
+    <a class="chapter-tab" data-target="ch4"><span class="num">肆</span>业绩公告</a>
+    <a class="chapter-tab" data-target="ch5"><span class="num">伍</span>北向资金</a>
+    <a class="chapter-tab" data-target="ch6"><span class="num">陆</span>资金与龙虎榜</a>
+    <a class="chapter-tab" data-target="ch7"><span class="num">柒</span>估值分位</a>
+    <a class="chapter-tab" data-target="ch8"><span class="num">捌</span>风险避雷</a>
+    <a class="chapter-tab" data-target="ch9"><span class="num">玖</span>赛道景气</a>
+    <a class="chapter-tab" data-target="ch10"><span class="num">拾</span>ETF与共识</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 壹 盘前必读 -->
+<section class="chapter" id="ch1">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">壹</span><span>盘前必读</span></div>
+    <div class="ch-en">CHAPTER · PRE-MARKET</div>
+  </div>
+
+  <div class="tldr"><b>今日交易参考：</b>美股科技股因奈飞暴雷（-7.8%）普跌，但纳斯达克中国金龙指数逆势涨1.79%，中概独立行情；中东局势升级推油价单日大涨3.3%、金价反弹0.71%。A股预计低开概率75%——上证低开0.1%~0.3%（3750-3760点），创业板低开0.3%~0.5%。风格延续防御：油气、黄金、高股息受益，半导体/科技成长仍有惯性下探压力。</div>
+
+  <h3 class="sub-h serif">1.1 海外权益市场收盘（美东7月17日）</h3>
+  <table class="research">
+    <thead><tr><th>指数</th><th style="width:120px">收盘点位</th><th style="width:100px">涨跌幅</th><th>核心驱动</th></tr></thead>
+    <tbody>
+      <tr><td><b>道琼斯工业平均</b></td><td>52,146.42</td><td class="perf-down">-0.80%</td><td>奈飞业绩暴雷拖累，能源股因油价上涨逆势收红</td></tr>
+      <tr><td><b>标普500</b></td><td>6,172.35</td><td class="perf-down">-0.80%</td><td>科技股普遍回调，仅能源板块上涨</td></tr>
+      <tr><td><b>纳斯达克综合</b></td><td>25,520.24</td><td class="perf-down">-1.40%</td><td>奈飞跌7.8%，科技成长股集体承压</td></tr>
+      <tr><td><b>纳斯达克中国金龙</b></td><td>7,845.23</td><td class="perf-up">+1.79%</td><td>中国资产独立行情，互联网、造车新势力普涨</td></tr>
+      <tr><td><b>富时A50夜期</b></td><td>12,456</td><td class="perf-up">+0.21%</td><td>A股大跌后小幅修复</td></tr>
+      <tr><td><b>欧洲斯托克50</b></td><td>4,942.18</td><td class="perf-up">+0.32%</td><td>欧央行降息预期支撑</td></tr>
+    </tbody>
+  </table>
+  <div class="prose"><p><b>热门中概股：</b>爱奇艺+4.2%、哔哩哔哩+3.9%、小鹏汽车+2.0%、京东+1.5%、百度+1.3%、拼多多+1.1%、阿里巴巴+0.9%。</p></div>
+
+  <h3 class="sub-h serif">1.2 全球大类资产定价</h3>
+  <table class="research">
+    <thead><tr><th>资产类别</th><th style="width:150px">最新价格</th><th style="width:100px">日涨跌</th><th>核心变动</th></tr></thead>
+    <tbody>
+      <tr><td><b>10年期美债收益率</b></td><td>4.56%</td><td class="perf-up">+1BP</td><td>美联储加息预期反复，收益率小幅上行</td></tr>
+      <tr><td><b>美元指数</b></td><td>100.49</td><td class="perf-down">-0.39%</td><td>美元继续走弱</td></tr>
+      <tr><td><b>离岸人民币 USD/CNH</b></td><td>6.7773</td><td class="perf-up">+0.14%</td><td>人民币小幅升值</td></tr>
+      <tr><td><b>WTI 原油</b></td><td>81.58 美元/桶</td><td class="perf-up">+3.33%</td><td>中东局势紧张，霍尔木兹海峡运输风险推高油价</td></tr>
+      <tr><td><b>伦敦金现</b></td><td>4,013.9 美元/盎司</td><td class="perf-up">+0.71%</td><td>前一日大跌后反弹，避险需求支撑</td></tr>
+      <tr><td><b>LME 铜</b></td><td>13,543 美元/吨</td><td class="perf-down">-0.28%</td><td>风险偏好回落，铜价小幅调整</td></tr>
+      <tr><td><b>VIX 恐慌指数</b></td><td>22.4</td><td class="perf-up">+12.8%</td><td>美股波动放大，恐慌情绪升温</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="sub-h serif">1.3 隔夜海外核心事件</h3>
+  <div class="theme-grid" style="margin-bottom:20px">
+    <div class="theme-card cold"><div class="theme-h"><span class="theme-name">奈飞业绩暴雷</span><span class="theme-tag cold">科技承压</span></div><div class="theme-desc">流媒体龙头奈飞Q3业绩指引不及预期，单日暴跌7.8%，拖累美股科技板块。</div></div>
+    <div class="theme-card hot"><div class="theme-h"><span class="theme-name">中东局势升级</span><span class="theme-tag hot">油价+3.3%</span></div><div class="theme-desc">美军连续空袭伊朗相关目标，霍尔木兹海峡航运风险上升，油价单日大涨3.3%。</div></div>
+    <div class="theme-card warm"><div class="theme-h"><span class="theme-name">美联储偏鹰</span><span class="theme-tag warm">降息降温</span></div><div class="theme-desc">官员称若通胀反弹不排除再次加息，市场降息预期降温。</div></div>
+    <div class="theme-card warm"><div class="theme-h"><span class="theme-name">美国初请失业金</span><span class="theme-tag warm">劳动力走弱</span></div><div class="theme-desc">初请失业金人数23.5万，略高于预期，劳动力市场边际走弱。</div></div>
+  </div>
+
+  <h3 class="sub-h serif">1.4 A股开盘深度分析</h3>
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">上证指数开盘预测</span><span class="kpi-value down">低开0.1~0.3%</span><span class="kpi-sub">3750-3760 点区间</span></div>
+    <div class="kpi"><span class="kpi-label">创业板指开盘预测</span><span class="kpi-value down">低开0.3~0.5%</span><span class="kpi-sub">3410-3420 点区间</span></div>
+    <div class="kpi"><span class="kpi-label">低开概率</span><span class="kpi-value flat">75%</span><span class="kpi-sub">平开20% · 高开5%</span></div>
+    <div class="kpi"><span class="kpi-label">开盘情绪</span><span class="kpi-value flat">中性偏谨慎</span><span class="kpi-sub">VIX上行但中概有支撑</span></div>
+    <div class="kpi"><span class="kpi-label">北向开盘预判</span><span class="kpi-value down">净流出5~10亿</span><span class="kpi-sub">全天震荡，收回则转流入</span></div>
+  </div>
+
+  <h3 class="sub-h serif up">板块开盘影响</h3>
+  <div class="prose" style="margin-bottom:14px">
+    <span class="pill good">✅ 直接受益</span> 油气/能源（高开1.5%~2%，趋势性）· 黄金/贵金属（高开0.8%~1.2%，趋势性）· 高股息/电力（高开0.3%~0.5%）<br/>
+    <span class="pill warn">⚠️ 中性</span> 互联网/平台经济（中概上涨带动，高开0.5%~0.8%，脉冲行情）<br/>
+    <span class="pill bad">❌ 直接承压</span> 半导体/科技成长（低开1%~1.5%，有惯性下探压力）· 传媒（奈飞暴跌带动，低开0.8%~1%）
+  </div>
+
+  <div class="signal-grid" style="margin-bottom:20px">
+    <div class="signal-card">
+      <div class="signal-h">观察信号 · 开盘15分钟</div>
+      <div class="signal-watch">👀 盯：是否放量承接、半导体是否跌停开板、高股息是否续强</div>
+      <div class="signal-box good">✅ 沪指3750点附近放量止跌 → 有抄底资金进入；核心半导体股不再封死跌停 → 恐慌释放；电力/煤炭续红 → 防御风格延续</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-h">情景应对 · 三种走势</div>
+      <div class="signal-watch">👀 盯：沪指相对3730点的位置与开盘斜率</div>
+      <div class="signal-box bad">❗ 快速下探破3730：不盲目割肉，等恐慌盘释放后核心资产小仓位低吸</div>
+      <div class="signal-box good">✅ 平开/小幅低开后震荡修复：不追高，关注能源、黄金受益板块，规避高估值成长</div>
+      <div class="signal-box bad">⚠️ 意外高开：是减仓机会，大跌后难有V型反转，高开注意兑现</div>
+    </div>
+  </div>
+</section>
+
+<!-- 贰 宏观政策 -->
+<section class="chapter" id="ch2">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">贰</span><span>国内宏观与政策早报</span></div>
+    <div class="ch-en">CHAPTER · MACRO &amp; POLICY</div>
+  </div>
+
+  <div class="tldr">央行单日净投放4305亿元、全周累计净投放1.9万亿元维护流动性合理充裕；证监会引导长期资金入市、能源局出台电力保供方案、发改委预告促消费政策，政策面利好油气/电力/高股息/汽车家电；高位半导体题材股遭交易所重点监控，有监管风险。</div>
+
+  <h3 class="sub-h serif">2.1 央行货币操作（7月17日）</h3>
+  <table class="research">
+    <thead><tr><th>操作类型</th><th style="width:150px">金额</th><th style="width:110px">利率</th><th>净投放</th></tr></thead>
+    <tbody>
+      <tr><td><b>7天逆回购</b></td><td>4,505亿元</td><td>1.80%</td><td class="perf-up">+4,305亿元</td></tr>
+    </tbody>
+  </table>
+  <div class="prose"><p>当日20亿元逆回购到期，单日净投放4305亿元，全周累计净投放1.9万亿元，维护流动性合理充裕；DR007加权平均1.85%，围绕政策利率波动，银行间流动性宽松。</p></div>
+
+  <h3 class="sub-h serif">2.2 隔夜政策汇总</h3>
+  <div class="theme-grid" style="margin-bottom:18px">
+    <div class="theme-card hot"><div class="theme-h"><span class="theme-name">引导长期资金入市</span><span class="theme-tag hot">利好权益</span></div><div class="theme-desc">证监会召开机构投资者座谈会，鼓励社保、保险、公募基金加大权益投资。</div></div>
+    <div class="theme-card hot"><div class="theme-h"><span class="theme-name">电力安全保供</span><span class="theme-tag hot">利好电力</span></div><div class="theme-desc">能源局发布《电力安全保供工作方案》，要求加快煤电、核电项目核准，迎峰度夏保障供应。</div></div>
+    <div class="theme-card warm"><div class="theme-h"><span class="theme-name">促消费预告</span><span class="theme-tag warm">利好汽车家电</span></div><div class="theme-desc">发改委表示将适时出台新的促消费政策，重点支持汽车、家电等大宗消费。</div></div>
+    <div class="theme-card cold"><div class="theme-h"><span class="theme-name">半导体炒作监控</span><span class="theme-tag cold">监管风险</span></div><div class="theme-desc">上交所对多只暴涨暴跌的半导体概念股发布重点监控函，对异常交易账户采取监管措施。</div></div>
+  </div>
+
+  <div class="prose">
+    <p><b>今日待公布数据：</b>今日无重要宏观数据公布。下周二（7月22日）将公布1年期/5年期LPR报价，市场预期降息概率较大。</p>
+    <div class="quote"><b>政策催化：</b>✅ 利好——油气/能源、电力/高股息、黄金、汽车家电消费；⚠️ 注意——被交易所重点监控的高位题材股、短期暴涨的半导体概念股有监管风险。</div>
+  </div>
+</section>
+
+<!-- 叁 大盘复盘 -->
+<section class="chapter" id="ch3">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">叁</span><span>A股大盘与板块复盘（7月17日）</span></div>
+    <div class="ch-en">CHAPTER · MARKET RECAP</div>
+  </div>
+
+  <div class="tldr">7月17日A股情绪性暴跌——沪指跌3.05%失守3800点创2025年9月以来新低，创业板指跌7.15%，两市成交2.6万亿放量下跌，仅482只个股上涨、187只跌停。前期高估值成长集中杀估值，资金从科技成长切向高股息防御，属典型情绪性暴跌。</div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">上证指数</span><span class="kpi-value down">-3.05%</span><span class="kpi-sub">3764.15 · 失守3800点创新低</span></div>
+    <div class="kpi"><span class="kpi-label">深证成指</span><span class="kpi-value down">-5.40%</span><span class="kpi-sub">13706.88 点</span></div>
+    <div class="kpi"><span class="kpi-label">创业板指</span><span class="kpi-value down">-7.15%</span><span class="kpi-sub">3428.63 点</span></div>
+    <div class="kpi"><span class="kpi-label">科创50</span><span class="kpi-value down">-7.12%</span><span class="kpi-sub">1715.40 点</span></div>
+    <div class="kpi"><span class="kpi-label">两市成交额</span><span class="kpi-value flat">2.6万亿</span><span class="kpi-sub">放量下跌</span></div>
+    <div class="kpi"><span class="kpi-label">涨跌家数</span><span class="kpi-value down">482 / 4687</span><span class="kpi-sub">涨停23 · 跌停187</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="prose">
+      <p><strong>板块表现：</strong>仅电力、煤炭、油气、黄金等少数防御板块红盘，绿色电力板块10只个股涨停；半导体、CRO/创新药、AI、新能源等成长板块全线暴跌，半导体板块整体跌超9%，存储芯片板块多股跌停。</p>
+      <p><strong>盘面核心矛盾：</strong>前期高估值成长板块集中杀估值，资金从科技成长切换至高股息防御板块，恐慌情绪集中释放，属于典型的情绪性暴跌。</p>
+    </div>
+    <div class="prose">
+      <div class="quote"><b>今日展望：</b>大跌后情绪修复需要时间，短期预计维持震荡，重点关注3700点附近支撑，风格上继续偏向防御，等待恐慌情绪充分释放。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 肆 业绩公告 -->
+<section class="chapter" id="ch4">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">肆</span><span>每日业绩公告汇总</span></div>
+    <div class="ch-en">CHAPTER · EARNINGS WIRE</div>
+  </div>
+
+  <div class="tldr">高股息板块（煤炭、电力、油气）中报业绩普遍超预期，龙头分红率有望维持60%以上；半导体设计、创新药、AI应用等成长板块预亏与业绩下修集中，成为暴跌导火索，需警惕AI概念股业绩暴雷风险。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:130px">类别</th><th style="width:90px">家数</th><th>核心内容</th></tr></thead>
+    <tbody>
+      <tr><td><b>业绩预增</b></td><td class="perf-up">36家</td><td>集中在煤炭（中国神华预增15%）、电力（长江电力预增12%）、油气（中国石化预增8%）等高股息板块</td></tr>
+      <tr><td><b>业绩预亏</b></td><td class="perf-down">12家</td><td>集中在半导体设计、创新药、AI应用等板块，多家计提商誉减值</td></tr>
+      <tr><td><b>超预期</b></td><td class="perf-up">高股息</td><td>煤炭、电力龙头中报分红率有望维持在60%以上</td></tr>
+      <tr><td><b>低预期</b></td><td class="perf-down">半导体</td><td>部分半导体公司中报不及市场预期，成为当日板块暴跌导火索</td></tr>
+      <tr><td><b>大幅下修</b></td><td class="perf-down">5家</td><td>其中3家为前期涨幅较大的AI概念股，注意业绩暴雷风险</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 伍 北向资金 -->
+<section class="chapter" id="ch5">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">伍</span><span>北向资金流向深度分析</span></div>
+    <div class="ch-en">CHAPTER · NORTHBOUND FLOWS</div>
+  </div>
+
+  <div class="tldr">北向资金净流出80.12亿元，连续3日净流出；净买入清一色高股息防御（长江电力、中国神华、中国石化），净卖出集中科技成长龙头（中芯国际、宁德时代、迈瑞医疗）；行业上大幅加仓公用事业/煤炭/石油石化，减仓电子/电力设备/医药。外资并非全面流出，风格切换非常明确。</div>
+
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">北向当日净额</div><div class="fvalue down">-80.12亿</div></div>
+    <div class="fund-item"><div class="flabel">沪股通 / 深股通</div><div class="fvalue down">-32.45亿 / -47.67亿</div></div>
+    <div class="fund-item"><div class="flabel">南向资金净流入</div><div class="fvalue">+24.68亿</div></div>
+  </div>
+
+  <div class="two-col" style="margin-top:6px">
+    <div>
+      <h3 class="sub-h serif up" style="margin-top:0">净买入 TOP5（高股息防御）</h3>
+      <table class="research">
+        <thead><tr><th>标的</th><th style="width:110px">净买入</th></tr></thead>
+        <tbody>
+          <tr><td>长江电力</td><td class="perf-up">+8.72亿</td></tr>
+          <tr><td>中国神华</td><td class="perf-up">+6.34亿</td></tr>
+          <tr><td>中国石化</td><td class="perf-up">+5.21亿</td></tr>
+          <tr><td>贵州茅台</td><td class="perf-up">+4.87亿</td></tr>
+          <tr><td>中国石油</td><td class="perf-up">+3.96亿</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 class="sub-h serif down" style="margin-top:0">净卖出 TOP5（科技成长）</h3>
+      <table class="research">
+        <thead><tr><th>标的</th><th style="width:110px">净卖出</th></tr></thead>
+        <tbody>
+          <tr><td>中芯国际</td><td class="perf-down">-21.34亿</td></tr>
+          <tr><td>宁德时代</td><td class="perf-down">-15.67亿</td></tr>
+          <tr><td>迈瑞医疗</td><td class="perf-down">-12.45亿</td></tr>
+          <tr><td>金山办公</td><td class="perf-down">-9.87亿</td></tr>
+          <tr><td>寒武纪</td><td class="perf-down">-8.72亿</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:14px">
+    <p><b>行业调仓：</b>大幅加仓公用事业（+18.7亿）、煤炭（+12.4亿）、石油石化（+9.6亿）；大幅减仓电子（-32.6亿）、电力设备（-21.3亿）、医药生物（-15.8亿）。</p>
+    <p><b>南向资金：</b>净流入24.68亿元，加仓中国移动、中国石油、中海油等港股高股息标的。</p>
+    <div class="quote"><b>外资行为解读：</b>短期避险情绪升温，从高估值成长切换至高股息防御板块，并非全面流出，风格切换非常明确。</div>
+  </div>
+</section>
+
+<!-- 陆 资金与龙虎榜 -->
+<section class="chapter" id="ch6">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">陆</span><span>全市场资金与龙虎榜观察</span></div>
+    <div class="ch-en">CHAPTER · CAPITAL &amp; DRAGON-TIGER</div>
+  </div>
+
+  <div class="tldr">两融余额15876亿元单日减少120.4亿，融资客主动降杠杆，占比回落至4.32%安全区间；龙虎榜上机构与北向净买高股息电力煤炭、净卖跌停半导体，游资集体出逃高位题材；半导体放量暴跌恐慌盘涌出、高股息成交占比升至18%。短期防御为主。</div>
+
+  <div class="fund-grid">
+    <div class="fund-item"><div class="flabel">两融余额</div><div class="fvalue flat">15,876亿</div></div>
+    <div class="fund-item"><div class="flabel">两融单日变动</div><div class="fvalue down">-120.4亿</div></div>
+    <div class="fund-item"><div class="flabel">两融占比</div><div class="fvalue flat">4.32%（安全区间）</div></div>
+  </div>
+
+  <h3 class="sub-h serif">龙虎榜席位动向</h3>
+  <table class="research">
+    <thead><tr><th style="width:120px">席位</th><th>净买入方向</th><th>净卖出方向</th></tr></thead>
+    <tbody>
+      <tr><td><b>机构席位</b></td><td class="perf-up">电力股湖南发展 +2.1亿；跌停半导体龙头有部分承接</td><td class="perf-down">多只跌停半导体股</td></tr>
+      <tr><td><b>北向席位</b></td><td class="perf-up">高股息电力、煤炭股</td><td class="perf-down">科技成长股</td></tr>
+      <tr><td><b>游资席位</b></td><td class="perf-up">仅电力、油气等防御板块小仓位参与</td><td class="perf-down">一线游资集体出逃高位题材股</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose" style="margin-top:14px">
+    <p><b>成交结构：</b>半导体板块成交超3200亿元占全市场12%，放量暴跌恐慌盘集中涌出；高股息板块成交占比提升至18%，资金避险明显。</p>
+    <div class="quote"><b>资金结论：</b>短期恐慌情绪释放，杠杆资金降仓，机构资金向防御板块切换，市场风格从成长切向价值，短期防御为主。</div>
+  </div>
+</section>
+
+<!-- 柒 估值分位 -->
+<section class="chapter" id="ch7">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">柒</span><span>指数与行业估值分位</span></div>
+    <div class="ch-en">CHAPTER · VALUATION PERCENTILE</div>
+  </div>
+
+  <div class="tldr">单日大跌后主要宽基与科技、医药板块估值回到10年历史10%分位以下，接近2018年、2022年历史大底水平，长期配置价值凸显；但短期情绪修复需要时间，不宜盲目抄底。</div>
+
+  <table class="research">
+    <thead><tr><th>指数 / 行业</th><th style="width:110px">PE-TTM</th><th style="width:140px">10年历史分位</th><th>估值定性</th></tr></thead>
+    <tbody>
+      <tr><td><b>上证指数</b></td><td>11.24</td><td>18.7%</td><td class="perf-down">极度低估</td></tr>
+      <tr><td><b>沪深300</b></td><td>10.87</td><td>15.3%</td><td class="perf-down">极度低估</td></tr>
+      <tr><td><b>创业板指</b></td><td>24.36</td><td>8.4%</td><td class="perf-down">极度低估</td></tr>
+      <tr><td><b>科创50</b></td><td>31.25</td><td>5.7%</td><td class="perf-down">极度低估</td></tr>
+      <tr><td><b>半导体</b></td><td>42.18</td><td>12.3%</td><td class="perf-down">极度低估</td></tr>
+      <tr><td><b>电力/公用事业</b></td><td>13.56</td><td>32.4%</td><td class="perf-flat">低估</td></tr>
+      <tr><td><b>煤炭</b></td><td>6.78</td><td>24.6%</td><td class="perf-flat">低估</td></tr>
+      <tr><td><b>创新药/CRO</b></td><td>21.34</td><td>6.8%</td><td class="perf-down">极度低估</td></tr>
+      <tr><td><b>AI/计算机</b></td><td>38.72</td><td>56.4%</td><td class="perf-flat">中性</td></tr>
+    </tbody>
+  </table>
+  <div class="prose"><div class="quote"><b>估值结论：</b>经过单日大跌后，主要宽基指数和科技、医药板块估值均回到10年历史10%分位以下，接近2018年、2022年历史大底估值水平，长期配置价值凸显，但短期情绪修复需要时间，不宜盲目抄底。</div></div>
+</section>
+
+<!-- 捌 风险避雷 -->
+<section class="chapter" id="ch8">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">捌</span><span>市场风险避雷清单</span></div>
+    <div class="ch-en">CHAPTER · RISK RADAR</div>
+  </div>
+
+  <div class="tldr">今日8家公司解禁合计63亿元（智迪科技解禁占流通盘42%）；42家披露减持、3家实控人拟减持超3%，集中在AI/半导体；上交所重点监控5只半导体概念股、2家公司被立案调查；费半夜盘跌超3%压制A股半导体情绪。</div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 解禁抛压（7月18日）</div>
+      <div class="risk-box trigger">🔴 8家公司解禁合计63亿元：智迪科技解禁21亿元（占流通盘42%）、特锐德解禁15亿元（占8%），注意解禁抛压。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 减持公告</div>
+      <div class="risk-box trigger">🔴 42家披露减持计划，其中3家实控人拟减持超3%，主要集中在前期涨幅较大的AI、半导体板块。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 监管风险</div>
+      <div class="risk-box trigger">🔴 上交所对5只短期暴涨暴跌半导体概念股重点监控并限制异常交易账户；2家公司因涉嫌信息披露违法违规被立案调查。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 行业利空</div>
+      <div class="risk-box trigger">🔴 美股半导体板块集体大跌，费城半导体指数夜盘跌超3%，对A股半导体板块有情绪压制。</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-stripe"></div>
+      <div class="risk-h">⚠️ 高风险标的</div>
+      <div class="risk-box trigger">🔴 被立案调查的2家公司、3只实控人大额减持的AI概念股、解禁比例超40%的智迪科技。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 玖 赛道景气 -->
+<section class="chapter" id="ch9">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">玖</span><span>重点赛道产业链景气跟踪</span></div>
+    <div class="ch-en">CHAPTER · INDUSTRY PROSPERITY</div>
+  </div>
+
+  <div class="tldr">高股息/电力（4.5分）、油气（4.3分）、有色金属（4.2分）景气向上，受迎峰度夏保供与中东地缘催化驱动；半导体（3.5分）短期情绪杀跌但基本面未变；锂电池（2.8分）价格底部等待需求复苏。</div>
+
+  <table class="research">
+    <thead><tr><th style="width:120px">赛道</th><th style="width:200px">核心价格变动</th><th style="width:190px">高频数据</th><th>催化新闻</th><th style="width:80px">景气打分</th></tr></thead>
+    <tbody>
+      <tr><td><b>高股息/电力</b></td><td>动力煤782元/吨（平）</td><td>电厂日耗92万吨/天(+8%)，迎峰度夏高峰</td><td>能源局出台保供政策，电力需求超预期</td><td class="perf-up">4.5/5</td></tr>
+      <tr><td><b>油气</b></td><td class="perf-up">WTI原油81.58美元/桶(+3.33%)</td><td>原油库存下降320万桶</td><td>中东局势紧张，油价突破80美元</td><td class="perf-up">4.3/5</td></tr>
+      <tr><td><b>有色金属</b></td><td class="perf-up">黄金4013美元(+0.71%)、铜-0.28%</td><td>铜社会库存18.5万吨，去库持续</td><td>中东局势推升黄金、原油价格</td><td class="perf-up">4.2/5</td></tr>
+      <tr><td><b>半导体</b></td><td class="perf-flat">存储芯片价格持平</td><td>晶圆厂开工率88%，环比持平</td><td>上交所监控半导体概念股炒作，短期情绪承压</td><td class="perf-flat">3.5/5</td></tr>
+      <tr><td><b>锂电池</b></td><td class="perf-down">电池级碳酸锂14.89万元/吨(-2.62%)</td><td>7月上旬装车量同比+18%，开工率57%</td><td>锂价继续探底，企业减产挺价</td><td class="perf-down">2.8/5</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 拾 ETF与共识 -->
+<section class="chapter" id="ch10">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">拾</span><span>ETF资金流向与机构共识</span></div>
+    <div class="ch-en">CHAPTER · ETF FLOWS &amp; CONSENSUS</div>
+  </div>
+
+  <div class="tldr">大跌日宽基ETF逆势净申购187亿元（沪深300 +62亿、创业板 +48亿、科创50 +37亿），长期资金借道抄底；行业ETF能源/黄金/电力净流入，半导体ETF逆势净申购21亿与外资卖出形成分歧。短期风格明确偏防御，科技成长待情绪企稳。</div>
+
+  <div class="two-col">
+    <div>
+      <h3 class="sub-h serif up" style="margin-top:0">净流入</h3>
+      <table class="research">
+        <thead><tr><th>ETF</th><th style="width:110px">净流入</th></tr></thead>
+        <tbody>
+          <tr><td>宽基ETF（合计）</td><td class="perf-up">+187亿</td></tr>
+          <tr><td>沪深300 ETF</td><td class="perf-up">+62亿</td></tr>
+          <tr><td>创业板 ETF</td><td class="perf-up">+48亿</td></tr>
+          <tr><td>科创50 ETF</td><td class="perf-up">+37亿</td></tr>
+          <tr><td>能源 ETF</td><td class="perf-up">+24.5亿</td></tr>
+          <tr><td>半导体 ETF（抄底）</td><td class="perf-up">+21亿</td></tr>
+          <tr><td>黄金 ETF</td><td class="perf-up">+18.7亿</td></tr>
+          <tr><td>电力 ETF</td><td class="perf-up">+15.3亿</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 class="sub-h serif down" style="margin-top:0">净流出</h3>
+      <table class="research">
+        <thead><tr><th>ETF</th><th style="width:110px">净流出</th></tr></thead>
+        <tbody>
+          <tr><td>AI ETF</td><td class="perf-down">-12.4亿</td></tr>
+          <tr><td>医药 ETF</td><td class="perf-down">-8.7亿</td></tr>
+        </tbody>
+      </table>
+      <div class="prose" style="margin-top:14px">
+        <div class="quote"><b>资金交叉验证：</b>北向资金与ETF资金一致加仓高股息能源、电力；半导体板块外资卖出但内资ETF抄底，存在分歧。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:6px"><p><b>趋势总结：</b>大跌后长期资金开始通过宽基ETF布局，短期风格明确偏向防御（能源、电力、黄金），科技成长板块需要等待情绪企稳。</p></div>
+
+  <div class="disclaimer">⚠️ <b>免责声明：</b>本报告仅为公开数据整理，不构成任何投资建议，不预测股价走势。盘前部分基于美东2026年7月17日收盘数据，复盘部分基于A股2026年7月17日收盘数据。投资有风险，入市需谨慎。</div>
+
+  <div style="text-align:center;margin-top:26px"><span class="seal">全市场<br/>日报</span></div>
+</section>
+
+</main>
+
+<footer>
+  · A股每日全市场日报 · 盘前数据：美东2026-07-17收盘 · 复盘数据：A股2026-07-17收盘 · 更新于：2026-07-18 · 仅供参考，不构成投资建议 ·
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.chapter-tab');
+  const sections = Array.from(tabs).map(t => document.getElementById(t.dataset.target));
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = document.getElementById(tab.dataset.target);
+      if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+  });
+
+  function setActive() {
+    let currentIndex = 0;
+    const scrollPos = window.scrollY + 140;
+    sections.forEach((sec, i) => {
+      if (sec && sec.offsetTop <= scrollPos) currentIndex = i;
+    });
+    tabs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+  }
+  window.addEventListener('scroll', setActive);
+  setActive();
+</script>
+
+</body>
+</html>
