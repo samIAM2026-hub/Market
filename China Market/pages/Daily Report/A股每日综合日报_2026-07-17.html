@@ -179,6 +179,43 @@
   .sub-h.up{border-left-color:var(--up)}
   .sub-h.down{border-left-color:var(--down)}
 
+  /* ---- 估值分位面板专用类 ---- */
+  table.research td.num{font-family:'Noto Serif SC';text-align:right;white-space:nowrap}
+  .pct{font-family:'Noto Serif SC';text-align:right;white-space:nowrap}
+  .pct.hi{color:var(--up-deep)}
+  .pct.lo{color:var(--down-deep)}
+  /* 估值热度标签（凉→热 = 便宜→贵，与价格涨跌无关） */
+  .vtag{font-size:11px;padding:2px 9px;border-radius:2px;font-weight:700;white-space:nowrap;display:inline-block;font-family:'Noto Sans SC'}
+  .vtag.v1{background:#D7EEDD;color:#0F5A2B}
+  .vtag.v2{background:#E4F1DE;color:#3C6B2A}
+  .vtag.v3{background:#ECE7DA;color:#5F5F5F}
+  .vtag.v4{background:#FBEFD3;color:#9A6A12}
+  .vtag.v5{background:#F6DEC2;color:#B0551D}
+  .vtag.v6{background:#F5CEC9;color:#9E1A2D}
+  .vtag.v7{background:#D7263D;color:#fff}
+  .legend{font-size:11.5px;color:var(--ink-3);margin:6px 0 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+  .pool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .pool-card{background:var(--paper);border:1px solid var(--line);padding:18px 20px;border-top:4px solid var(--gold)}
+  .pool-card.low{border-top-color:var(--down)}
+  .pool-card.fair{border-top-color:var(--flat)}
+  .pool-card.high{border-top-color:#E27A3F}
+  .pool-card.bubble{border-top-color:var(--up)}
+  .pool-h{font-family:'Noto Serif SC';font-weight:700;font-size:16px;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .pool-range{font-size:11.5px;color:var(--ink-3);margin-bottom:12px}
+  .pool-row{font-size:12.5px;color:var(--ink-2);margin-bottom:7px;line-height:1.55}
+  .pool-row b{color:var(--navy);font-weight:700;font-size:11.5px;letter-spacing:1px;margin-right:4px}
+  .pool-note{margin-top:12px;padding:9px 12px;font-size:12px;line-height:1.6;border-left:3px solid var(--line-strong);background:#FAF8F2;color:var(--ink-3)}
+  .pool-card.low .pool-note{border-left-color:var(--down);background:var(--down-soft);color:var(--down-deep)}
+  .pool-card.bubble .pool-note{border-left-color:var(--up);background:var(--up-soft);color:var(--up-deep)}
+  .pool-card.high .pool-note{border-left-color:#E27A3F;background:#FBEFD3;color:#9A6A12}
+
+  .op-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .op-card{background:var(--paper);border:1px solid var(--line);padding:16px 18px;border-top:3px solid var(--navy)}
+  .op-h{font-family:'Noto Serif SC';font-weight:700;font-size:15px;color:var(--navy);margin-bottom:8px}
+  .op-card p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.65}
+  .op-card .pos{font-family:'Noto Serif SC';color:var(--gold);font-weight:700}
+
   footer{text-align:center;font-size:12px;color:var(--ink-3);padding:24px 0 40px;border-top:1px solid var(--line);margin-top:24px}
 </style>
 </head>
@@ -190,22 +227,24 @@
       <div class="brand-seal">日</div>
       <div class="brand-text">
         <span class="brand-title">A股每日综合日报</span>
-        <span class="brand-sub">DAILY RECAP + EARNINGS TRACKER</span>
+        <span class="brand-sub">DAILY RECAP · EARNINGS · VALUATION</span>
       </div>
     </div>
     <div class="topbar-meta">
       <span>报告日期：<b>2026年7月17日（周五）</b></span>
-      <span>覆盖内容：<b>市场复盘 · 行业与龙头业绩跟踪</b></span>
-      <span>数据口径：<b>复盘·当日收盘(7-17) / 业绩·中报预告(沿用7-16披露)</b></span>
+      <span>覆盖内容：<b>市场复盘 · 行业与龙头业绩跟踪 · 指数与行业估值分位</b></span>
+      <span>数据口径：<b>复盘·当日收盘(7-17) / 业绩·中报预告(沿用7-16披露) / 估值·当日收盘(7-17)</b></span>
     </div>
   </div>
 </header>
 
+<div class="backlink"><a href="../../index.html">← 返回 China Market 主页</a></div>
 
 <nav class="report-tabs">
   <div class="report-tabs-inner" id="report-nav">
     <div class="report-tab active" data-report="recap"><span class="icon">📈</span>每日复盘 Daily Recap</div>
     <div class="report-tab" data-report="earnings"><span class="icon">💰</span>业绩跟踪 Earnings Tracker</div>
+    <div class="report-tab" data-report="valuation"><span class="icon">📊</span>估值分位 Valuation</div>
   </div>
 </nav>
 
@@ -1002,8 +1041,284 @@
 </div>
 <!-- ============ /业绩跟踪 PANEL ============ -->
 
+<!-- ============ 估值分位 PANEL ============ -->
+<div class="report-panel" id="panel-valuation" style="display:none">
+
+<nav class="chapters">
+  <div class="chapters-inner" data-panel="valuation">
+    <a class="chapter-tab active" data-target="v-ch1"><span class="num">壹</span>市场温度计</a>
+    <a class="chapter-tab" data-target="v-ch2"><span class="num">贰</span>宽基指数</a>
+    <a class="chapter-tab" data-target="v-ch3"><span class="num">叁</span>风格指数</a>
+    <a class="chapter-tab" data-target="v-ch4"><span class="num">肆</span>申万行业</a>
+    <a class="chapter-tab" data-target="v-ch5"><span class="num">伍</span>细分赛道</a>
+    <a class="chapter-tab" data-target="v-ch6"><span class="num">陆</span>高低分池</a>
+    <a class="chapter-tab" data-target="v-ch7"><span class="num">柒</span>变动与操作</a>
+  </div>
+</nav>
+
+<main>
+
+<div class="carry-note">📌 <b>数据说明：</b>估值分位面板整合自当日（2026-07-17 周五收盘）《A股指数与行业估值分位报告》，覆盖宽基10 · 风格10 · 申万一级31 · 细分赛道16，分位口径为近1年/3年/5年/10年。估值热度标签（低估→极度高估）反映"便宜↔贵"，与当日涨跌红绿约定相互独立。</div>
+
+<!-- 壹 市场温度计 -->
+<section class="chapter" id="v-ch1">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">壹</span><span>全市场整体估值温度计</span></div>
+    <div class="ch-en">CHAPTER · MARKET THERMOMETER</div>
+  </div>
+
+  <div class="tldr"><b>核心结论：</b>7月17日单日大跌后全市场估值有所回落，但<b>整体仍处合理偏高区间</b>——万得全A(加权)PE-TTM 16.11仍在近10年75.2%分位，等权PE更高达82.1%分位，中小盘成长股估值仍在历史高位。股债性价比(ERP)处近10年25%分位、权益吸引力不高。<b>仅高股息价值板块估值具备吸引力，短期恐慌回调尚未到历史大底区域，不宜盲目抄底。</b></div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><span class="kpi-label">万得全A(加权) PE-TTM</span><span class="kpi-value flat">16.11</span><span class="kpi-sub">近10年 75.2% 分位 · 合理偏高</span></div>
+    <div class="kpi"><span class="kpi-label">万得全A(等权) PE-TTM</span><span class="kpi-value flat">21.82</span><span class="kpi-sub">近10年 82.1% 分位 · 偏高</span></div>
+    <div class="kpi"><span class="kpi-label">万得全A PB</span><span class="kpi-value flat">1.40</span><span class="kpi-sub">近10年 68.3% 分位 · 破净约8%</span></div>
+    <div class="kpi"><span class="kpi-label">股债性价比 ERP</span><span class="kpi-value flat">2.87%</span><span class="kpi-sub">近10年 24.7% 分位 · 性价比一般</span></div>
+    <div class="kpi"><span class="kpi-label">全A股息率</span><span class="kpi-value flat">2.01%</span><span class="kpi-sub">低于10年国债 2.38%</span></div>
+  </div>
+
+  <div class="legend"><span>估值热度：</span><span class="vtag v1">低估</span><span class="vtag v2">合理偏低</span><span class="vtag v3">合理</span><span class="vtag v4">合理偏高</span><span class="vtag v5">偏高</span><span class="vtag v6">高估</span><span class="vtag v7">极度高估</span><span style="color:var(--ink-3)">（凉→热 = 便宜→贵，与当日涨跌红绿无关）</span></div>
+
+  <table class="research">
+    <thead><tr><th>指标</th><th class="num">最新值</th><th class="num">近1年</th><th class="num">近3年</th><th class="num">近5年</th><th class="num">近10年</th><th>估值状态</th><th>核心解读</th></tr></thead>
+    <tbody>
+      <tr><td><b>万得全A(加权) PE</b></td><td class="num">16.11</td><td class="pct">42.3%</td><td class="pct">68.7%</td><td class="pct hi">72.4%</td><td class="pct hi">75.2%</td><td><span class="vtag v4">合理偏高</span></td><td>单日大跌后回落，仍处近10年75%分位，整体不便宜</td></tr>
+      <tr><td><b>万得全A(等权) PE</b></td><td class="num">21.82</td><td class="pct">38.6%</td><td class="pct hi">75.3%</td><td class="pct hi">79.8%</td><td class="pct hi">82.1%</td><td><span class="vtag v5">偏高</span></td><td>中小盘估值仍在近10年80%分位，前期涨幅大后回调</td></tr>
+      <tr><td><b>万得全A PB</b></td><td class="num">1.40</td><td class="pct">35.7%</td><td class="pct">62.4%</td><td class="pct">66.9%</td><td class="pct">68.3%</td><td><span class="vtag v4">合理偏高</span></td><td>破净股占比约8%，未到历史底部水平</td></tr>
+      <tr><td><b>股债性价比 ERP</b></td><td class="num">2.87%</td><td class="pct">48.2%</td><td class="pct">32.6%</td><td class="pct lo">28.4%</td><td class="pct lo">24.7%</td><td><span class="vtag v3">性价比一般</span></td><td>股票相对债券吸引力处近10年25%分位，权益性价比不高</td></tr>
+      <tr><td><b>全A股息率</b></td><td class="num">2.01%</td><td class="pct">52.7%</td><td class="pct">38.4%</td><td class="pct">34.2%</td><td class="pct">30.5%</td><td><span class="vtag v3">中等</span></td><td>全市场股息率略低于10年期国债收益率(2.38%)</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11.5px;color:var(--ink-3);margin:4px 0 0">注：ERP/股息率分位越低代表股相对债/现金吸引力越弱；此处状态标签沿用原文定性。</p>
+</section>
+
+<!-- 贰 宽基指数 -->
+<section class="chapter" id="v-ch2">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">贰</span><span>核心宽基指数估值表</span></div>
+    <div class="ch-en">CHAPTER · BROAD INDICES</div>
+  </div>
+
+  <div class="tldr">A股宽基普遍合理偏高——沪深300近5年PE分位88.4%、中证500高估(85.3%)、<b>科创50极度高估(近10年99.4%分位)</b>为全表最贵。港股是唯一亮点：<b>恒生指数低估(近10年12.6%分位，股息率3.87%)、恒生科技合理偏低</b>，定投评级最高。</div>
+
+  <table class="research">
+    <thead><tr><th>指数</th><th class="num">PE-TTM</th><th class="num">PB</th><th class="num">股息率</th><th class="num">PE·1Y</th><th class="num">PE·3Y</th><th class="num">PE·5Y</th><th class="num">PE·10Y</th><th>估值状态</th><th>定投评级</th></tr></thead>
+    <tbody>
+      <tr><td><b>上证指数</b></td><td class="num">16.10</td><td class="num">1.38</td><td class="num">2.24%</td><td class="pct">45.6%</td><td class="pct">67.2%</td><td class="pct hi">70.8%</td><td class="pct hi">72.3%</td><td><span class="vtag v4">合理偏高</span></td><td>⭐⭐ 观望</td></tr>
+      <tr><td><b>上证50</b></td><td class="num">10.98</td><td class="num">1.12</td><td class="num">3.12%</td><td class="pct">51.3%</td><td class="pct">68.4%</td><td class="pct hi">72.1%</td><td class="pct hi">70.5%</td><td><span class="vtag v4">合理偏高</span></td><td>⭐⭐ 观望</td></tr>
+      <tr><td><b>沪深300</b></td><td class="num">13.99</td><td class="num">1.32</td><td class="num">2.56%</td><td class="pct">50.7%</td><td class="pct hi">82.3%</td><td class="pct hi">88.4%</td><td class="pct hi">80.6%</td><td><span class="vtag v5">偏高</span></td><td>⭐⭐ 谨慎定投</td></tr>
+      <tr><td><b>中证500</b></td><td class="num">35.58</td><td class="num">2.31</td><td class="num">1.34%</td><td class="pct">38.4%</td><td class="pct hi">80.7%</td><td class="pct hi">86.2%</td><td class="pct hi">85.3%</td><td><span class="vtag v6">高估</span></td><td>⭐ 不建议</td></tr>
+      <tr><td><b>中证1000</b></td><td class="num">45.72</td><td class="num">2.68</td><td class="num">0.98%</td><td class="pct">32.1%</td><td class="pct hi">72.6%</td><td class="pct hi">78.4%</td><td class="pct hi">74.8%</td><td><span class="vtag v5">偏高</span></td><td>⭐ 不建议</td></tr>
+      <tr><td><b>创业板指</b></td><td class="num">44.86</td><td class="num">4.12</td><td class="num">0.76%</td><td class="pct">28.7%</td><td class="pct">52.4%</td><td class="pct">58.9%</td><td class="pct">53.6%</td><td><span class="vtag v3">合理</span></td><td>⭐⭐ 小额定投</td></tr>
+      <tr><td><b>科创50</b></td><td class="num">231.45</td><td class="num">4.87</td><td class="num">0.21%</td><td class="pct hi">62.4%</td><td class="pct hi">98.7%</td><td class="pct hi">99.2%</td><td class="pct hi">99.4%</td><td><span class="vtag v7">极度高估</span></td><td>⭐ 规避</td></tr>
+      <tr><td><b>北证50</b></td><td class="num">29.74</td><td class="num">2.56</td><td class="num">1.12%</td><td class="pct">41.2%</td><td class="pct">68.9%</td><td class="pct hi">73.5%</td><td class="pct">69.7%</td><td><span class="vtag v4">合理偏高</span></td><td>⭐ 观望</td></tr>
+      <tr><td><b>恒生指数</b></td><td class="num">8.42</td><td class="num">0.91</td><td class="num">3.87%</td><td class="pct lo">22.3%</td><td class="pct lo">18.7%</td><td class="pct lo">15.4%</td><td class="pct lo">12.6%</td><td><span class="vtag v1">低估</span></td><td>⭐⭐⭐⭐ 可定投</td></tr>
+      <tr><td><b>恒生科技</b></td><td class="num">19.87</td><td class="num">2.14</td><td class="num">1.05%</td><td class="pct">31.4%</td><td class="pct lo">28.6%</td><td class="pct lo">24.7%</td><td class="pct lo">21.3%</td><td><span class="vtag v2">合理偏低</span></td><td>⭐⭐⭐ 逢低布局</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:11.5px;color:var(--ink-3);margin:4px 0 0">PB 四周期分位见原始报告；此处列示 PE 四周期分位以突出主线。</p>
+</section>
+
+<!-- 叁 风格指数 -->
+<section class="chapter" id="v-ch3">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">叁</span><span>主流风格指数估值表</span></div>
+    <div class="ch-en">CHAPTER · STYLE INDICES</div>
+  </div>
+
+  <div class="tldr">价值 vs 成长估值分化极致：<b>中证红利(近10年18.9%分位，股息率5.42%)、红利低波(16.2%分位，5.78%)、大盘价值低估</b>，防御属性强、大跌中抗跌；<b>科创成长/科创赛道极度高估(98%分位以上)</b>，中盘成长高估。资金结构上"高股息价值"是当前唯一具备安全边际的风格。</div>
+
+  <table class="research">
+    <thead><tr><th>风格指数</th><th class="num">PE-TTM</th><th class="num">PB</th><th class="num">股息率</th><th class="num">PE·1Y</th><th class="num">PE·3Y</th><th class="num">PE·5Y</th><th class="num">PE·10Y</th><th>估值状态</th><th>风格解读</th></tr></thead>
+    <tbody>
+      <tr><td><b>中证红利</b></td><td class="num">6.87</td><td class="num">0.79</td><td class="num">5.42%</td><td class="pct">38.4%</td><td class="pct lo">24.7%</td><td class="pct lo">21.2%</td><td class="pct lo">18.9%</td><td><span class="vtag v1">低估</span></td><td>高股息防御，大跌中抗跌，估值有吸引力</td></tr>
+      <tr><td><b>红利低波</b></td><td class="num">6.34</td><td class="num">0.73</td><td class="num">5.78%</td><td class="pct">35.2%</td><td class="pct lo">21.3%</td><td class="pct lo">18.4%</td><td class="pct lo">16.2%</td><td><span class="vtag v1">低估</span></td><td>低波动高股息，防御属性最强</td></tr>
+      <tr><td><b>大盘价值</b></td><td class="num">8.12</td><td class="num">0.95</td><td class="num">3.94%</td><td class="pct">48.7%</td><td class="pct">32.4%</td><td class="pct lo">28.6%</td><td class="pct lo">25.3%</td><td><span class="vtag v2">合理偏低</span></td><td>高股息价值相对抗跌，估值具吸引力</td></tr>
+      <tr><td><b>创业板价值</b></td><td class="num">14.23</td><td class="num">1.76</td><td class="num">2.12%</td><td class="pct">32.6%</td><td class="pct">42.8%</td><td class="pct">45.3%</td><td class="pct">41.7%</td><td><span class="vtag v2">合理偏低</span></td><td>创业板中的价值股，估值相对合理</td></tr>
+      <tr><td><b>中盘价值</b></td><td class="num">15.34</td><td class="num">1.52</td><td class="num">2.45%</td><td class="pct">39.6%</td><td class="pct">58.7%</td><td class="pct">62.3%</td><td class="pct">59.4%</td><td><span class="vtag v3">合理</span></td><td>中盘价值估值中性</td></tr>
+      <tr><td><b>小盘价值</b></td><td class="num">20.15</td><td class="num">1.78</td><td class="num">1.87%</td><td class="pct">31.5%</td><td class="pct">62.4%</td><td class="pct">67.8%</td><td class="pct">64.2%</td><td><span class="vtag v4">合理偏高</span></td><td>小盘价值估值中性偏高</td></tr>
+      <tr><td><b>大盘成长</b></td><td class="num">18.76</td><td class="num">2.34</td><td class="num">1.12%</td><td class="pct">52.3%</td><td class="pct hi">78.6%</td><td class="pct hi">82.4%</td><td class="pct hi">76.8%</td><td><span class="vtag v5">偏高</span></td><td>大盘成长估值仍高位，回调压力大</td></tr>
+      <tr><td><b>小盘成长</b></td><td class="num">52.67</td><td class="num">2.89</td><td class="num">0.65%</td><td class="pct">27.8%</td><td class="pct hi">76.3%</td><td class="pct hi">82.1%</td><td class="pct hi">78.4%</td><td><span class="vtag v5">偏高</span></td><td>小盘成长高位，回调幅度大</td></tr>
+      <tr><td><b>中盘成长</b></td><td class="num">38.42</td><td class="num">2.98</td><td class="num">0.87%</td><td class="pct">34.2%</td><td class="pct hi">82.5%</td><td class="pct hi">87.6%</td><td class="pct hi">83.1%</td><td><span class="vtag v6">高估</span></td><td>前期涨幅大，估值高位回调</td></tr>
+      <tr><td><b>科创成长</b></td><td class="num">89.64</td><td class="num">4.56</td><td class="num">0.32%</td><td class="pct hi">58.7%</td><td class="pct hi">97.2%</td><td class="pct hi">98.4%</td><td class="pct hi">98.1%</td><td><span class="vtag v7">极度高估</span></td><td>硬科技泡沫明显，单日大跌7%</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 肆 申万行业 -->
+<section class="chapter" id="v-ch4">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">肆</span><span>申万一级行业估值表（31个行业全覆盖）</span></div>
+    <div class="ch-en">CHAPTER · SW INDUSTRIES</div>
+  </div>
+
+  <div class="tldr">按近10年PE分位由低到高排列。<b>低估端：银行(10.7%)、石油石化(20.3%)、房地产、建筑装饰、煤炭</b>——高股息价值防御，当日多数收红或抗跌；<b>高估端：计算机(86.4%高估)、通信、电子、传媒、国防军工偏高</b>——成长赛道当日领跌（电子-9.24%、电力设备-6.02%、计算机-5.67%），估值虽杀但近10年分位仍在高位。当日涨跌沿用A股红涨绿跌。</div>
+
+  <table class="research">
+    <thead><tr><th>申万一级行业</th><th class="num">PE-TTM</th><th class="num">PB</th><th class="num">股息率</th><th class="num">PE·1Y</th><th class="num">PE·3Y</th><th class="num">PE·5Y</th><th class="num">PE·10Y</th><th>估值状态</th><th class="num">当日涨跌</th></tr></thead>
+    <tbody>
+      <tr><td><b>银行</b></td><td class="num">4.92</td><td class="num">0.56</td><td class="num">6.08%</td><td class="pct">38.7%</td><td class="pct lo">15.2%</td><td class="pct lo">12.4%</td><td class="pct lo">10.7%</td><td><span class="vtag v1">低估</span></td><td class="perf-up">+0.34%</td></tr>
+      <tr><td><b>石油石化</b></td><td class="num">8.45</td><td class="num">1.10</td><td class="num">5.56%</td><td class="pct">45.3%</td><td class="pct lo">24.6%</td><td class="pct lo">21.7%</td><td class="pct lo">20.3%</td><td><span class="vtag v1">低估</span></td><td class="perf-up">+2.47%</td></tr>
+      <tr><td><b>建筑装饰</b></td><td class="num">8.12</td><td class="num">0.78</td><td class="num">4.49%</td><td class="pct">35.6%</td><td class="pct lo">22.4%</td><td class="pct lo">18.7%</td><td class="pct lo">17.2%</td><td><span class="vtag v1">低估</span></td><td class="perf-down">-0.47%</td></tr>
+      <tr><td><b>房地产</b></td><td class="num">9.56</td><td class="num">0.86</td><td class="num">4.08%</td><td class="pct">32.1%</td><td class="pct lo">28.4%</td><td class="pct lo">25.6%</td><td class="pct lo">23.8%</td><td><span class="vtag v1">低估</span></td><td class="perf-down">-2.56%</td></tr>
+      <tr><td><b>煤炭</b></td><td class="num">6.92</td><td class="num">1.04</td><td class="num">7.76%</td><td class="pct">42.1%</td><td class="pct lo">28.7%</td><td class="pct lo">25.4%</td><td class="pct lo">26.8%</td><td><span class="vtag v1">低估</span></td><td class="perf-up">+1.34%</td></tr>
+      <tr><td><b>建筑材料</b></td><td class="num">10.98</td><td class="num">1.09</td><td class="num">3.86%</td><td class="pct">28.4%</td><td class="pct">32.6%</td><td class="pct">35.8%</td><td class="pct">33.4%</td><td><span class="vtag v2">合理偏低</span></td><td class="perf-down">-3.68%</td></tr>
+      <tr><td><b>家用电器</b></td><td class="num">12.24</td><td class="num">2.07</td><td class="num">3.48%</td><td class="pct">42.3%</td><td class="pct">38.7%</td><td class="pct">35.4%</td><td class="pct">33.6%</td><td><span class="vtag v2">合理偏低</span></td><td class="perf-down">-2.67%</td></tr>
+      <tr><td><b>电力及公用事业</b></td><td class="num">13.87</td><td class="num">1.48</td><td class="num">3.81%</td><td class="pct hi">52.4%</td><td class="pct">38.6%</td><td class="pct">35.2%</td><td class="pct">34.7%</td><td><span class="vtag v2">合理偏低</span></td><td class="perf-up">+1.68%</td></tr>
+      <tr><td><b>医药生物</b></td><td class="num">20.34</td><td class="num">2.31</td><td class="num">1.72%</td><td class="pct lo">22.3%</td><td class="pct">38.7%</td><td class="pct">42.6%</td><td class="pct">39.4%</td><td><span class="vtag v2">合理偏低</span></td><td class="perf-down">-4.56%</td></tr>
+      <tr><td><b>钢铁</b></td><td class="num">13.12</td><td class="num">0.90</td><td class="num">4.18%</td><td class="pct">41.2%</td><td class="pct">42.7%</td><td class="pct">38.4%</td><td class="pct">36.9%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-0.58%</td></tr>
+      <tr><td><b>汽车</b></td><td class="num">16.23</td><td class="num">1.71</td><td class="num">2.15%</td><td class="pct lo">24.7%</td><td class="pct">45.6%</td><td class="pct">50.2%</td><td class="pct">47.3%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-4.56%</td></tr>
+      <tr><td><b>交通运输</b></td><td class="num">12.67</td><td class="num">1.35</td><td class="num">3.62%</td><td class="pct">48.7%</td><td class="pct">45.3%</td><td class="pct">42.1%</td><td class="pct">40.8%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-0.82%</td></tr>
+      <tr><td><b>非银金融</b></td><td class="num">11.67</td><td class="num">1.10</td><td class="num">3.26%</td><td class="pct">38.9%</td><td class="pct">48.7%</td><td class="pct">52.4%</td><td class="pct">49.8%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-1.45%</td></tr>
+      <tr><td><b>环保</b></td><td class="num">15.34</td><td class="num">1.30</td><td class="num">2.38%</td><td class="pct">35.7%</td><td class="pct">48.6%</td><td class="pct">52.1%</td><td class="pct">49.7%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-3.12%</td></tr>
+      <tr><td><b>电力设备</b></td><td class="num">18.12</td><td class="num">1.89</td><td class="num">1.82%</td><td class="pct lo">18.7%</td><td class="pct">52.4%</td><td class="pct">57.8%</td><td class="pct">54.3%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-6.02%</td></tr>
+      <tr><td><b>纺织服饰</b></td><td class="num">14.32</td><td class="num">1.41</td><td class="num">2.79%</td><td class="pct">38.4%</td><td class="pct">42.6%</td><td class="pct">45.8%</td><td class="pct">43.2%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-2.68%</td></tr>
+      <tr><td><b>农林牧渔</b></td><td class="num">28.12</td><td class="num">2.61</td><td class="num">1.45%</td><td class="pct">48.7%</td><td class="pct">52.4%</td><td class="pct hi">55.7%</td><td class="pct">53.2%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-2.14%</td></tr>
+      <tr><td><b>食品饮料</b></td><td class="num">22.14</td><td class="num">4.47</td><td class="num">2.91%</td><td class="pct">45.6%</td><td class="pct">58.7%</td><td class="pct">62.3%</td><td class="pct">59.4%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-2.01%</td></tr>
+      <tr><td><b>综合</b></td><td class="num">22.87</td><td class="num">1.50</td><td class="num">1.70%</td><td class="pct">42.1%</td><td class="pct">55.3%</td><td class="pct">59.4%</td><td class="pct">56.8%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-3.45%</td></tr>
+      <tr><td><b>轻工制造</b></td><td class="num">17.45</td><td class="num">1.60</td><td class="num">2.37%</td><td class="pct lo">27.6%</td><td class="pct">52.4%</td><td class="pct hi">57.8%</td><td class="pct">54.6%</td><td><span class="vtag v3">合理</span></td><td class="perf-down">-3.92%</td></tr>
+      <tr><td><b>基础化工</b></td><td class="num">15.12</td><td class="num">1.63</td><td class="num">2.69%</td><td class="pct">31.2%</td><td class="pct">58.7%</td><td class="pct">63.2%</td><td class="pct">60.5%</td><td><span class="vtag v4">合理偏高</span></td><td class="perf-down">-2.45%</td></tr>
+      <tr><td><b>商贸零售</b></td><td class="num">18.45</td><td class="num">1.51</td><td class="num">2.14%</td><td class="pct">42.7%</td><td class="pct">58.9%</td><td class="pct">63.4%</td><td class="pct">60.7%</td><td><span class="vtag v4">合理偏高</span></td><td class="perf-down">-3.12%</td></tr>
+      <tr><td><b>有色金属</b></td><td class="num">16.45</td><td class="num">2.10</td><td class="num">2.35%</td><td class="pct">45.2%</td><td class="pct">65.7%</td><td class="pct hi">70.2%</td><td class="pct">67.8%</td><td><span class="vtag v4">合理偏高</span></td><td class="perf-down">-1.02%</td></tr>
+      <tr><td><b>社会服务</b></td><td class="num">25.12</td><td class="num">2.24</td><td class="num">1.26%</td><td class="pct hi">51.2%</td><td class="pct">65.7%</td><td class="pct">69.8%</td><td class="pct">67.4%</td><td><span class="vtag v4">合理偏高</span></td><td class="perf-down">-3.47%</td></tr>
+      <tr><td><b>美容护理</b></td><td class="num">27.86</td><td class="num">2.98</td><td class="num">1.49%</td><td class="pct">48.3%</td><td class="pct">62.4%</td><td class="pct">66.7%</td><td class="pct">64.2%</td><td><span class="vtag v4">合理偏高</span></td><td class="perf-down">-3.94%</td></tr>
+      <tr><td><b>机械设备</b></td><td class="num">21.78</td><td class="num">2.00</td><td class="num">1.60%</td><td class="pct lo">28.9%</td><td class="pct">62.4%</td><td class="pct">67.8%</td><td class="pct">64.5%</td><td><span class="vtag v4">合理偏高</span></td><td class="perf-down">-4.89%</td></tr>
+      <tr><td><b>国防军工</b></td><td class="num">43.78</td><td class="num">2.72</td><td class="num">0.70%</td><td class="pct">35.2%</td><td class="pct">68.7%</td><td class="pct hi">73.4%</td><td class="pct hi">70.8%</td><td><span class="vtag v5">偏高</span></td><td class="perf-down">-4.12%</td></tr>
+      <tr><td><b>传媒</b></td><td class="num">23.67</td><td class="num">1.81</td><td class="num">1.15%</td><td class="pct">32.4%</td><td class="pct hi">72.3%</td><td class="pct hi">77.6%</td><td class="pct hi">74.2%</td><td><span class="vtag v5">偏高</span></td><td class="perf-down">-5.24%</td></tr>
+      <tr><td><b>通信</b></td><td class="num">26.12</td><td class="num">2.05</td><td class="num">1.38%</td><td class="pct">38.7%</td><td class="pct hi">78.4%</td><td class="pct hi">82.9%</td><td class="pct hi">79.6%</td><td><span class="vtag v5">偏高</span></td><td class="perf-down">-3.78%</td></tr>
+      <tr><td><b>电子</b></td><td class="num">30.12</td><td class="num">2.45</td><td class="num">1.02%</td><td class="pct lo">15.6%</td><td class="pct hi">72.4%</td><td class="pct hi">78.6%</td><td class="pct hi">75.3%</td><td><span class="vtag v5">偏高</span></td><td class="perf-down">-9.24%</td></tr>
+      <tr><td><b>计算机</b></td><td class="num">36.78</td><td class="num">2.61</td><td class="num">0.93%</td><td class="pct">42.3%</td><td class="pct hi">85.6%</td><td class="pct hi">89.7%</td><td class="pct hi">86.4%</td><td><span class="vtag v6">高估</span></td><td class="perf-down">-5.67%</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 伍 细分赛道 -->
+<section class="chapter" id="v-ch5">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">伍</span><span>重点细分赛道估值表</span></div>
+    <div class="ch-en">CHAPTER · SUB-SECTORS</div>
+  </div>
+
+  <div class="tldr">"低估值×高景气"错配是核心看点：<b>油气开采(低估·景气4.3)、绿电运营(合理偏低·景气4.5)、国有大行(近10年8.2%分位·景气3.8)</b>兼具安全边际与向上景气；<b>AI大模型极度高估(近10年93.8%分位)、半导体/存储/军工电子偏高</b>但景气尚可，估值与业绩的矛盾突出。存储芯片景气4.0但估值近10年70.8%分位，属"高景气高估值"。</div>
+
+  <table class="research">
+    <thead><tr><th>细分赛道</th><th class="num">PE-TTM</th><th class="num">PB</th><th class="num">PE·1Y</th><th class="num">PE·3Y</th><th class="num">PE·5Y</th><th class="num">PE·10Y</th><th>估值状态</th><th class="num">景气度</th></tr></thead>
+    <tbody>
+      <tr><td><b>国有大行</b></td><td class="num">4.25</td><td class="num">0.52</td><td class="pct">35.6%</td><td class="pct lo">12.4%</td><td class="pct lo">9.7%</td><td class="pct lo">8.2%</td><td><span class="vtag v1">低估</span></td><td class="num">3.8/5</td></tr>
+      <tr><td><b>煤炭开采</b></td><td class="num">6.58</td><td class="num">1.04</td><td class="pct">40.2%</td><td class="pct lo">27.3%</td><td class="pct lo">24.1%</td><td class="pct lo">23.5%</td><td><span class="vtag v1">低估</span></td><td class="num">4.0/5</td></tr>
+      <tr><td><b>油气开采</b></td><td class="num">7.42</td><td class="num">1.14</td><td class="pct">43.7%</td><td class="pct lo">22.8%</td><td class="pct lo">19.4%</td><td class="pct lo">18.7%</td><td><span class="vtag v1">低估</span></td><td class="num">4.3/5</td></tr>
+      <tr><td><b>绿电运营</b></td><td class="num">13.12</td><td class="num">1.48</td><td class="pct">48.9%</td><td class="pct">32.4%</td><td class="pct lo">29.7%</td><td class="pct lo">28.6%</td><td><span class="vtag v2">合理偏低</span></td><td class="num">4.5/5</td></tr>
+      <tr><td><b>创新药/CRO</b></td><td class="num">20.12</td><td class="num">2.51</td><td class="pct lo">18.4%</td><td class="pct">32.6%</td><td class="pct">36.7%</td><td class="pct">33.4%</td><td><span class="vtag v2">合理偏低</span></td><td class="num">3.2/5</td></tr>
+      <tr><td><b>锂电池</b></td><td class="num">15.34</td><td class="num">1.78</td><td class="pct lo">12.3%</td><td class="pct lo">28.7%</td><td class="pct">32.4%</td><td class="pct lo">29.6%</td><td><span class="vtag v2">合理偏低</span></td><td class="num">2.8/5</td></tr>
+      <tr><td><b>光伏</b></td><td class="num">11.98</td><td class="num">1.37</td><td class="pct lo">10.2%</td><td class="pct lo">22.4%</td><td class="pct lo">26.7%</td><td class="pct lo">24.1%</td><td><span class="vtag v2">合理偏低</span></td><td class="num">2.5/5</td></tr>
+      <tr><td><b>工业金属(铜铝)</b></td><td class="num">14.67</td><td class="num">1.87</td><td class="pct">42.1%</td><td class="pct">48.6%</td><td class="pct">52.3%</td><td class="pct">49.7%</td><td><span class="vtag v3">合理</span></td><td class="num">4.0/5</td></tr>
+      <tr><td><b>黄金珠宝</b></td><td class="num">16.78</td><td class="num">2.15</td><td class="pct hi">52.3%</td><td class="pct">48.7%</td><td class="pct">52.4%</td><td class="pct">50.1%</td><td><span class="vtag v3">合理</span></td><td class="num">4.2/5</td></tr>
+      <tr><td><b>证券</b></td><td class="num">13.24</td><td class="num">1.17</td><td class="pct">32.4%</td><td class="pct">42.7%</td><td class="pct">46.8%</td><td class="pct">44.2%</td><td><span class="vtag v3">合理</span></td><td class="num">3.0/5</td></tr>
+      <tr><td><b>白酒</b></td><td class="num">20.56</td><td class="num">5.01</td><td class="pct">43.2%</td><td class="pct">55.7%</td><td class="pct">59.4%</td><td class="pct">56.8%</td><td><span class="vtag v3">合理</span></td><td class="num">3.8/5</td></tr>
+      <tr><td><b>军工电子</b></td><td class="num">39.67</td><td class="num">2.61</td><td class="pct lo">28.4%</td><td class="pct">62.7%</td><td class="pct">68.4%</td><td class="pct">65.3%</td><td><span class="vtag v5">偏高</span></td><td class="num">3.6/5</td></tr>
+      <tr><td><b>机器人</b></td><td class="num">37.45</td><td class="num">2.72</td><td class="pct">38.7%</td><td class="pct">68.4%</td><td class="pct hi">73.2%</td><td class="pct hi">70.5%</td><td><span class="vtag v5">偏高</span></td><td class="num">3.7/5</td></tr>
+      <tr><td><b>存储芯片</b></td><td class="num">33.12</td><td class="num">2.87</td><td class="pct lo">9.8%</td><td class="pct">68.4%</td><td class="pct hi">74.2%</td><td class="pct hi">70.8%</td><td><span class="vtag v5">偏高</span></td><td class="num">4.0/5</td></tr>
+      <tr><td><b>半导体</b></td><td class="num">39.45</td><td class="num">3.18</td><td class="pct lo">12.7%</td><td class="pct hi">75.3%</td><td class="pct hi">80.6%</td><td class="pct hi">77.2%</td><td><span class="vtag v5">偏高</span></td><td class="num">3.5/5</td></tr>
+      <tr><td><b>AI大模型</b></td><td class="num">43.28</td><td class="num">3.02</td><td class="pct hi">45.6%</td><td class="pct hi">92.4%</td><td class="pct hi">95.7%</td><td class="pct hi">93.8%</td><td><span class="vtag v7">极度高估</span></td><td class="num">3.5/5</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 陆 高低分池 -->
+<section class="chapter" id="v-ch6">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">陆</span><span>估值高低分池</span></div>
+    <div class="ch-en">CHAPTER · VALUATION POOLS</div>
+  </div>
+
+  <div class="tldr">基于近10年PE分位分为四池。当前市场"哑铃两端"特征明显：低估池清一色高股息价值（港股+能源+金融+地产），极度高估池全是硬科技（科创50、计算机、AI大模型、科创成长）。多数成长赛道落在高估池，安全边际不足。</div>
+
+  <div class="pool-grid">
+    <div class="pool-card low">
+      <div class="pool-h">✅ 低估池</div>
+      <div class="pool-range">PE分位 &lt; 30% · 具备配置价值</div>
+      <div class="pool-row"><b>宽基</b>恒生指数、恒生科技</div>
+      <div class="pool-row"><b>行业</b>煤炭、石油石化、银行、建筑装饰、房地产</div>
+      <div class="pool-row"><b>赛道</b>煤炭开采、国有大行、油气开采</div>
+      <div class="pool-note">以高股息价值板块为主，防御属性强，适合稳健型配置，安全边际较高。</div>
+    </div>
+    <div class="pool-card fair">
+      <div class="pool-h">⚖️ 合理区间</div>
+      <div class="pool-range">PE分位 30%–70% · 持有观望</div>
+      <div class="pool-row"><b>宽基</b>上证指数、上证50、创业板指、北证50</div>
+      <div class="pool-row"><b>行业</b>电力公用、钢铁、交运、家电、农林牧渔、食品饮料、纺服、非银、建材、医药、汽车、电力设备、有色</div>
+      <div class="pool-row"><b>赛道</b>绿电、工业金属、白酒、创新药、黄金珠宝、证券、锂电、光伏</div>
+      <div class="pool-note">估值中性，持有为主，不追高，可逢低小仓位布局业绩确定性高的板块。</div>
+    </div>
+    <div class="pool-card high">
+      <div class="pool-h">⚠️ 高估池</div>
+      <div class="pool-range">PE分位 70%–90% · 谨慎追高</div>
+      <div class="pool-row"><b>宽基</b>沪深300、中证500、中证1000</div>
+      <div class="pool-row"><b>行业</b>国防军工、传媒、通信、机械设备、电子、基础化工、轻工、社服、美容护理、商贸零售、环保</div>
+      <div class="pool-row"><b>赛道</b>机器人、军工电子、半导体、存储芯片</div>
+      <div class="pool-note">估值处历史高位，前期涨幅大，短期回调压力大，避免追高，持仓可逢高减仓。</div>
+    </div>
+    <div class="pool-card bubble">
+      <div class="pool-h">❌ 极度高估池</div>
+      <div class="pool-range">PE分位 &gt; 90% · 注意风险</div>
+      <div class="pool-row"><b>宽基</b>科创50</div>
+      <div class="pool-row"><b>行业</b>计算机</div>
+      <div class="pool-row"><b>赛道</b>AI大模型、科创成长</div>
+      <div class="pool-note">估值泡沫明显，业绩难以支撑高估值，注意回调风险，规避为主。</div>
+    </div>
+  </div>
+</section>
+
+<!-- 柒 变动与操作 -->
+<section class="chapter" id="v-ch7">
+  <div class="ch-head">
+    <div class="ch-title"><span class="ch-num">柒</span><span>每日估值变动与操作参考</span></div>
+    <div class="ch-en">CHAPTER · DAILY MOVES &amp; PLAYBOOK</div>
+  </div>
+
+  <div class="tldr">当日估值回落最大的是电子(半导体)——近1年PE分位单日回落12.3pct至15%，但近10年仍在75%高位，属高位回调；电力设备回落8.7pct；科创50大跌7%但近10年分位仍＞99%。估值抬升仅石油石化、煤炭(+0.4pct)，为当日唯二收红行业。</div>
+
+  <div class="two-col" style="margin-bottom:8px">
+    <div class="prose">
+      <h3 class="sub-h serif down" style="margin-top:0">估值回落最大</h3>
+      <p><strong>电子(半导体)：</strong>近1年PE分位单日回落12.3个百分点，从合理区间落至近1年15%分位，但近10年分位仍在75%——<strong>高位回调而非见底</strong>。</p>
+      <p><strong>电力设备(新能源)：</strong>近1年PE分位单日回落8.7个百分点。</p>
+      <p><strong>科创50：</strong>单日大跌7%，近10年分位仍在99%以上，泡沫尚未出清。</p>
+    </div>
+    <div class="prose">
+      <h3 class="sub-h serif up" style="margin-top:0">估值抬升最大</h3>
+      <p><strong>石油石化、煤炭：</strong>受油价上涨带动，估值小幅抬升0.4个百分点，是当日仅有的两个收红行业。</p>
+      <div class="quote"><b>一句话：</b>成长杀估值≠到底，价值抗跌≠新高——当日变动进一步强化"高股息价值 vs 硬科技成长"的哑铃分化。</div>
+    </div>
+  </div>
+
+  <h3 class="sub-h serif">分风险偏好操作建议</h3>
+  <div class="op-grid">
+    <div class="op-card">
+      <div class="op-h">🛡️ 稳健型</div>
+      <p>优先配置中证红利、红利低波、银行、煤炭、石油石化等高股息低估值板块，定投恒生指数；<span class="pos">仓位 5–6 成</span>，防御为主。</p>
+    </div>
+    <div class="op-card">
+      <div class="op-h">⚖️ 平衡型</div>
+      <p>宽基以恒生指数、创业板指为主，行业配高股息+医药+消费；半导体、新能源等超跌赛道仅小仓位博反弹；<span class="pos">总仓位 4–5 成</span>，不急加仓。</p>
+    </div>
+    <div class="op-card">
+      <div class="op-h">🚀 进取型</div>
+      <p>规避科创50、AI等高估值板块，小仓位参与超跌反弹，快进快出避免追高；<span class="pos">仓位≤ 4 成</span>。</p>
+    </div>
+  </div>
+
+  <div class="disclaimer">⚠️ <b>估值风险提示：</b>单日大跌后多数成长板块估值仍在历史高位，尚未到低估区间，不要盲目抄底，警惕估值继续回调；高股息板块虽估值低但短期也可能随市场波动，适合长期配置、不适合短期投机；科创50、AI等板块估值泡沫明显，业绩增速难以支撑高估值，注意规避高位回调风险。本报告估值数据基于公开市场数据计算，仅为投资参考，不构成任何投资建议。</div>
+
+  <div style="text-align:center;margin-top:26px"><span class="seal">估值<br/>分位</span></div>
+</section>
+
+</main>
+</div>
+<!-- ============ /估值分位 PANEL ============ -->
+
 <footer>
-  · A股每日综合日报 · 复盘数据：2026-07-17 收盘 · 业绩数据：2026年中报业绩预告（截至2026-07-16披露，7-17沿用前值） · 更新于：2026-07-17 · 仅供参考，不构成投资建议 ·
+  · A股每日综合日报 · 复盘数据：2026-07-17 收盘 · 业绩数据：2026年中报业绩预告（截至2026-07-16披露，7-17沿用前值） · 估值数据：2026-07-17 收盘（近1/3/5/10年分位） · 更新于：2026-07-17 · 仅供参考，不构成投资建议 ·
 </footer>
 
 <script>
@@ -1011,7 +1326,8 @@
   const reportTabs = document.querySelectorAll('.report-tab');
   const panels = {
     recap: document.getElementById('panel-recap'),
-    earnings: document.getElementById('panel-earnings')
+    earnings: document.getElementById('panel-earnings'),
+    valuation: document.getElementById('panel-valuation')
   };
   reportTabs.forEach(tab => {
     tab.addEventListener('click', () => {
