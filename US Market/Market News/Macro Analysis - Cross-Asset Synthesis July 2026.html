@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macro Analysis — Cross-Asset Synthesis (July 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark:#141413; --light:#faf9f5; --midgray:#b0aea5; --lightgray:#e8e6dc;
+    --orange:#d97757; --blue:#6a9bcc; --green:#788c5d;
+    --paper:#ffffff; --ink:#141413; --muted:#6c6a60;
+    --ow:#5f7247; --ow-bg:#eef1e7; --uw:#c26340; --uw-bg:#f8ece6; --neu:#527399; --neu-bg:#eaf0f6;
+    --serif:'Lora',Georgia,'Times New Roman',serif;
+    --sans:'Poppins',Arial,Helvetica,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--light); color:var(--ink);
+    font-family:var(--serif); line-height:1.7; font-size:17px;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px 90px;}
+
+  /* Hero */
+  header.hero{background:var(--dark); color:var(--light); padding:56px 24px 46px;
+    border-bottom:6px solid var(--orange);}
+  header.hero .inner{max-width:900px; margin:0 auto;}
+  .kicker{font-family:var(--sans); text-transform:uppercase; letter-spacing:.22em; font-size:12px;
+    font-weight:600; color:var(--orange); margin:0 0 16px;}
+  header.hero h1{font-family:var(--sans); margin:0 0 16px; font-size:34px; line-height:1.16; font-weight:700;
+    letter-spacing:-.01em; color:var(--light);}
+  header.hero p.sub{margin:0; font-size:18px; line-height:1.6; color:#e6e3d8; max-width:700px; font-style:italic;}
+  .meta{font-family:var(--sans); margin-top:22px; font-size:12.5px; letter-spacing:.03em; color:var(--midgray); font-weight:400;}
+
+  /* One-liner */
+  .oneliner{background:var(--paper); border:1px solid var(--lightgray); border-left:5px solid var(--orange);
+    border-radius:4px; padding:22px 24px; margin:30px 0 6px; font-size:17.5px; line-height:1.65;
+    box-shadow:0 2px 10px rgba(20,20,19,.04);}
+  .oneliner .lbl{font-family:var(--sans); font-weight:700; color:var(--orange); font-size:13px;
+    text-transform:uppercase; letter-spacing:.1em; display:block; margin-bottom:6px;}
+  .oneliner strong{color:var(--dark); font-weight:600;}
+
+  /* Stats */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin:28px 0 6px;}
+  .stat{background:var(--paper); border:1px solid var(--lightgray); border-radius:6px; padding:16px 17px;
+    border-top:3px solid var(--blue);}
+  .stat:nth-child(3n+1){border-top-color:var(--orange);}
+  .stat:nth-child(3n+2){border-top-color:var(--blue);}
+  .stat:nth-child(3n){border-top-color:var(--green);}
+  .stat .v{font-family:var(--sans); font-size:24px; font-weight:700; color:var(--dark); line-height:1.1;}
+  .stat .l{font-family:var(--sans); font-size:12px; color:var(--muted); margin-top:5px; line-height:1.35; font-weight:500;}
+  .stat .d{font-family:var(--sans); font-size:11.5px; margin-top:7px; font-weight:600;}
+  .up{color:var(--ow);} .down{color:var(--uw);} .flat{color:var(--neu);}
+
+  /* Headings */
+  h2{font-family:var(--sans); font-size:24px; margin:48px 0 8px; padding-top:26px; font-weight:700;
+     color:var(--dark); border-top:2px solid var(--lightgray); letter-spacing:-.01em;}
+  h2 .num{color:var(--orange); font-weight:700;}
+  h3{font-family:var(--sans); font-size:18px; margin:28px 0 2px; font-weight:600; color:var(--dark);}
+  .ref{font-family:var(--sans); font-size:12px; color:var(--midgray); margin:4px 0 12px; letter-spacing:.02em;
+    text-transform:uppercase; font-weight:500;}
+  p{margin:12px 0;}
+  ul{margin:12px 0 12px 2px; padding-left:22px;}
+  li{margin:9px 0;}
+  strong{color:var(--dark); font-weight:600;}
+  em{font-style:italic;}
+
+  /* Table */
+  table{width:100%; border-collapse:collapse; margin:20px 0; font-size:15px; background:var(--paper);
+    border:1px solid var(--lightgray); border-radius:6px; overflow:hidden;}
+  th,td{text-align:left; padding:13px 15px; border-bottom:1px solid var(--lightgray); vertical-align:top;}
+  th{font-family:var(--sans); background:var(--dark); color:var(--light); font-size:11.5px; font-weight:600;
+    text-transform:uppercase; letter-spacing:.07em;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:#fbfaf6;}
+  .chip{font-family:var(--sans); display:inline-block; padding:4px 11px; border-radius:20px; font-size:12px;
+    font-weight:600; white-space:nowrap;}
+  .c-ow{color:var(--ow); background:var(--ow-bg);}
+  .c-uw{color:var(--uw); background:var(--uw-bg);}
+  .c-neu{color:var(--neu); background:var(--neu-bg);}
+
+  /* Callout */
+  .callout{border:1px solid var(--lightgray); border-left:5px solid var(--green); background:#f6f7f1;
+    border-radius:4px; padding:16px 20px; margin:20px 0; font-size:16px;}
+
+  /* Calendar */
+  .cal{display:grid; gap:11px; margin:18px 0;}
+  .cal .row{display:flex; gap:16px; background:var(--paper); border:1px solid var(--lightgray);
+    border-radius:6px; padding:14px 16px; align-items:baseline;}
+  .cal .when{font-family:var(--sans); flex:0 0 110px; font-weight:700; color:var(--orange); font-size:13.5px;}
+  .cal .what{font-size:15px; line-height:1.55;}
+
+  /* Risks */
+  ol.risks{counter-reset:r; list-style:none; padding-left:0; margin:16px 0;}
+  ol.risks li{position:relative; padding:14px 16px 14px 56px; background:var(--paper);
+    border:1px solid var(--lightgray); border-radius:6px; margin:10px 0; font-size:15.5px;}
+  ol.risks li::before{counter-increment:r; content:counter(r); position:absolute; left:16px; top:13px;
+    width:28px; height:28px; background:var(--orange); color:#fff; border-radius:50%; display:flex;
+    align-items:center; justify-content:center; font-family:var(--sans); font-weight:700; font-size:14px;}
+
+  /* Bottom line */
+  .bottomline{background:var(--dark); color:var(--light); border-radius:8px; padding:36px 32px; margin:40px 0 12px;
+    border-top:6px solid var(--orange);}
+  .bottomline h2{font-family:var(--sans); color:var(--light); border:none; margin:0 0 10px; padding:0; font-size:24px;}
+  .bottomline h2 .num{color:var(--orange);}
+  .bottomline .lead{font-family:var(--sans); font-size:21px; font-weight:600; color:var(--light);
+    border-left:4px solid var(--orange); padding-left:18px; margin:20px 0; line-height:1.4;}
+  .bottomline p{color:#d7d4c8;}
+  .bottomline strong{color:var(--light);}
+
+  footer{margin-top:34px; padding-top:20px; border-top:1px solid var(--lightgray); font-size:13.5px;
+    color:var(--muted); line-height:1.6;}
+  footer strong{color:var(--dark);}
+  .disc{font-family:var(--sans); font-size:11.5px; color:var(--midgray); margin-top:10px; line-height:1.5;}
+  @media(max-width:560px){
+    header.hero h1{font-size:26px;} body{font-size:16px;}
+    .cal .row{flex-direction:column; gap:3px;} .cal .when{flex-basis:auto;}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="inner">
+    <p class="kicker">Macro Trader Briefing · Cross-Asset Synthesis</p>
+    <h1>The Regime Hand-Off: Sticky Inflation, an Oil Shock, and the First Crack in the AI Trade</h1>
+    <p class="sub">A single coherent macro picture drawn from 16 WSJ &amp; Barron's notes — late-cycle reflation with a stagflation tail, and a market already rotating to price it.</p>
+    <div class="meta">Prepared 19 July 2026 · Sources indexed in Market News MOC · Framework &amp; view, not investment advice</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="oneliner">
+    <span class="lbl">One-line read</span>
+    A strong <em>nominal</em> economy is running into sticky inflation, an oil-price geopolitical shock, and the first real crack in the AI/mega-cap narrative — all on top of rich equity and credit valuations. The regime rhymes with <strong>late-cycle reflation with a stagflation tail</strong>, and the market has already begun voting for it via a rotation out of concentrated tech into value, cyclicals and defensives.
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">3.5%</div><div class="l">June CPI (core 2.6%)</div><div class="d down">Fed talking hikes, not cuts</div></div>
+    <div class="stat"><div class="v">~4.55%</div><div class="l">US 10-year yield</div><div class="d flat">2yr ~4.14% · hike risk priced</div></div>
+    <div class="stat"><div class="v">−20%</div><div class="l">PHLX Semis from 22 Jun peak</div><div class="d down">Bear-market territory</div></div>
+    <div class="stat"><div class="v">~29×</div><div class="l">S&amp;P 500 trailing GAAP P/E</div><div class="d down">~22× on flattered 2026 adj.</div></div>
+    <div class="stat"><div class="v">Eq-wt ATH</div><div class="l">Equal-weight S&amp;P 500</div><div class="d up">Breadth healthy — a rotation</div></div>
+    <div class="stat"><div class="v">Hormuz</div><div class="l">~1/5 of world oil transits</div><div class="d down">MOU collapsed · oil spiking</div></div>
+  </div>
+
+  <h2><span class="num">1.</span> The regime in one page</h2>
+  <p>Pull the 16 notes together and a single, coherent macro picture emerges rather than a set of unrelated headlines:</p>
+  <ul>
+    <li><strong>Inflation has re-accelerated and the Fed is talking hikes, not cuts.</strong> June CPI at 3.5% (core 2.6%), a new hawkish Chair (Warsh) calling inflation a "choice," and markets pricing <em>at least one hike</em> this year. This is a <strong>higher-for-longer, hike-risk</strong> world — the opposite of a soft-landing easing cycle.</li>
+    <li><strong>A live geopolitical oil shock.</strong> The Iran/US war has killed the Strait of Hormuz agreement; oil is spiking, and ~1/5 of the world's oil transits Hormuz. This is simultaneously <strong>inflationary and growth-negative</strong> — the textbook stagflation channel — and it feeds straight back into the Fed problem.</li>
+    <li><strong>The AI/mega-cap moat is being questioned for the first time in 18 months.</strong> Moonshot's open-weight Kimi-K3, the China memory IPOs (CXMT/YMTC), and capex-ROI doubts pushed the SOX into a <strong>~20% bear market from its 22 June peak</strong>, with the Nasdaq-100 on track for its worst July in 20+ years.</li>
+    <li><strong>Valuations leave no cushion.</strong> S&amp;P 500 at ~29× <em>trailing GAAP</em> (only ~22× on adjusted, flattered 2026 numbers), IG credit spreads near post-2008 tights, and private markets stretched (SpaceX alone shed ~$1T from its June peak).</li>
+    <li><strong>But the plumbing is healthy, and breadth is fine.</strong> Banks posted ~24% ROEs and record trading, credit losses are low, sentiment ticked up, and the <strong>equal-weight S&amp;P just made an all-time high</strong> while the Dow outperforms. This is a <em>rotation</em>, not (yet) a systemic break.</li>
+  </ul>
+  <p><strong>Net:</strong> the easy, concentrated, long-duration-everything trade is over. The market is repricing from "AI + disinflation + Fed put" to "sticky inflation + oil + AI-ROI scrutiny + no Fed put." That transition is where the opportunity and the risk both live.</p>
+
+  <h2><span class="num">2.</span> Theme-by-theme synthesis</h2>
+
+  <h3>2.1 · Inflation &amp; the Fed — higher-for-longer, with hike risk</h3>
+  <p class="ref">Ref: Fed Talks Tough · Global Rates</p>
+  <p>The single most important macro fact in the vault: <strong>inflation is at 3.5% and the policy debate is about hikes, not cuts.</strong> The June print (down from 4.2%) was flattered by gasoline — which the Hormuz oil shock now threatens to reverse. The FOMC "straw count" leans to a hold at 28–29 July, but Logan is openly hawkish and the committee wants "several months" of good data. Front-end (2yr ~4.14%) is anchored by hike risk; the 10yr (~4.55%) is caught between safe-haven demand and supply/inflation pressure. <strong>Implication:</strong> duration is not your friend, and any oil-driven CPI re-acceleration puts a hike genuinely in play.</p>
+
+  <h3>2.2 · Geopolitics — Iran/Hormuz is a macro variable, not a sidebar</h3>
+  <p class="ref">Ref: US Servicemembers Killed · Global Rates</p>
+  <p>The collapse of the Hormuz MOU and the first US combat deaths since the April ceasefire mean escalation risk is rising, not fading. Oil is already higher; a genuine Hormuz disruption is the fat left tail for the whole complex because it <strong>forces the Fed's hand</strong> (inflation) while <strong>hurting growth</strong> (energy tax). This is the mechanism that could turn an orderly rotation into a stagflationary risk-off. Gold firm, USD bid, energy structurally supported.</p>
+
+  <h3>2.3 · The AI/chip narrative crack — real, but historically survivable</h3>
+  <p class="ref">Ref: Tech Selloff · Kimi-K3 · China Memory IPOs · Software Shakeout · Markets Wrap</p>
+  <p>Three distinct pressures hit the AI trade at once: (1) <strong>competitive</strong> — Kimi-K3 and Chinese open-weight models questioning the US moat; (2) <strong>supply</strong> — CXMT/YMTC memory capacity threatening to end the DRAM/NAND upcycle; (3) <strong>business-model</strong> — AI eroding seat-based SaaS margins and commoditizing "intelligence" itself. The counter-argument: every prior "AI scare" (DeepSeek, Jan 2025) <em>expanded</em> adoption rather than collapsing it. <strong>Base case:</strong> cheaper intelligence broadens the pie and value migrates up the stack (data/security platforms, embedded incumbents like MSFT/SAP) — but the <em>pricing</em> of that outcome was too rich, so a de-rating of the most crowded semis/mega-cap names is healthy, not necessarily terminal.</p>
+
+  <h3>2.4 · Valuation &amp; positioning — no margin of safety, in equities <em>or</em> credit</h3>
+  <p class="ref">Ref: S&amp;P Fine Print · Corporate Bonds · New VC Playbook</p>
+  <p>Both public and private markets are priced for perfection. The S&amp;P is ~29× trailing GAAP and only looks "cheap" if you accept non-GAAP earnings that exclude real costs. Long IG corporate yields near 6% look attractive in isolation, but the <strong>spread</strong> over short-dated paper (~50bps) is near record tights — you are not paid to take duration, credit and AI-cycle risk for decades. Private markets echo the same stretch (Anthropic at high-hundreds-of-billions; SpaceX −$1T in a month). Common thread: <strong>elevated yields everywhere mean you don't have to reach</strong> — cash and the front end pay you to wait.</p>
+
+  <h3>2.5 · Market internals — this is a rotation, and it's orderly</h3>
+  <p class="ref">Ref: Tech Selloff · Berkshire</p>
+  <p>The tell that this is a repricing and not a crash: equal-weight S&amp;P at an all-time high, the Dow outperforming, and leadership in <strong>healthcare, financials, energy, utilities</strong>. Even Berkshire — ~$400B cash, accelerating buybacks, buying Alphabet — is positioned defensively and value-first. When the market's most patient capital is hoarding cash and the index is rotating rather than collapsing, the message is <em>reduce concentration and up-quality</em>, not <em>de-gross everything</em>.</p>
+
+  <h3>2.6 · Banks — mint nominal profits, but late-cycle</h3>
+  <p class="ref">Ref: Big Banks Goldilocks · Analysts Raise Targets</p>
+  <p>Q2 was "Goldilocks": ~24% ROE at JPM/GS, equity-trading revenue up 69–86%, low credit losses, a wave of upgrades. But NIMs are thin, spreads tight, and the piece itself warns this is "as good as it gets," with capital-markets conditions possibly at a cyclical peak. Banks screen well on <strong>ROE-vs-valuation</strong> and are a natural home for rotation flows, but this is a trade for <strong>balance-sheet quality (JPM)</strong> into a late cycle, not a blank-check re-rating.</p>
+
+  <h2><span class="num">3.</span> Cross-asset read-through</h2>
+  <table>
+    <thead><tr><th>Asset</th><th>View</th><th>Rationale from the notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Rates — front end</strong></td><td><span class="chip c-ow">Own carry</span></td><td>Hike risk, sticky 3.5% CPI, hawkish Warsh; you're paid to wait</td></tr>
+      <tr><td><strong>Rates — long end</strong></td><td><span class="chip c-uw">Underweight</span></td><td>Deficit &gt;5% GDP, heavy issuance, AI-bond supply, term-premium risk</td></tr>
+      <tr><td><strong>IG credit</strong></td><td><span class="chip c-uw">Up-quality / short</span></td><td>Spreads at record tights — not paid for duration/AI-cycle risk</td></tr>
+      <tr><td><strong>US mega-cap tech / semis</strong></td><td><span class="chip c-uw">Reduce</span></td><td>SOX in bear market; moat + capex-ROI + China-supply doubts</td></tr>
+      <tr><td><strong>Value / cyclicals / defensives</strong></td><td><span class="chip c-ow">Overweight</span></td><td>Healthcare, financials, energy, utilities leading; eq-wt &gt; cap-wt</td></tr>
+      <tr><td><strong>Banks</strong></td><td><span class="chip c-neu">Selective</span></td><td>Strong ROE vs valuation, but late-cycle → favor JPM-type balance sheets</td></tr>
+      <tr><td><strong>Energy</strong></td><td><span class="chip c-ow">Overweight</span></td><td>Cyclical value <em>and</em> Hormuz/oil geopolitical hedge</td></tr>
+      <tr><td><strong>Gold</strong></td><td><span class="chip c-ow">Constructive</span></td><td>Safe-haven bid, stagflation/geopolitical hedge, twin-deficit backdrop</td></tr>
+      <tr><td><strong>USD</strong></td><td><span class="chip c-neu">Firm (near-term)</span></td><td>Safe-haven + higher-for-longer; twin deficits a longer-term drag</td></tr>
+      <tr><td><strong>Intl / Korea</strong></td><td><span class="chip c-ow">Deep-value long</span></td><td>"Value-up," 2/3 of Kospi &lt; book, governance re-rating; diversifies from US tech</td></tr>
+      <tr><td><strong>Cash</strong></td><td><span class="chip c-ow">A position</span></td><td>Elevated yields everywhere; Buffett's ~$400B cash is the template</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>Barbell:</strong> defensives + value + energy + selective deep-value international on one end, front-end carry and cash on the other — <strong>funded by</strong> trimming long-duration IG credit and the most crowded mega-cap tech/semis.</div>
+
+  <h2><span class="num">4.</span> Catalyst calendar &amp; risks</h2>
+  <div class="cal">
+    <div class="row"><div class="when">27 Jul</div><div class="what">Kimi-K3 full open-weights release — tests the "China AI moat" thesis in the real world.</div></div>
+    <div class="row"><div class="when">28–29 Jul</div><div class="what">FOMC. Base case hold; watch statement/Warsh tone for hike signaling. Oil-driven inflation surprise makes it live.</div></div>
+    <div class="row"><div class="when">Next week</div><div class="what">Alphabet, Tesla, Intel earnings (AI-capex &amp; monetization read); US housing data &amp; initial jobless claims.</div></div>
+    <div class="row"><div class="when">~1 Aug</div><div class="what">Berkshire Q2 earnings — capital allocation under Abel; buyback pace; cash pile.</div></div>
+    <div class="row"><div class="when">Ongoing</div><div class="what">Iran/Hormuz escalation &amp; the oil tape; SEC quarterly-reporting-optional proposal (disclosure-regime shift).</div></div>
+  </div>
+
+  <p><strong>Key risks, ranked by macro impact:</strong></p>
+  <ol class="risks">
+    <li><strong>Hormuz disruption → oil spike → forced Fed hike into slowing growth</strong> — the stagflation tail that breaks the rotation into a risk-off.</li>
+    <li><strong>AI-capex air pocket</strong> — if hyperscaler capex ROI disappoints (Kimi-K3 cheapening intelligence "faster than expected"), mega-cap de-rates <em>and</em> the credit that funded the buildout widens.</li>
+    <li><strong>Long-end supply accident</strong> — deficit + issuance + AI bonds overwhelm demand; bear-steepening hits every long-duration asset at once.</li>
+    <li><strong>Private-market markdown contagion</strong> — SpaceX-style repricing bleeding into sentiment and IPO/exit math.</li>
+  </ol>
+
+  <div class="bottomline">
+    <h2><span class="num">5.</span> Conclusion — the trade</h2>
+    <p>The vault, read as a whole, describes a <strong>hand-off from one macro regime to another</strong>: from <em>disinflation + AI exceptionalism + Fed put</em> to <em>sticky inflation + oil geopolitics + AI-ROI scrutiny + a Fed that is out of the rescue business</em>. Crucially, the economy's <strong>nominal</strong> engine is still strong (bank ROEs, low credit losses, firm sentiment), so this is a <strong>repricing, not a recession call</strong> — which is exactly why the market is <em>rotating</em> (equal-weight at highs) rather than <em>crashing</em>.</p>
+    <div class="lead">Cut concentration and duration; get paid to wait; own the rotation and the oil hedge.</div>
+    <p>Concretely: reduce crowded mega-cap tech/semis and long-duration IG credit where you are not compensated; overweight value, defensives, energy and quality banks absorbing the rotation; keep the front end and cash working as a funded, positively-carrying "wait" position; hold gold and energy as the Hormuz/stagflation hedge; and use Korea "value-up" as an idiosyncratic, uncorrelated deep-value long. The <strong>single variable that flips this from constructive-rotation to defensive-risk-off is oil via Hormuz</strong> — that is the chart to watch every morning, because it is the one that can force the Fed's hand.</p>
+    <p>The through-line across every note is the same: <strong>you are no longer paid to reach.</strong> Yields are high across the stack, valuations are rich, and the marginal buyer of risk is being asked to accept a lot of tail — geopolitical, inflation, AI-ROI, supply — for very little incremental spread or earnings yield. In that world, the highest-expected-value posture is patient, up-quality and diversified away from the crowded trade, which is precisely how the market's most patient capital is already positioned.</p>
+  </div>
+
+  <footer>
+    <strong>Sources:</strong> all 16 market notes indexed in Market News MOC (WSJ &amp; Barron's, saved 19 July 2026): Tech Selloff · Markets Wrap (Chip Slump) ×2 · Kimi-K3 · China Memory IPOs · Software Shakeout · Big Banks Goldilocks · Analysts Raise Bank Targets · Fed Talks Tough · Global Rates · Corporate Bonds · S&amp;P Fine Print · Berkshire · Fahmi Quadir/Korea · New VC Playbook · Iran Strike on Jordan Base.
+    <div class="disc">This report synthesizes news notes for analytical framing only. It is not investment advice, a recommendation, or an offer to transact. Figures are as reported in the underlying notes; verify independently before acting.</div>
+  </footer>
+
+</div>
+</body>
+</html>

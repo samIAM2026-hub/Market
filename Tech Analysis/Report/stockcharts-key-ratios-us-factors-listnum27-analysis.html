@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key Ratios: US Factors — Technical Analysis</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --ink:#1a2230; --muted:#5d6b80;
+    --line:#e3e8ef; --navy:#1f3a5f; --accent:#2563eb;
+    --bull:#1f9d6b; --bull-bg:#e7f6ef;
+    --ext:#0d8f9e; --ext-bg:#d8f1f4;
+    --bear:#d64545; --bear-bg:#fcecec;
+    --caut:#d98a17; --caut-bg:#fdf3e2;
+    --neut:#6b7280; --neut-bg:#eef1f5;
+    --shadow:0 1px 3px rgba(20,30,50,.07),0 6px 20px rgba(20,30,50,.05);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Layout */
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  header.top{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;padding:38px 0 30px}
+  header.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.4px}
+  header.top .sub{color:#cdddf0;font-size:15px;margin-bottom:18px}
+  header.top .meta{display:flex;flex-wrap:wrap;gap:10px;font-size:13px}
+  header.top .meta span{background:rgba(255,255,255,.12);padding:5px 12px;border-radius:20px}
+  .disclaimer{font-size:12px;color:#b9cbe2;margin-top:16px;font-style:italic}
+
+  /* Stat strip */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:-26px auto 0;position:relative;z-index:2}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+  .stat .num{font-size:26px;font-weight:700}
+  .stat .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .stat.bull .num{color:var(--bull)} .stat.caut .num{color:var(--caut)}
+  .stat.bear .num{color:var(--bear)} .stat.neut .num{color:var(--neut)}
+  .stat.ext .num{color:var(--ext)}
+
+  /* Exec summary */
+  .summary{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin:26px 0;box-shadow:var(--shadow)}
+  .summary h2{margin:0 0 12px;font-size:20px;color:var(--navy);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+  .summary.collapsed h2{margin:0}
+  .summary h2 .sum-toggle{font-size:12.5px;font-weight:600;color:var(--accent);border:1px solid var(--line);border-radius:7px;padding:4px 12px}
+  .summary h2 .sum-toggle:after{content:"";display:inline-block;width:6px;height:6px;margin-left:7px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:translateY(-2px) rotate(45deg);transition:.2s}
+  .summary:not(.collapsed) h2 .sum-toggle:after{transform:translateY(1px) rotate(-135deg)}
+  .summary.collapsed .sum-body{display:none}
+  .summary p{margin:0 0 12px;color:#33415a}
+  .summary p:last-child{margin-bottom:0}
+  .sum-sub{font-size:13px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+  .summary .sum-sub:first-of-type{margin-top:6px}
+  .concl{list-style:none;counter-reset:cc;margin:6px 0 0;padding:0}
+  .concl li{position:relative;counter-increment:cc;padding:9px 14px 9px 44px;margin-bottom:8px;background:#f6f9fc;border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:9px;color:#33415a;font-size:14px;line-height:1.55}
+  .concl li:last-child{margin-bottom:0}
+  .concl li:before{content:counter(cc);position:absolute;left:12px;top:9px;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .concl li b{color:var(--navy)}
+  .sum-list{margin:6px 0 0;padding-left:20px}
+  .sum-list li{margin-bottom:8px;color:#33415a;font-size:14.5px;line-height:1.55}
+  .sum-list li:last-child{margin-bottom:0}
+
+  /* Controls */
+  .controls{position:sticky;top:0;z-index:30;background:rgba(244,246,249,.92);backdrop-filter:blur(8px);padding:14px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .controls .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#fff;font-family:var(--font)}
+  .search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .search svg{position:absolute;left:12px;top:11px;width:16px;height:16px;fill:var(--muted)}
+  /* Filter dropdowns */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .selwrap{position:relative;display:inline-flex}
+  .selwrap select{appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    font-family:var(--font);font-size:13px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:9px;padding:9px 32px 9px 13px;cursor:pointer;
+    transition:.15s;max-width:230px}
+  .selwrap select:hover{border-color:var(--accent)}
+  .selwrap select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .selwrap select.set{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
+  .selwrap:after{content:"";position:absolute;right:13px;top:50%;width:7px;height:7px;
+    border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:translateY(-70%) rotate(45deg);pointer-events:none}
+  .selwrap.set:after{border-color:#fff}
+  /* signal colour coding in the dropdown */
+  .selwrap select option.opt-bull{color:var(--bull)}
+  .selwrap select option.opt-ext{color:var(--ext)}
+  .selwrap select option.opt-caut{color:var(--caut)}
+  .selwrap select option.opt-neut{color:var(--neut)}
+  .selwrap select option.opt-bear{color:var(--bear)}
+  /* when a signal is chosen, tint the closed dropdown to match instead of navy */
+  .selwrap select.sig-bull{background:var(--bull-bg);border-color:var(--bull);color:var(--bull);font-weight:700}
+  .selwrap select.sig-ext{background:var(--ext-bg);border-color:var(--ext);color:var(--ext);font-weight:700}
+  .selwrap select.sig-caut{background:var(--caut-bg);border-color:var(--caut);color:var(--caut);font-weight:700}
+  .selwrap select.sig-neut{background:var(--neut-bg);border-color:var(--neut);color:var(--neut);font-weight:700}
+  .selwrap select.sig-bear{background:var(--bear-bg);border-color:var(--bear);color:var(--bear);font-weight:700}
+  .selwrap.sig-bull:after{border-color:var(--bull)}
+  .selwrap.sig-ext:after{border-color:var(--ext)}
+  .selwrap.sig-caut:after{border-color:var(--caut)}
+  .selwrap.sig-neut:after{border-color:var(--neut)}
+  .selwrap.sig-bear:after{border-color:var(--bear)}
+
+  /* Main grid */
+  .main{display:grid;grid-template-columns:230px 1fr;gap:28px;margin:22px 0 60px;align-items:start}
+  nav.toc{position:sticky;top:128px;font-size:13px;max-height:calc(100vh - 150px);overflow-y:auto}
+  nav.toc h3{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#9aa6b6;margin:0 0 8px}
+  nav.toc a{display:block;padding:5px 8px;color:var(--muted);border-radius:6px;border-left:2px solid transparent;line-height:1.35}
+  nav.toc a:hover{background:#fff;color:var(--ink);text-decoration:none}
+  nav.toc a.on{color:var(--navy);border-left-color:var(--navy);background:#fff;font-weight:600}
+  nav.toc a .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:middle}
+
+  /* Cards */
+  .cards{display:flex;flex-direction:column;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);overflow:hidden;scroll-margin-top:130px;border-left:4px solid var(--neut)}
+  .card.bull{border-left-color:var(--bull)} .card.bear{border-left-color:var(--bear)}
+  .card.caut{border-left-color:var(--caut)} .card.neut{border-left-color:var(--neut)}
+  .card.ext{border-left-color:var(--ext)}
+  .card .head{display:flex;align-items:flex-start;gap:14px;padding:18px 22px;cursor:pointer}
+  .card .nbox{flex-shrink:0;width:40px;height:40px;border-radius:9px;background:var(--neut-bg);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+  .card.bull .nbox{background:var(--bull-bg)} .card.bear .nbox{background:var(--bear-bg)} .card.caut .nbox{background:var(--caut-bg)} .card.ext .nbox{background:var(--ext-bg)}
+  .card .htext{flex:1;min-width:0}
+  .card .htext h3{margin:0;font-size:16.5px;color:var(--ink);line-height:1.3}
+  .card .htext .cat{font-size:12px;color:var(--muted);margin-top:3px}
+  .card .right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+  .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .tag.bull{background:var(--bull-bg);color:var(--bull)} .tag.bear{background:var(--bear-bg);color:var(--bear)}
+  .tag.caut{background:var(--caut-bg);color:var(--caut)} .tag.neut{background:var(--neut-bg);color:var(--neut)}
+  .tag.ext{background:var(--ext-bg);color:var(--ext)}
+  .card .caret{width:11px;height:11px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:.2s;margin-top:-4px}
+  .card.open .caret{transform:rotate(-135deg);margin-top:2px}
+  .card .body{display:none;padding:0 22px 20px 22px}
+  .card.open .body{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+  .card .body p{margin:0 0 11px;color:#33415a;font-size:14.5px}
+  .card .body p:last-child{margin-bottom:0}
+  .card .body .openchart{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;font-weight:600;padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:#fafbfd}
+  .card .body .openchart:hover{border-color:var(--accent);text-decoration:none;background:#fff}
+
+  .noresults{display:none;text-align:center;padding:50px;color:var(--muted)}
+
+  /* Bottom line */
+  .bottom{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;border-radius:14px;padding:28px 32px;margin:8px 0 50px}
+  .bottom h2{margin:0 0 14px;font-size:21px}
+  .bottom p{color:#dce8f5;margin:0 0 12px}
+  .bottom .watch{background:rgba(255,255,255,.1);border-radius:10px;padding:16px 20px;margin-top:16px}
+  .bottom .watch h4{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:#bcd2ec}
+  .bottom .watch ul{margin:0;padding-left:18px}
+  .bottom .watch li{margin-bottom:6px;color:#eaf2fb}
+  .bottom .b-sub{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9fc6ff;margin:22px 0 10px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16)}
+  .bottom .b-sub:first-of-type{margin-top:0;padding-top:0;border-top:none}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 0 40px}
+
+  /* TA highlight tokens */
+  .ta-ind{color:#5a3ec8;background:#eee9fc;border-radius:4px;padding:0 4px;font-weight:600}
+  .ta-num{color:#b4530a;background:#fcefdd;border-radius:4px;padding:0 4px;font-weight:700;white-space:nowrap}
+  .ta-sym{color:#0d7268;background:#e1f4f0;border-radius:4px;padding:0 4px;font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;white-space:nowrap}
+  .ta-date{color:#64748b;font-style:italic;font-weight:600}
+  /* darker variants for dark Bottom Line panel */
+  .bottom .ta-ind{color:#cfc4ff;background:rgba(124,103,233,.22)}
+  .bottom .ta-num{color:#ffce91;background:rgba(212,138,23,.22)}
+  .bottom .ta-sym{color:#9fe8dd;background:rgba(13,114,104,.28)}
+  .bottom .ta-date{color:#bcd2ec}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;font-size:12px;color:var(--muted);align-items:center}
+  .legend b{font-weight:600;color:var(--ink);margin-right:2px}
+  .legend .k{display:inline-flex;align-items:center;gap:6px}
+  .legend .sw{width:13px;height:13px;border-radius:4px;display:inline-block}
+  .legend .sw.ind{background:#eee9fc;border:1px solid #5a3ec8}
+  .legend .sw.num{background:#fcefdd;border:1px solid #b4530a}
+  .legend .sw.sym{background:#e1f4f0;border:1px solid #0d7268}
+  .legend .hint{color:#9aa6b6;font-style:italic}
+
+  /* tippable indicator terms */
+  .ta-ind.tip{cursor:help;border-bottom:1px dashed #8b78e0}
+  .bottom .ta-ind.tip{border-bottom-color:#cfc4ff}
+  #tip{position:fixed;z-index:200;max-width:300px;background:#1a2230;color:#eef2f8;
+       padding:11px 14px;border-radius:10px;font-size:13px;line-height:1.55;
+       box-shadow:0 10px 30px rgba(10,18,35,.32);opacity:0;pointer-events:none;
+       transition:opacity .12s ease,transform .12s ease;transform:translateY(4px)}
+  #tip.show{opacity:1;transform:none}
+  #tip .tt{display:block;font-weight:700;font-size:11.5px;text-transform:uppercase;
+           letter-spacing:.5px;color:#8fbcff;margin-bottom:5px}
+  #tip:after{content:"";position:absolute;left:var(--ax,50%);width:11px;height:11px;
+             background:#1a2230;transform:translateX(-50%) rotate(45deg)}
+  #tip:not(.below):after{bottom:-5px}
+  #tip.below:after{top:-5px}
+
+  @media(max-width:860px){
+    .main{grid-template-columns:1fr} nav.toc{display:none}
+    .stats{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Key Ratios: US Factors — Technical Analysis</h1>
+    <div class="sub">StockCharts list [Market Sum] 320 — KEY RATIOS · US Factors · July 17, 2026 close · 5 factor ratios · technical interpretation</div>
+    <div class="meta">
+      <span>🗓 Report prepared: July 18, 2026</span>
+      <span>📅 Chart data: Friday, July 17, 2026 close</span>
+      <span>📊 5 factor ratios analyzed</span>
+      <span>🧭 Net read: offensive factors rolling over in unison — risk-appetite cooldown</span>
+    </div>
+    <div class="disclaimer">This is technical chart interpretation only, not investment advice.</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat bull"><div class="num" id="s-bull">0</div><div class="lbl">Bullish</div></div>
+    <div class="stat ext"><div class="num" id="s-ext">0</div><div class="lbl">Bullish · Extended</div></div>
+    <div class="stat neut"><div class="num" id="s-neut">0</div><div class="lbl">Neutral / Mixed</div></div>
+    <div class="stat caut"><div class="num" id="s-caut">0</div><div class="lbl">Caution / Watch</div></div>
+    <div class="stat bear"><div class="num" id="s-bear">0</div><div class="lbl">Bearish</div></div>
+  </div>
+
+  <div class="summary collapsed" id="summary">
+    <h2 id="sumHead">Executive Summary <span class="sum-toggle" id="sumToggle">Show</span></h2>
+    <div class="sum-body">
+    <div class="sum-sub">Market Regime — Offensive Factors Rolling Over Together</div>
+    <p>This ChartList tracks five US equity <b>factor ratios</b> — growth versus value across large, mid, and small caps, high beta versus low volatility, and the momentum factor versus the core S&amp;P 500. All five are expressions of the same underlying thing: risk appetite and offensive-factor leadership. As of the July 17 close, every one of them is below its 50-day average and rolling over, which is an unusually uniform message.</p>
+    <p>None of the five ratios is in a bullish posture. Four sit in the caution bucket — below the 50-day average with deteriorating momentum but still above a rising 200-day average — while mid-cap growth/value has already broken below both averages into an outright downtrend. There is no offsetting strength inside this list: the factor complex is shifting from offense toward defense in unison.</p>
+    <div class="sum-sub">Leadership Read</div>
+    <p>The growth-over-value trade is unwinding fastest where it ran hottest. Mid-cap growth/value (MDYG:MDYV) is the most broken at 1.127, below both moving averages with PPO at -0.910. Large-cap growth/value (SPYG:SPYV) closed at 1.88, testing its 200-day average. Small-cap growth/value (SLYG:SLYV) is the relative holdout at 1.055, still clinging to its 200-day after a sharp reversal from the early-July high near 1.101.</p>
+    <p>The two pure risk-appetite gauges tell the same story with even sharper momentum. High beta versus low volatility (SPHB:SPLV) at 1.841 and the momentum factor versus the S&amp;P 500 (MTUM:SPY) at 0.406 posted the steepest PPO readings in the list, -1.473 and -1.187, each peeling back from an early-summer peak toward — but not yet through — its 200-day average.</p>
+    <div class="sum-sub">Key Conclusion &amp; Thesis</div>
+    <p>The consistent message is a <b>risk-appetite cooldown</b>: the market's offensive factors led into June and early July and are now correcting together. Because all five ratios remain above — or, for mid-caps, just below — their 200-day averages, this reads as a factor rotation and corrective pullback rather than a confirmed, durable regime change.</p>
+    <p>The tell to watch is the 200-day average on each ratio. Those lines are still rising, and holding them keeps the longer offensive trend alive; breaking them would argue that defensive, low-volatility, value leadership is taking over. This is a disciplined caution, not an all-clear and not yet a confirmed defensive regime.</p>
+    <div class="sum-sub">Highest-Conviction Conclusions</div>
+    <ol class="concl">
+      <li><b>Uniform, not selective.</b> All five offensive-factor ratios are below their 50-day averages and rolling over at once — a coherent risk-off tilt rather than isolated weakness.</li>
+      <li><b>Mid-cap growth/value is the weakest link.</b> MDYG:MDYV has broken both its 50- and 200-day averages, the only outright downtrend in the group.</li>
+      <li><b>Momentum and high beta show the sharpest breaks.</b> PPO at -1.187 (MTUM:SPY) and -1.473 (SPHB:SPLV) mark fast unwinds of crowded, extended trades.</li>
+      <li><b>Small-cap growth/value is the holdout.</b> SLYG:SLYV is still sitting on its 200-day near 1.050; it is the first ratio to watch for either stabilization or the next leg down.</li>
+      <li><b>The 200-day averages are the dividing line.</b> Every ratio except mid-caps remains above a rising 200-day, keeping this a correction rather than a confirmed leadership regime change.</li>
+      <li><b>No bullish offset in this list.</b> Unlike a breadth or trend dashboard, no chart here argues the other side — the factor read is one-directional caution.</li>
+    </ol>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="row">
+      <div class="search">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 019.5 14z"/></svg>
+        <input id="search" type="text" placeholder="Search ratios, indicators, symbols…">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="legend">
+      <b>Color key:</b>
+      <span class="k"><span class="sw ind"></span>TA indicators &amp; concepts</span>
+      <span class="k"><span class="sw num"></span>Levels &amp; numbers</span>
+      <span class="k"><span class="sw sym"></span>Symbols &amp; tickers</span>
+      <span class="hint">— hover or tap an underlined indicator for its definition</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="main">
+    <nav class="toc"><h3>Ratios</h3><div id="toc"></div></nav>
+    <div>
+      <div class="cards" id="cards"></div>
+      <div class="noresults" id="noresults">No ratios match your search or filter.</div>
+
+      <div class="bottom">
+        <h2>Bottom Line</h2>
+        <p>As of the July 17 close, StockCharts list 320 — Key Ratios: US Factors — is sending a single, consistent message: the offensive factors that led the market into early summer are correcting <b>together</b>. Growth is ceding to value, high beta to low volatility, and momentum to the core index, all at the same time.</p>
+        <p>This is a <b>risk-appetite cooldown, not yet a confirmed defensive regime</b>. Four of five ratios are still above rising 200-day averages; only mid-cap growth/value has broken down outright. The next few weeks hinge on whether those 200-day lines hold. A snap-back above the 50-day averages would repair the offensive read; a broad loss of the 200-day averages would confirm a rotation toward low-volatility, value leadership.</p>
+        <p><b>Monitoring checklist:</b> SPYG:SPYV — 200-day near 1.88, 50-day near 1.95; MDYG:MDYV — reclaim of the 200-day near 1.132; SLYG:SLYV — 200-day near 1.050; SPHB:SPLV — 200-day near 1.725; MTUM:SPY — 200-day near 0.387; and whether PPO recrosses its signal line on the momentum and high-beta ratios.</p>
+        <div class="watch">
+          <h4>✅ Offense-reasserts (bullish repair) signals</h4>
+          <ul>
+            <li>SPYG:SPYV closes back above its 50-day average near 1.95</li>
+            <li>MDYG:MDYV reclaims its 200-day average near 1.132</li>
+            <li>SLYG:SLYV holds its 200-day near 1.050 and turns PPO back above its signal line</li>
+            <li>SPHB:SPLV and MTUM:SPY stabilize above their 200-day averages near 1.725 and 0.387 with PPO recrossing upward</li>
+            <li>The growth/value ratios re-establish higher highs</li>
+          </ul>
+        </div>
+        <div class="watch">
+          <h4>🛑 Defensive-rotation (bearish) confirmation</h4>
+          <ul>
+            <li>MDYG:MDYV keeps falling and drags the large- and small-cap growth/value ratios below their 200-day averages</li>
+            <li>SPHB:SPLV loses its 200-day average near 1.725</li>
+            <li>MTUM:SPY breaks its 200-day average near 0.387</li>
+            <li>PPO readings stay deeply negative and print lower lows across the ratios</li>
+            <li>Low-volatility and value leadership — the inverse of these ratios — establishes fresh uptrends</li>
+          </ul>
+        </div>
+      </div>
+
+      <footer>
+        Source: <a href="https://stockcharts.com/panels/?cmd=show&listNum=27&viewType=e" target="_blank" rel="noopener">StockCharts ChartList — [Market Sum] 320 KEY RATIOS · US Factors (list 27)</a> · Data as of the July 17, 2026 close · Generated interactive view · Technical interpretation only, not investment advice.
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+const CHARTS = [
+  {n:"000",cat:"Growth vs. Value",sig:"caut",title:"000 SPYG:SPYV — Growth vs. Value (Large Cap)",
+   link:"https://stockcharts.com/freecharts/gallery.html?SPYG:SPYV",
+   body:["Signal: caution. Large-cap growth/value (SPYG:SPYV) closed at 1.88, down 0.96% on the day, below its 50-day average near 1.95 and sitting right on its rising 200-day average near 1.88. PPO is negative at -0.394 and below its signal line, so momentum has turned down.",
+   "The ratio peaked near 2.03 in early June and has carved a series of lower highs (1.975, 1.963, 1.946) since. Chaikin Money Flow is still positive near 0.301, a modest offset. A close back above the 50-day average would repair the growth-leadership read; losing the 200-day near 1.88 would confirm value is taking the baton in large caps."]},
+
+  {n:"001",cat:"Growth vs. Value",sig:"bear",title:"001 MDYG:MDYV — Growth vs. Value (Mid Cap)",
+   link:"https://stockcharts.com/freecharts/gallery.html?MDYG:MDYV",
+   body:["Signal: bearish. Mid-cap growth/value (MDYG:MDYV) closed at 1.127 and has broken below both its 50-day average near 1.175 and its 200-day average near 1.132. PPO is deeply negative at -0.910 and well below its signal line — the weakest momentum profile of the growth/value trio.",
+   "The ratio made lower highs from the May peak near 1.207 through the June highs near 1.203, then sold off sharply into July. Chaikin Money Flow has faded to roughly neutral at 0.039. This is a downtrend rather than just a pullback: mid-cap value is clearly leading growth. A reclaim of the 200-day near 1.132 would be the first sign of repair."]},
+
+  {n:"002",cat:"Growth vs. Value",sig:"caut",title:"002 SLYG:SLYV — Growth vs. Value (Small Cap)",
+   link:"https://stockcharts.com/freecharts/gallery.html?SLYG:SLYV",
+   body:["Signal: caution. Small-cap growth/value (SLYG:SLYV) closed at 1.055, wedged between its 50-day average near 1.062 just above and its 200-day average near 1.050 just below, after a sharp pullback from the early-July peak near 1.101. This is the least-broken of the three growth/value ratios — it is still holding its 200-day average.",
+   "Momentum is rolling over: PPO at 0.079 is still barely positive but has crossed below its signal line near 0.515, and the histogram is sharply negative. Chaikin Money Flow remains positive near 0.120. Holding the 200-day near 1.050 keeps small-cap growth in a corrective pause; losing it would tip this into the same downtrend the mid-cap ratio already shows."]},
+
+  {n:"003",cat:"Volatility / Risk Appetite",sig:"caut",title:"003 SPHB:SPLV — High Beta vs. Low Volatility",
+   link:"https://stockcharts.com/freecharts/gallery.html?SPHB:SPLV",
+   body:["Signal: caution — a sharp risk-off warning inside an intact longer trend. High beta versus low volatility (SPHB:SPLV) closed at 1.841, down 0.91%, well below its 50-day average near 1.980 but still above its rising 200-day average near 1.725. PPO has collapsed to -1.473, far below its signal line — the most negative momentum reading in the list.",
+   "The ratio peaked near 2.15 in June and has printed steady lower highs (2.083, 1.999, 1.962) into the current break. High beta still leads low-vol on the multi-month trend, but the speed of the drop is a clear signal that risk appetite is cooling. The 200-day average near 1.725 is the line that separates a correction from a genuine defensive rotation."]},
+
+  {n:"004",cat:"Momentum Factor",sig:"caut",title:"004 MTUM:SPY — Momentum vs. Core (S&P 500)",
+   link:"https://stockcharts.com/freecharts/gallery.html?MTUM:SPY",
+   body:["Signal: caution — a momentum-factor unwind. The momentum factor relative to the core S&P 500 (MTUM:SPY) closed at 0.406, below its 50-day average near 0.425 but still above its rising 200-day average near 0.387. PPO has cratered to -1.187 from positive territory, a classic sign that a crowded momentum trade is unwinding.",
+   "The ratio ran from roughly 0.392 in April to a peak near 0.467 in early July, then reversed hard (0.435, 0.410, 0.406) in a matter of days. The April-to-July uptrend is still technically intact above the 200-day near 0.387; a break of that level would mark a broader leadership change away from what has been working."]}
+];
+
+const SIG = {
+  bull:{label:"Bullish"}, ext:{label:"Bullish · Extended"}, bear:{label:"Bearish"},
+  caut:{label:"Caution"}, neut:{label:"Neutral"}
+};
+const CATS = ["Growth vs. Value","Volatility / Risk Appetite","Momentum Factor"];
+
+let activeCat="all", activeSig="all", query="";
+
+/* ---- Glossary of TA indicators (shown in popups) ---- */
+const DEF = {
+ "ema":"A moving average that weights recent prices more heavily, so it turns faster than a simple average. Traders watch whether price holds above or below it to read trend.",
+ "moving average":"The average price over a set number of periods, smoothing out noise to show trend direction. Price above a rising average is bullish; below a falling one is bearish.",
+ "cmf":"Chaikin Money Flow gauges buying vs. selling pressure by mixing where price closes in its range with volume. Above zero suggests accumulation; below zero, distribution.",
+ "mcclellan oscillator":"A short-term breadth-momentum gauge built from advancing minus declining stocks. Above zero means broad buying momentum; below zero, broad selling.",
+ "bullish percent index":"The percentage of stocks in an index on point-and-figure buy signals. Above 50 favors bulls; very high (70+) can be overbought, very low oversold.",
+ "advance decline line":"A running total of advancing minus declining stocks. A rising line confirms broad participation behind an index move; a falling line warns breadth is narrowing.",
+ "relative strength":"Compares one asset's performance against another (usually a benchmark). A rising ratio means it's outperforming; falling means lagging. Not the same as RSI.",
+ "new highs new lows":"Counts of stocks hitting fresh 52-week highs vs. lows. Expanding new highs confirm a healthy rally; rising new lows beside a strong index warn of hidden weakness.",
+ "yield curve":"The spread between long- and short-term Treasury yields. A positive (steep) curve is normal; a negative (inverted) curve has historically preceded recessions.",
+ "bull bear spread":"Bullish survey responses minus bearish ones. Used as a contrarian gauge — extreme optimism can mark tops, extreme pessimism bottoms.",
+ "naaim exposure index":"Measures how invested active managers are in equities, from heavily short to fully long. High readings show professionals are committed to the trend.",
+ "move index":"The bond market's version of the VIX — it measures expected Treasury volatility. A rising MOVE signals rate-market stress that can spill into stocks.",
+ "point and figure":"A charting method that ignores time and small wiggles, plotting only meaningful price moves as X's and O's to clarify support, resistance, and signals.",
+ "high yield spread":"The extra yield investors demand to hold riskier 'junk' bonds over Treasuries. Widening spreads signal credit stress; tight spreads signal calm, risk-on conditions.",
+ "higher highs":"A series of peaks each above the last (with troughs also rising) — the textbook definition of an uptrend. The opposite, lower lows, defines a downtrend.",
+ "lower low":"A trough below the prior trough, a hallmark of a downtrend. A higher low instead suggests selling pressure is easing.",
+ "overbought":"A condition (often RSI above 70) where price has risen far and fast, raising odds of a pause or pullback — though it can persist in strong trends.",
+ "oversold":"A condition (often RSI below 30) where price has fallen far and fast, raising odds of a bounce — though it can persist in strong downtrends.",
+ "uptrend":"A sustained rise of higher highs and higher lows. Trend-followers treat pullbacks as opportunities until that structure breaks.",
+ "downtrend":"A sustained decline of lower highs and lower lows. Rallies are often treated as selling opportunities until the structure repairs.",
+ "divergence":"When price and an indicator disagree — e.g. price makes a new high but momentum doesn't. It warns the move may be losing conviction.",
+ "breakout":"When price pushes decisively through resistance, often starting a new advance. A breakdown is the same through support, to the downside.",
+ "trendline":"A straight line connecting successive highs or lows. Holding the line supports the trend; a clean break can signal a change of direction.",
+ "momentum":"The speed and strength of a price move. Strong momentum confirms a trend; fading momentum can precede a stall or reversal.",
+ "accumulation":"Sustained buying that builds positions, often seen as rising volume on up days. The opposite of distribution.",
+ "distribution":"Sustained selling into strength as larger holders trim positions. It can cap rallies even while price still looks firm.",
+ "consolidation":"A sideways pause where price digests a prior move within a range. It often resolves in the direction of the preceding trend.",
+ "risk on":"An environment where investors favor higher-risk assets (stocks, cyclicals, crypto). Risk-off is the flight to safety (cash, bonds, defensives).",
+ "retracement":"A partial pullback against the prevailing trend, often measured with Fibonacci levels (38.2%, 50%, 61.8%) to find likely support or resistance.",
+ "support":"A price area where buying has previously halted declines. Holding support keeps a trend intact; losing it opens lower levels.",
+ "resistance":"A price area where selling has previously capped advances. Clearing resistance is bullish; failing there can stall a rally.",
+ "rsi":"Relative Strength Index — a 0–100 momentum oscillator. Above 70 is overbought, below 30 oversold; the 50 midline splits bullish from bearish momentum.",
+ "macd":"Moving Average Convergence Divergence — tracks the gap between two EMAs to show trend and momentum. Crosses of its signal line flag shifts.",
+ "ppo":"Percentage Price Oscillator — like MACD but in percent, so momentum can be compared across different securities. Above zero is bullish momentum, below zero bearish.",
+ "fibonacci":"Retracement levels (23.6%, 38.2%, 50%, 61.8%) drawn from the Fibonacci sequence, used to estimate where a pullback may find support or resistance.",
+ "coppock curve":"A long-term momentum indicator (a smoothed sum of rate-of-change), used mainly on monthly charts. A turn up from below zero has historically flagged durable market bottoms.",
+ "high beta":"High-beta stocks swing more than the market (beta above 1). When high beta leads low-volatility stocks, it signals strong risk appetite (risk-on).",
+ "low volatility":"Low-volatility stocks move less than the market and are defensive. Leadership by low-vol over high-beta signals caution and risk-off positioning.",
+ "signal line":"A moving average of an oscillator like MACD or PPO. The oscillator crossing above its signal line is bullish momentum; crossing below is bearish.",
+ "histogram":"The bars showing the gap between an oscillator (MACD/PPO) and its signal line. Growing bars mean strengthening momentum; shrinking bars, fading momentum."
+};
+const TITLE = {
+ "ema":"Exponential Moving Average (EMA)","moving average":"Moving Average","cmf":"Chaikin Money Flow (CMF)",
+ "mcclellan oscillator":"McClellan Oscillator","bullish percent index":"Bullish Percent Index","advance decline line":"Advance-Decline Line",
+ "relative strength":"Relative Strength","new highs new lows":"New Highs / New Lows","yield curve":"Yield Curve",
+ "bull bear spread":"Bull-Bear Spread","naaim exposure index":"NAAIM Exposure Index","move index":"MOVE Index",
+ "point and figure":"Point-and-Figure","high yield spread":"High-Yield Spread","higher highs":"Higher Highs / Higher Lows",
+ "lower low":"Lower Low","overbought":"Overbought","oversold":"Oversold","uptrend":"Uptrend","downtrend":"Downtrend",
+ "divergence":"Divergence","breakout":"Breakout / Breakdown","trendline":"Trendline","momentum":"Momentum",
+ "accumulation":"Accumulation","distribution":"Distribution","consolidation":"Consolidation","risk on":"Risk-On / Risk-Off",
+ "retracement":"Retracement","support":"Support","resistance":"Resistance","rsi":"Relative Strength Index (RSI)",
+ "macd":"MACD","ppo":"Percentage Price Oscillator (PPO)","fibonacci":"Fibonacci Retracement",
+ "coppock curve":"Coppock Curve","high beta":"High Beta","low volatility":"Low Volatility",
+ "signal line":"Signal Line","histogram":"Histogram"
+};
+function defKey(m){
+ const k=m.toLowerCase().replace(/\//g," ").replace(/[–-]/g," ").replace(/\s+/g," ").trim();
+ const t=[k,k.replace(/s$/,""),k.split(" ").map(w=>w.replace(/s$/,"")).join(" ")];
+ if(/^higher (high|low)/.test(k))t.push("higher highs");
+ if(/lower low/.test(k))t.push("lower low");
+ if(/^new (high|low)/.test(k))t.push("new highs new lows");
+ if(/^advance decline/.test(k))t.push("advance decline line");
+ if(/exponential moving average/.test(k))t.push("ema");
+ if(/chaikin/.test(k))t.push("cmf");
+ if(/coppock/.test(k))t.push("coppock curve");
+ if(/^low vol/.test(k))t.push("low volatility");
+ if(/^high beta/.test(k))t.push("high beta");
+ if(/^uptrend/.test(k))t.push("uptrend");
+ if(/^downtrend/.test(k))t.push("downtrend");
+ if(/^breakout|^breakdown/.test(k))t.push("breakout");
+ if(/^risk (on|off)/.test(k))t.push("risk on");
+ for(const x of t){if(DEF[x])return x;}
+ return null;
+}
+
+/* ---- TA term / number / symbol highlighter ---- */
+const MASTER = new RegExp(
+  // dates & years (consume so day/year isn't mistaken for a level)
+  '(?<date>(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\\s\\d{1,2}(?!\\d)(?:\\s?[–-]\\s?\\d{1,2})?)?|(?:19|20)\\d{2}(?:\\s?[–-]\\s?\\d{2,4})?)'
+  // symbols & tickers (case-sensitive)
+  + '|(?<sym>\\$?SPX|\\$?VIX|\\$?TNX|\\$?WTIC|\\$?MOVE|\\$?BTCUSD|\\$?NYA|S&P\\s?500|Nasdaq(?:\\s(?:100|Composite))?|NYSE Composite|\\bSPY\\b|\\bRSP\\b|\\bIWM\\b|\\bSMH\\b|\\bGLD\\b|\\bTLT\\b|\\bACWI\\b|\\bIWF\\b|\\bIWD\\b|\\bRPG\\b|\\bRPV\\b|\\bSPYG\\b|\\bSPYV\\b|\\bMDYG\\b|\\bMDYV\\b|\\bSLYG\\b|\\bSLYV\\b|\\bMTUM\\b|\\bSPHB\\b|\\bSPLV\\b|\\bXLK\\b|\\bXLP\\b|\\bXLY\\b|\\bXLU\\b|\\bXLI\\b|\\bUSD\\b|\\bNYSE\\b|\\bBitcoin\\b)'
+  // TA indicators & concepts
+  + '|(?<ind>[Ee]xponential [Mm]oving [Aa]verages?|[Mm]oving [Aa]verages?|Chaikin Money Flow|McClellan Oscillator|Coppock Curve|Coppock|[Bb]ullish [Pp]ercent [Ii]ndex|[Aa]dvance-decline lines?|[Aa]dvance-decline|[Rr]elative[ -][Ss]trength|new[ -][Hh]ighs?\\/new[ -][Ll]ows?|[Nn]ew [Hh]ighs?|[Nn]ew [Ll]ows?|new-low|new-high|[Yy]ield[ -][Cc]urve|bull-bear spread|NAAIM Exposure Index|MOVE Index|point-and-figure|[Hh]igh[- ]yield spreads?|[Hh]igh[- ]beta|[Ll]ow[- ]vol(?:atility)?|signal line|histogram|[Hh]igher [Hh]ighs?|[Hh]igher [Ll]ows?|[Ll]ower[- ][Hh]igh|[Ll]ower[- ][Ll]ow|[Oo]verbought|[Oo]versold|[Uu]ptrends?|[Dd]owntrends?|[Dd]ivergence|[Bb]reakouts?|[Bb]reakdowns?|[Tt]rendlines?|[Mm]omentum|[Aa]ccumulation|[Dd]istribution|[Cc]onsolidation|[Rr]isk-on|[Rr]isk-off|[Rr]etracements?|\\b[Ss]upport\\b|\\b[Rr]esistance\\b|\\bRSI\\b|\\bMACD\\b|\\bPPO\\b|\\bEMAs?\\b|\\bCMF\\b|Fibonacci)'
+  // moving-average / maturity periods -> number style
+  + '|(?<period>\\b\\d+-(?:day|week|month|year|minute)s?\\b)'
+  // levels, percentages, readings (full-number patterns first so decimals stay intact)
+  + '|(?<lvl>\\d+(?:\\.\\d+)?%(?:\\s?[–-]\\s?\\d+(?:\\.\\d+)?%)?|\\d+(?:\\.\\d+)?k(?:\\s?[–-]\\s?\\d+(?:\\.\\d+)?k)?|-?\\d+(?:\\.\\d+)?\\s?[–-]\\s?\\d+(?:\\.\\d+)?|-?\\d+(?:\\.\\d+)?)'
+, 'g');
+function hl(s){
+  return s.replace(MASTER,(...args)=>{
+    const g=args[args.length-1], m=args[0];
+    if(g.date!==undefined) return '<span class="ta-date">'+m+'</span>';
+    if(g.sym!==undefined)  return '<span class="ta-sym">'+m+'</span>';
+    if(g.ind!==undefined){const k=defKey(m);return k?'<span class="ta-ind tip" data-t="'+k+'">'+m+'</span>':'<span class="ta-ind">'+m+'</span>';}
+    if(g.period!==undefined||g.lvl!==undefined) return '<span class="ta-num">'+m+'</span>';
+    return m;
+  });
+}
+// apply to the static Executive Summary and Bottom Line text
+document.querySelectorAll('.summary p, .summary .concl li, .summary .sum-list li, .bottom > p, .bottom .watch li').forEach(el=>{
+  el.innerHTML = hl(el.textContent);
+});
+
+/* ---- Executive Summary collapse (default folded) ---- */
+(function(){
+  const sum=document.getElementById("summary"), tog=document.getElementById("sumToggle");
+  document.getElementById("sumHead").addEventListener("click",()=>{
+    const collapsed=sum.classList.toggle("collapsed");
+    tog.firstChild.textContent=(collapsed?"Show":"Hide")+" ";
+  });
+})();
+
+/* ---- Indicator definition popup ---- */
+const tip=document.createElement('div'); tip.id='tip'; document.body.appendChild(tip);
+let tipFor=null;
+function showTip(el){
+  const k=el.dataset.t, d=DEF[k]; if(!d)return;
+  tip.innerHTML='<span class="tt">'+(TITLE[k]||el.textContent)+'</span>'+d;
+  tip.classList.add('show');
+  const r=el.getBoundingClientRect(), tr=tip.getBoundingClientRect();
+  let left=Math.max(8,Math.min(r.left+r.width/2-tr.width/2, innerWidth-tr.width-8));
+  let top=r.top-tr.height-10, below=false;
+  if(top<8){top=r.bottom+10; below=true;}
+  tip.style.left=left+'px'; tip.style.top=top+'px';
+  tip.style.setProperty('--ax',(r.left+r.width/2-left)+'px');
+  tip.classList.toggle('below',below);
+  tipFor=el;
+}
+function hideTip(){tip.classList.remove('show'); tipFor=null;}
+document.addEventListener('mouseover',e=>{const el=e.target.closest('.ta-ind.tip'); if(el)showTip(el);});
+document.addEventListener('mouseout',e=>{const el=e.target.closest('.ta-ind.tip'); if(el&&!tip.contains(e.relatedTarget))hideTip();});
+document.addEventListener('click',e=>{
+  const el=e.target.closest('.ta-ind.tip');
+  if(el){e.stopPropagation(); (tipFor===el)?hideTip():showTip(el);}
+  else if(!tip.contains(e.target))hideTip();
+});
+window.addEventListener('scroll',hideTip,true);
+window.addEventListener('resize',hideTip);
+
+// counts
+["bull","ext","caut","neut","bear"].forEach(s=>{
+  document.getElementById("s-"+s).textContent = CHARTS.filter(c=>c.sig===s).length;
+});
+
+// filter dropdowns
+const filtersEl=document.getElementById("filters");
+function mkSelect(type,options){
+  const wrap=document.createElement("div"); wrap.className="selwrap";
+  const sel=document.createElement("select"); sel.dataset.type=type;
+  options.forEach(o=>{
+    const opt=document.createElement("option");
+    opt.value=o.val; opt.textContent=o.label;
+    if(o.cls) opt.className=o.cls;
+    sel.appendChild(opt);
+  });
+  const SIGCLS=["sig-bull","sig-ext","sig-caut","sig-neut","sig-bear"];
+  sel.addEventListener("change",()=>{
+    const val=sel.value;
+    if(type==="cat")activeCat=val; else activeSig=val;
+    const isSet=val!=="all";
+    if(type==="sig"){
+      // colour-coded tint for signal, navy for the others
+      sel.classList.remove("set",...SIGCLS); wrap.classList.remove("set",...SIGCLS);
+      if(isSet){sel.classList.add("sig-"+val); wrap.classList.add("sig-"+val);}
+    }else{
+      sel.classList.toggle("set",isSet);
+      wrap.classList.toggle("set",isSet);
+    }
+    render();
+  });
+  wrap.appendChild(sel);
+  filtersEl.appendChild(wrap);
+}
+mkSelect("sig",[
+  {val:"all",label:"All signals"},
+  {val:"bull",label:"● Bullish",cls:"opt-bull"},
+  {val:"ext",label:"● Bullish · Extended",cls:"opt-ext"},
+  {val:"neut",label:"● Neutral",cls:"opt-neut"},
+  {val:"caut",label:"● Caution",cls:"opt-caut"},
+  {val:"bear",label:"● Bearish",cls:"opt-bear"}
+]);
+mkSelect("cat",[
+  {val:"all",label:"All categories"},
+  ...CATS.map(c=>({val:c,label:c}))
+]);
+
+document.getElementById("search").addEventListener("input",e=>{query=e.target.value.toLowerCase();render();});
+
+// build cards + toc
+const cardsEl=document.getElementById("cards"), tocEl=document.getElementById("toc");
+CHARTS.forEach(c=>{
+  const card=document.createElement("div");
+  card.className="card "+c.sig; card.id="c"+c.n; card.dataset.cat=c.cat; card.dataset.sig=c.sig;
+  card.dataset.text=(c.title+" "+c.cat+" "+c.body.join(" ")).toLowerCase();
+  card.innerHTML=`
+    <div class="head">
+      <div class="nbox">${c.n}</div>
+      <div class="htext"><h3>${c.title.replace(/^\d+\s/,'')}</h3><div class="cat">${c.cat}</div></div>
+      <div class="right"><span class="tag ${c.sig}">${SIG[c.sig].label}</span><span class="caret"></span></div>
+    </div>
+    <div class="body">
+      ${c.body.map(p=>`<p>${hl(p)}</p>`).join("")}
+      <a class="openchart" href="${c.link}" target="_blank" rel="noopener">↗ Open chart on StockCharts</a>
+    </div>`;
+  card.querySelector(".head").addEventListener("click",()=>card.classList.toggle("open"));
+  cardsEl.appendChild(card);
+
+  const a=document.createElement("a");
+  a.href="#c"+c.n; a.dataset.id="c"+c.n;
+  a.innerHTML=`<span class="dot" style="background:var(--${c.sig})"></span>${c.title}`;
+  a.addEventListener("click",()=>{const t=document.getElementById("c"+c.n);t.classList.add("open");});
+  tocEl.appendChild(a);
+});
+
+function render(){
+  let shown=0;
+  CHARTS.forEach(c=>{
+    const el=document.getElementById("c"+c.n);
+    const ok=(activeCat==="all"||c.cat===activeCat)&&
+             (activeSig==="all"||c.sig===activeSig)&&
+             (query===""||el.dataset.text.includes(query));
+    el.style.display=ok?"":"none";
+    const link=tocEl.querySelector(`[data-id="c${c.n}"]`);
+    if(link)link.style.display=ok?"":"none";
+    if(ok)shown++;
+  });
+  document.getElementById("noresults").style.display=shown?"none":"block";
+}
+
+// scrollspy
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      tocEl.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
+      const link=tocEl.querySelector(`[data-id="${e.target.id}"]`);
+      if(link)link.classList.add("on");
+    }
+  });
+},{rootMargin:"-130px 0px -70% 0px"});
+CHARTS.forEach(c=>obs.observe(document.getElementById("c"+c.n)));
+
+render();
+</script>
+</body>
+</html>

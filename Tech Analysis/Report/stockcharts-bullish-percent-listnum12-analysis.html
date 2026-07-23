@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bullish Percent Indexes — Major Market Breadth</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --panel:#ffffff; --ink:#1a2230; --muted:#5d6b80;
+    --line:#e3e8ef; --navy:#1f3a5f; --accent:#2563eb;
+    --bull:#1f9d6b; --bull-bg:#e7f6ef;
+    --ext:#0d8f9e; --ext-bg:#d8f1f4;
+    --bear:#d64545; --bear-bg:#fcecec;
+    --caut:#d98a17; --caut-bg:#fdf3e2;
+    --neut:#6b7280; --neut-bg:#eef1f5;
+    --shadow:0 1px 3px rgba(20,30,50,.07),0 6px 20px rgba(20,30,50,.05);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* Header */
+  header.top{background:linear-gradient(135deg,#12503a,#1f3a5f 55%,#5a1f1f);color:#fff;padding:30px 0 26px;position:relative;overflow:hidden}
+  header.top:before{content:"BREADTH";position:absolute;left:16px;top:12px;font-size:11px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.16)}
+  header.top:after{content:"% ON BUY SIGNALS";position:absolute;right:16px;top:12px;font-size:11px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.18)}
+  header.top h1{margin:0 0 5px;font-size:26px;letter-spacing:-.3px}
+  header.top .sub{color:#e0e8f2;font-size:13.5px}
+  .disclaimer{font-size:11.5px;color:#cdd9e8;margin-top:12px;font-style:italic}
+
+  /* Verdict banner */
+  .verdict{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    margin:-22px auto 16px;position:relative;z-index:2;padding:20px 24px;display:grid;
+    grid-template-columns:1fr auto;gap:18px;align-items:center}
+  .verdict .vhead{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--caut)}
+  .verdict h2{margin:2px 0 6px;font-size:23px;color:var(--navy)}
+  .verdict p{margin:0;color:#33415a;font-size:14.5px}
+  .tally{display:flex;gap:10px;text-align:center}
+  .tally .t{border-radius:11px;padding:12px 16px;min-width:92px}
+  .tally .t.off{background:var(--bull-bg)} .tally .t.def{background:var(--bear-bg)}
+  .tally .t .n{font-size:28px;font-weight:800;line-height:1}
+  .tally .t.off .n{color:var(--bull)} .tally .t.def .n{color:var(--bear)}
+  .tally .t .l{font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-top:5px}
+
+  /* Signal count strip */
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 22px}
+  .strip .s{background:var(--panel);border:1px solid var(--line);border-radius:11px;box-shadow:var(--shadow);padding:11px 8px;text-align:center;border-top:3px solid var(--neut)}
+  .strip .s.bull{border-top-color:var(--bull)} .strip .s.ext{border-top-color:var(--ext)}
+  .strip .s.caut{border-top-color:var(--caut)} .strip .s.neut{border-top-color:var(--neut)} .strip .s.bear{border-top-color:var(--bear)}
+  .strip .s .n{font-size:22px;font-weight:800;line-height:1}
+  .strip .s.bull .n{color:var(--bull)} .strip .s.ext .n{color:var(--ext)} .strip .s.caut .n{color:var(--caut)} .strip .s.neut .n{color:var(--neut)} .strip .s.bear .n{color:var(--bear)}
+  .strip .s .l{font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+  /* Explainer */
+  .explain{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;
+    box-shadow:var(--shadow);padding:14px 18px;margin:0 0 24px;font-size:13px;color:#33415a}
+  .explain b{color:var(--navy)}
+
+  /* Hero gauge panel */
+  .gauge{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin:0 0 26px;overflow:hidden}
+  .gauge-head{padding:15px 24px;background:linear-gradient(135deg,#166149,#243f63 52%,#8a2b2b);color:#fff}
+  .gauge-head h3{margin:0;font-size:16px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .gauge-head .gh-sub{font-size:12px;color:#e4ecf5;font-weight:400}
+  .gauge-body{padding:20px 24px 22px}
+  .gscale{display:grid;grid-template-columns:196px 1fr 58px;gap:14px;margin:0 0 14px;font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--muted)}
+  .gscale .marks{position:relative;height:14px}
+  .gscale .marks span{position:absolute;transform:translateX(-50%)}
+  .gscale .m30{left:30%;color:var(--bear)} .gscale .m50{left:50%;color:var(--ink)} .gscale .m70{left:70%;color:var(--ext)}
+  .grow{display:grid;grid-template-columns:196px 1fr 58px;align-items:center;gap:14px;margin-bottom:12px}
+  .grow:last-child{margin-bottom:0}
+  .gname{font-size:13px;color:var(--ink);line-height:1.2}
+  .gtick{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#0d7268;font-weight:700}
+  .track{position:relative;height:22px;border-radius:6px;overflow:hidden;
+    background:linear-gradient(90deg,#fbeaea 0%,#fbeaea 30%,#f2f4f7 30%,#f2f4f7 50%,#eaf7f0 50%,#eaf7f0 70%,#d8f1f4 70%,#d8f1f4 100%)}
+  .line50{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(30,45,70,.45);transform:translateX(-1px)}
+  .line30,.line70{position:absolute;top:0;bottom:0;width:1px;background:rgba(30,45,70,.18)}
+  .line30{left:30%} .line70{left:70%}
+  .fill{position:absolute;top:6px;height:10px;border-radius:5px;opacity:.9}
+  .fill.bull{background:var(--bull)} .fill.ext{background:var(--ext)} .fill.caut{background:var(--caut)} .fill.neut{background:var(--neut)} .fill.bear{background:var(--bear)}
+  .dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;border:2px solid #fff;transform:translate(-50%,-50%);box-shadow:0 1px 3px rgba(0,0,0,.3);z-index:3}
+  .dot.bull{background:var(--bull)} .dot.ext{background:var(--ext)} .dot.caut{background:var(--caut)} .dot.neut{background:var(--neut)} .dot.bear{background:var(--bear)}
+  .ma{position:absolute;top:2px;bottom:2px;width:2px;background:rgba(30,45,70,.30);border-radius:2px;transform:translateX(-1px);z-index:2}
+  .gval{font-size:15px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+  .gnote{font-size:12px;color:var(--muted);margin-top:14px;border-top:1px dashed var(--line);padding-top:11px}
+
+  /* Section label */
+  .seclabel{font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:0 0 12px;padding-left:2px}
+
+  /* Tiles */
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:26px}
+  .tile{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:16px 18px;border-top:4px solid var(--neut)}
+  .tile.bull{border-top-color:var(--bull)} .tile.ext{border-top-color:var(--ext)}
+  .tile.caut{border-top-color:var(--caut)} .tile.neut{border-top-color:var(--neut)} .tile.bear{border-top-color:var(--bear)}
+  .tile-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+  .tile .tk{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#0d7268;font-weight:700}
+  .tile .nm{font-size:15px;font-weight:700;color:var(--ink);margin-top:1px}
+  .chip{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:4px 9px;border-radius:6px;white-space:nowrap;flex-shrink:0}
+  .chip.bull{background:var(--bull-bg);color:var(--bull)} .chip.ext{background:var(--ext-bg);color:var(--ext)}
+  .chip.caut{background:var(--caut-bg);color:var(--caut)} .chip.neut{background:var(--neut-bg);color:var(--neut)} .chip.bear{background:var(--bear-bg);color:var(--bear)}
+  .tile .row2{display:flex;align-items:baseline;gap:12px;margin:2px 0 10px;flex-wrap:wrap}
+  .tile .big{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+  .tile .big.bull{color:var(--bull)} .tile .big.ext{color:var(--ext)} .tile .big.caut{color:var(--caut)} .tile .big.neut{color:var(--ink)} .tile .big.bear{color:var(--bear)}
+  .tile .sub2{font-size:12px;color:var(--muted)}
+  .tile .sub2 .up{color:var(--bull);font-weight:700} .tile .sub2 .down{color:var(--bear);font-weight:700} .tile .sub2 .flat{color:var(--muted);font-weight:700}
+  .tile .track{height:16px;margin-bottom:11px}
+  .tile .track .fill{top:4px;height:8px} .tile .track .dot{width:11px;height:11px}
+  .tile .say{font-size:13.5px;color:#33415a;line-height:1.45}
+  .tile .lnk{display:inline-block;margin-top:10px;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none}
+  .tile .lnk:hover{text-decoration:underline}
+
+  /* What flips the view */
+  .flip{background:linear-gradient(135deg,#1f3a5f,#2b5685);color:#fff;border-radius:14px;padding:22px 26px;margin:0 0 34px}
+  .flip h3{margin:0 0 14px;font-size:17px}
+  .flip .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .flip .box{background:rgba(255,255,255,.1);border-radius:10px;padding:14px 16px}
+  .flip .box h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+  .flip .box.good h4{color:#a7e8cc} .flip .box.bad h4{color:#ffc0c0}
+  .flip .box ul{margin:0;padding-left:16px}
+  .flip .box li{margin-bottom:6px;color:#eaf2fb;font-size:13.5px;line-height:1.4}
+  .flip .box li:last-child{margin-bottom:0}
+
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:0 0 34px}
+  footer a{color:var(--accent);text-decoration:none}
+
+  @media(max-width:720px){
+    .verdict{grid-template-columns:1fr} .tiles{grid-template-columns:1fr}
+    .strip{grid-template-columns:repeat(5,1fr);gap:6px} .strip .s{padding:9px 4px} .strip .s .l{font-size:8.5px}
+    .flip .cols{grid-template-columns:1fr}
+    .gscale{grid-template-columns:1fr 54px;grid-template-areas:"marks marks";padding-left:0}
+    .gscale .glabel{display:none}
+    .grow{grid-template-columns:1fr 54px;grid-template-areas:"name val" "track track";row-gap:6px}
+    .gname{grid-area:name}.gval{grid-area:val}.track{grid-area:track}
+    .gscale .marks{grid-area:marks}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Bullish Percent Indexes — Major Market Breadth</h1>
+    <div class="sub">How many stocks in each index are on point-and-figure buy signals · StockCharts list #220 · data July 17, 2026</div>
+    <div class="disclaimer">Technical chart interpretation only, not investment advice.</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="verdict">
+    <div>
+      <div class="vhead">The one-line read</div>
+      <h2>Constructive — but tech breadth is cracking</h2>
+      <p>The large-cap and cyclical gauges (S&amp;P 500, Dow, NYSE, Transports) sit above their trend lines with a majority of stocks on buy signals. Both Nasdaq gauges have slipped below trend, and the Nasdaq 100 is the clear weak spot — a classic narrowing warning while the headline indexes still hold up.</p>
+    </div>
+    <div class="tally">
+      <div class="t off"><div class="n">5</div><div class="l">Above both<br>trend lines</div></div>
+      <div class="t def"><div class="n">2</div><div class="l">Below<br>trend lines</div></div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="s bull"><div class="n">3</div><div class="l">Constructive</div></div>
+    <div class="s ext"><div class="n">1</div><div class="l">Extended</div></div>
+    <div class="s neut"><div class="n">1</div><div class="l">Neutral</div></div>
+    <div class="s caut"><div class="n">2</div><div class="l">Caution</div></div>
+    <div class="s bear"><div class="n">0</div><div class="l">Bearish</div></div>
+  </div>
+
+  <div class="explain">
+    <b>What is a Bullish Percent Index?</b> Each BPI shows the percentage of stocks in an index currently on a point-and-figure buy signal. Above 50 means most stocks are in uptrends (a bullish majority); readings above 70 are considered overbought and below 30 oversold. Reading several indexes side by side reveals whether a rally is broad or narrow.
+  </div>
+
+  <div class="gauge">
+    <div class="gauge-head">
+      <h3>📊 Breadth Gauge <span class="gh-sub">— % of stocks on buy signals, by index (0–100)</span></h3>
+    </div>
+    <div class="gauge-body">
+      <div class="gscale">
+        <div class="glabel">&nbsp;</div>
+        <div class="marks"><span class="m30">30 oversold</span><span class="m50">50 · bull/bear line</span><span class="m70">70 overbought</span></div>
+        <div class="glabel">&nbsp;</div>
+      </div>
+      <div id="gaugeRows"></div>
+      <div class="gnote">Dot = current BPI, colored by signal. Faint tick = the 200-day trend line, so you can see whether each gauge sits above or below its trend. The fill runs from the 50 bull/bear line to the current reading.</div>
+    </div>
+  </div>
+
+  <div class="seclabel">The 7 major-index gauges · strongest to weakest</div>
+  <div class="tiles" id="tiles"></div>
+
+  <div class="flip">
+    <h3>What would change the picture</h3>
+    <div class="cols">
+      <div class="box good">
+        <h4>✅ Broadens out if…</h4>
+        <ul>
+          <li>The Nasdaq gauges ($BPCOMPQ, $BPNDX) climb back above their trend lines</li>
+          <li>$BPSPX and $BPINDU push up toward 70, widening the advance</li>
+          <li>Transports hold their 70 reading instead of reversing</li>
+        </ul>
+      </div>
+      <div class="box bad">
+        <h4>🛑 Turns defensive if…</h4>
+        <ul>
+          <li>$BPSPX or $BPINDU roll back under the 50 bull/bear line</li>
+          <li>$BPNDX keeps falling toward the 30 oversold zone</li>
+          <li>The broad NYSE gauge loses its 200-day line near 55.6</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Source: <a href="https://stockcharts.com/panels/?cmd=show&listNum=12&viewType=e&page=1" target="_blank" rel="noopener">StockCharts — Major Index Bullish Percent Indexes (list #220)</a> · data July 17, 2026 · technical chart interpretation only, not investment advice.
+  </footer>
+</div>
+
+<script>
+/* Each index BPI: val = current %, ma50/ma200 = trend lines, rsi, chg = % change today, sig = signal bucket. */
+const DATA = [
+  {tick:"$BPTRAN", nm:"Dow Transports", val:70.00, ma50:69.70, ma200:68.43, rsi:53.60, chg:7.69, sig:"ext", chip:"Strong · extended",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPTRAN&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"The strongest reading, sitting right at the 70 overbought line. Transports hold only 20 stocks, so the gauge jumps in 5-point steps — it popped today. Breadth here is stretched but firmly bullish, above both trend lines."},
+  {tick:"$BPSPX", nm:"S&P 500", val:60.00, ma50:56.00, ma200:54.77, rsi:52.92, chg:-0.33, sig:"bull", chip:"Constructive",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPSPX&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"60% of the S&P 500 is on a buy signal — comfortably above both the 50-day (56.0) and 200-day (54.8) trend lines. The core large-cap gauge stays healthy and near the middle of its range."},
+  {tick:"$BPINDU", nm:"Dow Industrials", val:60.00, ma50:58.27, ma200:56.73, rsi:51.82, chg:0.00, sig:"bull", chip:"Constructive · firming",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPINDU&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"60% of Dow names on buy signals, with momentum (MACD) ticking back up. The firmest trend structure on the board — above both rising trend lines with improving momentum."},
+  {tick:"$BPOEX", nm:"S&P 100", val:58.00, ma50:56.82, ma200:55.54, rsi:47.51, chg:0.00, sig:"neut", chip:"Holding · flat",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPOEX&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"Mega-cap breadth is holding at 58, still above its trend lines, but momentum has flattened and RSI has slipped just under 50. Constructive in level, yet stalling in direction."},
+  {tick:"$BPNYA", nm:"NYSE Composite", val:56.61, ma50:54.03, ma200:55.59, rsi:55.64, chg:-0.84, sig:"bull", chip:"Constructive",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPNYA&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"The broadest gauge: 57% of all NYSE stocks on buy signals, holding just above both trend lines (200-day near 55.6). Wide participation is still intact beneath the headline indexes."},
+  {tick:"$BPCOMPQ", nm:"Nasdaq Composite", val:53.76, ma50:56.73, ma200:54.35, rsi:38.13, chg:-3.26, sig:"caut", chip:"Slipping",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPCOMPQ&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"Just over half of Nasdaq names are still on buy signals, but the gauge has dropped below both trend lines and momentum is falling (RSI 38). Breadth here is quietly deteriorating."},
+  {tick:"$BPNDX", nm:"Nasdaq 100", val:42.16, ma50:51.33, ma200:51.73, rsi:41.90, chg:-10.42, sig:"caut", chip:"Weakest",
+   link:"https://stockcharts.com/c-sc/sc?s=$BPNDX&p=D&yr=2&mn=0&dy=0&i=t",
+   say:"The clear soft spot: under half of mega-cap Nasdaq stocks are on buy signals after a sharp 10-point drop today, well below both trend lines. Participation is thinning behind the biggest names."}
+];
+
+const clamp=v=>Math.max(2,Math.min(98,v)); // 0..100 -> 2..98% of track
+
+/* Hero breadth gauge */
+const rows=document.getElementById("gaugeRows");
+DATA.forEach(r=>{
+  const now=clamp(r.val), ma=clamp(r.ma200);
+  const fl=Math.min(50,now), fw=Math.abs(now-50);
+  const row=document.createElement("div"); row.className="grow";
+  row.innerHTML=`
+    <div class="gname"><span class="gtick">${r.tick}</span>${r.nm}</div>
+    <div class="track">
+      <div class="line30"></div><div class="line70"></div><div class="line50"></div>
+      <div class="ma" style="left:${ma}%"></div>
+      <div class="fill ${r.sig}" style="left:${fl}%;width:${fw}%"></div>
+      <div class="dot ${r.sig}" style="left:${now}%"></div>
+    </div>
+    <div class="gval">${r.val.toFixed(2)}</div>`;
+  rows.appendChild(row);
+});
+
+/* Per-index tiles */
+const tiles=document.getElementById("tiles");
+DATA.forEach(r=>{
+  const now=clamp(r.val);
+  const fl=Math.min(50,now), fw=Math.abs(now-50);
+  const trendTxt = r.val>=r.ma50 && r.val>=r.ma200 ? '<span class="up">▲ above both trend lines</span>'
+            : (r.val<r.ma50 && r.val<r.ma200) ? '<span class="down">▼ below both trend lines</span>'
+            : '<span class="flat">▬ mixed vs. trend lines</span>';
+  const chgTxt = r.chg>0 ? '<span class="up">▲ +'+r.chg.toFixed(2)+'% today</span>'
+            : r.chg<0 ? '<span class="down">▼ '+r.chg.toFixed(2)+'% today</span>'
+            : '<span class="flat">▬ unchanged today</span>';
+  const t=document.createElement("div"); t.className="tile "+r.sig;
+  t.innerHTML=`
+    <div class="tile-top">
+      <div><span class="tk">${r.tick}</span><div class="nm">${r.nm} Bullish Percent Index</div></div>
+      <span class="chip ${r.sig}">${r.chip}</span>
+    </div>
+    <div class="row2">
+      <span class="big ${r.sig}">${r.val.toFixed(2)}</span>
+      <span class="sub2">${trendTxt} · RSI ${r.rsi.toFixed(0)} · ${chgTxt}</span>
+    </div>
+    <div class="track">
+      <div class="line30"></div><div class="line70"></div><div class="line50"></div>
+      <div class="ma" style="left:${clamp(r.ma200)}%"></div>
+      <div class="fill ${r.sig}" style="left:${fl}%;width:${fw}%"></div>
+      <div class="dot ${r.sig}" style="left:${now}%"></div>
+    </div>
+    <div class="say">${r.say}</div>
+    <a class="lnk" href="${r.link}" target="_blank" rel="noopener">Open chart on StockCharts →</a>`;
+  tiles.appendChild(t);
+});
+</script>
+</body>
+</html>
